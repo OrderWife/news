@@ -9,13 +9,6 @@
 <script src="<?php echo base_url();?>assets/startmin-master/js/dataTables/dataTables.bootstrap.min.js"></script>
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-                responsive: true
-        });
-    });
-</script>
 
 <script type="text/javascript">
 
@@ -25,8 +18,19 @@ $(function() {
         var $tr = $('<tr>').append(
             $('<td>').text(item.N_CATEGORY),
             $('<td>').text(item.N_TITLE),
-            $('<td>').text(item.N_START_DATE)
+            $('<td>').text(item.N_START_DATE),
+            $('<td>').text(item.N_END_DATE),
+            $('<td>').text(item.N_LAST_EDIT),
+            $('<td align="center" >').html('<button type="button" style="float:center;" class="btn btn-warning btn-sm"><b class="fa fa-edit"></b></button> <button type="button" style="float:center;" class="btn btn-danger btn-sm"><b class="fa fa-remove"></b></button>'),
         ).appendTo('#dataTables-example');
     });
 });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+                responsive: true
+        });
+    });
 </script>
