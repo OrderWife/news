@@ -81,6 +81,7 @@
                             </div> -->
                             <!-- /.panel-heading -->
                             <div class="panel-body">
+                              <div class="" id="table-box">
                                 <div class="dataTable_wrapper">
                                     <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                                       <div class="row">
@@ -108,6 +109,8 @@
                                 <!-- <div class="well">
                                 </div> -->
                                 <!-- /.footer table -->
+                              </div>
+
                             </div>
                             <!-- /.panel-body -->
                         </div>
