@@ -14,6 +14,7 @@
 
 var response = <?php echo json_encode($query); ?>;
 $(function() {
+  try {
     $.each(response, function(i, item) {
         var $tr = $('<tr>').append(
             $('<td>').text(item.N_CATEGORY),
@@ -24,6 +25,10 @@ $(function() {
             $('<td align="center" >').html('<button type="button" style="float:center;" class="btn btn-warning btn-sm"><b class="fa fa-edit"></b></button> <button type="button" style="float:center;" class="btn btn-danger btn-sm"><b class="fa fa-remove"></b></button>'),
         ).appendTo('#dataTables-example');
     });
+  } catch (e) {
+    return;
+  }
+
 });
 </script>
 

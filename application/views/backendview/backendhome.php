@@ -87,7 +87,7 @@
                                     <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 
                                       <div class="row">
-                                            <div class="col-sm-12">
+                                         <div class="col-sm-12">
                                               <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
                                                 <thead>
                                                     <tr role="row">
@@ -99,12 +99,11 @@
                                                       <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 62px;">Edit News</th>
                                                     </tr>
                                                 </thead>
-                                                  <tbody>
-
-                                                  </tbody>
-                                    </table>
-                                  </div>
-                                </div>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                          </div>
+                                      </div>
                                   </div>
                                 </div>
                                 <!-- /.table-responsive -->
