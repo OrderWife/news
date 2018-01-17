@@ -76,9 +76,9 @@
                             <h1 class="page-header">Update News</h1>
                             <!-- data Table -->
                             <div class="panel panel-default">
-                            <div class="panel-heading">
+                            <!-- <div class="panel-heading">
                                 DataTables Advanced Tables
-                            </div>
+                            </div> -->
                             <!-- /.panel-heading -->
                             <div class="panel-body">
                                 <div class="dataTable_wrapper">
