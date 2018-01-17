@@ -16,3 +16,17 @@
         });
     });
 </script>
+
+<!-- <script type="text/javascript">
+
+var response = [{"rank":"9","content":"Alon","UID":"5"},{"rank":"6","content":"Tala","UID":"6"}];
+$(function() {
+    $.each(response, function(i, item) {
+        var $tr = $('<tr>').append(
+            $('<td>').text(item.rank),
+            $('<td>').text(item.content),
+            $('<td>').text(item.UID)
+        ).appendTo('#dataTables-example');
+    });
+});
+</script> -->

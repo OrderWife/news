@@ -89,55 +89,55 @@
                                       <div class="row">
                                             <div class="col-sm-12">
                                               <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
-                                        <thead>
-                                            <tr role="row">
-                                              <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 99px;">Catgory</th>
-                                              <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 122;">Title</th>
-                                              <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 110px;">Start & End Date</th>
-                                              <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 62px;">Last Edit</th>
-                                              <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 62px;">Edit News</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                          <!-- gradeA odd -->
-                                            <tr class="" role="row">
-                                                <td class="sorting_1">btest</td>
-                                                <td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa..</td>
-                                                <td>Start : 17/1/2561<br>End : 18/1/2561</td>
-                                                <td class="center">A</td>
-                                                <td align="center">
-                                                    <!-- btn Edit -->
-                                                    <button type="button" style="float:center;" class="btn btn-warning btn-sm">
-                                                    <b class="fa fa-edit"></b>
-                                                    </button>
-                                                    <!-- /.btn Edit -->
-                                                    <!-- btn Delete -->
-                                                    <button type="button" style="float:center;" class="btn btn-danger btn-sm">
-                                                    <b class="fa fa-remove"></b>
-                                                    </button>
-                                                    <!-- /.btn Delete -->
-                                                </td>
-                                            </tr>
-                                            <!-- gradeA even -->
-                                            <tr class="" role="row">
-                                                <td class="sorting_1">atest</td>
-                                                <td>bbbbbbbbbbbbbbbbbbbbbbbbbbbb..</td>
-                                                <td>Start : 17/1/2561<br>End : 19/1/2561</td>
-                                                <td class="center">A</td>
-                                                <td align="center">
-                                                    <!-- btn Edit -->
-                                                    <button type="button" style="float:center;" class="btn btn-warning btn-sm">
-                                                    <b class="fa fa-edit"></b>
-                                                    </button>
-                                                    <!-- /.btn Edit -->
-                                                    <!-- btn Delete -->
-                                                    <button type="button" style="float:center;" class="btn btn-danger btn-sm">
-                                                    <b class="fa fa-remove"></b>
-                                                    </button>
-                                                    <!-- /.btn Delete -->
-                                                </td>
-                                            </tr>
-                                          </tbody>
+                                                <thead>
+                                                    <tr role="row">
+                                                      <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 99px;">Catgory</th>
+                                                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 122;">Title</th>
+                                                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 110px;">Start & End Date</th>
+                                                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 62px;">Last Edit</th>
+                                                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 62px;">Edit News</th>
+                                                    </tr>
+                                                </thead>
+                                                  <tbody>
+                                            <!-- gradeA odd -->
+                                              <tr class="" role="row">
+                                                  <td class="sorting_1">btest</td>
+                                                  <td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa..</td>
+                                                  <td>Start : 17/1/2561<br>End : 18/1/2561</td>
+                                                  <td class="center">A</td>
+                                                  <td align="center">
+                                                      <!-- btn Edit -->
+                                                      <button type="button" style="float:center;" class="btn btn-warning btn-sm">
+                                                      <b class="fa fa-edit"></b>
+                                                      </button>
+                                                      <!-- /.btn Edit -->
+                                                      <!-- btn Delete -->
+                                                      <button type="button" style="float:center;" class="btn btn-danger btn-sm">
+                                                      <b class="fa fa-remove"></b>
+                                                      </button>
+                                                      <!-- /.btn Delete -->
+                                                  </td>
+                                              </tr>
+                                              <!-- gradeA even -->
+                                              <tr class="" role="row">
+                                                  <td class="sorting_1">atest</td>
+                                                  <td>bbbbbbbbbbbbbbbbbbbbbbbbbbbb..</td>
+                                                  <td>Start : 17/1/2561<br>End : 19/1/2561</td>
+                                                  <td class="center">A</td>
+                                                  <td align="center">
+                                                      <!-- btn Edit -->
+                                                      <button type="button" style="float:center;" class="btn btn-warning btn-sm">
+                                                      <b class="fa fa-edit"></b>
+                                                      </button>
+                                                      <!-- /.btn Edit -->
+                                                      <!-- btn Delete -->
+                                                      <button type="button" style="float:center;" class="btn btn-danger btn-sm">
+                                                      <b class="fa fa-remove"></b>
+                                                      </button>
+                                                      <!-- /.btn Delete -->
+                                                  </td>
+                                              </tr>
+                                            </tbody>
                                     </table>
                                   </div>
                                 </div>
