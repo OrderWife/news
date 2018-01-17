@@ -11,9 +11,11 @@ class Backend extends CI_Controller {
 
 	public function index()
 	{
-		$data = $this->News_Model->selectNews();
-		echo json_encode($data);
-    $this->load->view('backendview\include\include_v');
+		$data = array (
+            'query' => $this->News_Model->selectNews()
+    );
+		//echo json_encode($data);
+    $this->load->view('backendview\include\include_v',$data);
 		$this->load->view('backendview\include\include_table');
 		$this->load->view('backendview\backendhome');
 	}

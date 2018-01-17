@@ -17,16 +17,16 @@
     });
 </script>
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 
-var response = [{"rank":"9","content":"Alon","UID":"5"},{"rank":"6","content":"Tala","UID":"6"}];
+var response = <?php echo json_encode($query); ?>;
 $(function() {
     $.each(response, function(i, item) {
         var $tr = $('<tr>').append(
-            $('<td>').text(item.rank),
-            $('<td>').text(item.content),
-            $('<td>').text(item.UID)
+            $('<td>').text(item.N_CATEGORY),
+            $('<td>').text(item.N_TITLE),
+            $('<td>').text(item.N_START_DATE)
         ).appendTo('#dataTables-example');
     });
 });
-</script> -->
+</script>
