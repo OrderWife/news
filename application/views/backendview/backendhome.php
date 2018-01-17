@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Startmin - Bootstrap Admin Theme</title>
+        <title>NHSO BACKEND</title>
 
     </head>
     <body>
@@ -19,9 +19,7 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#"><b>NHSO</b> Dashboard</a>
                 </div>
-
                 <ul class="nav navbar-right navbar-top-links"> <!-- User bar -->
-
                     <li class="dropdown ">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="fa fa-user fa-fw"></i>สิทธิโชค <b class="caret"></b>
@@ -85,7 +83,6 @@
                             <div class="panel-body">
                                 <div class="dataTable_wrapper">
                                     <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-
                                       <div class="row">
                                          <div class="col-sm-12">
                                               <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
