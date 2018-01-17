@@ -7,6 +7,7 @@ class Backend extends CI_Controller {
 	{
 				parent::__construct();
 				$this->load->model('News_Model');
+				$this->load->view('backendview\include\include_v');
 		}
 
 	public function index()
@@ -21,9 +22,15 @@ class Backend extends CI_Controller {
 						'query' => $this->News_Model->selectNews()
 		);
 
-		$this->load->view('backendview\include\include_v');
+		//$this->load->view('backendview\include\include_v');
 		$this->load->view('backendview\include\include_table',$data);
+		//$this->load->view('backendview\include\scriptdatatable');
 		$this->load->view('backendview\backendhome');
+	}
+
+	public function newsform()
+	{
+		$this->load->view('backendview\newsform');
 	}
 
 }
