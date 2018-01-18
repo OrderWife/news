@@ -43,7 +43,7 @@ class Backend extends CI_Controller {
 
 	      $tempFile = $_FILES['file']['tmp_name'];          //3
 
-	      $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;  //4
+	      $targetPath = dirname( _FILE_ ) . $ds. $storeFolder . $ds;  //4
 
 	      $targetFile =  $targetPath. $_FILES['file']['name'];  //5
 
