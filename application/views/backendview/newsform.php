@@ -2,16 +2,16 @@
 
 
 <div class="col-md-12">
-  <form class="" method="post">
+  <form class="">
     <div class="col-md-12" >
       <div class="col-md-5 col-md-offset-1">
           <div class="form-group">
             <label>หัวข้อ</label>
-            <input class="form-control" type="text" name="title" placeholder="กรุณากรอกชื่อหัวข้อข่าว" required>
+            <input required class="form-control" type="text" name="title" placeholder="กรุณากรอกชื่อหัวข้อข่าว">
           </div>
           <div class="form-group">
             <label>หมวดหมู่</label>
-            <input class="form-control" type="text" list="browsers" name="category" placeholder="กรุณาเลือกหมวดหมู่" required>
+            <input required class="form-control" type="text" list="browsers" name="category" placeholder="กรุณาเลือกหมวดหมู่" >
             <datalist id="browsers">
               <option value="Internet Explorer">
               <option value="Firefox">
@@ -22,19 +22,19 @@
           </div>
           <div class="form-group col-md-6" style="padding-right:20px">
               <label>วันเริ่มต้น</label>
-              <input id="startdate" name="startdate" type="date" class="form-control" readonly>
+              <input required id="startdate" name="startdate" type="date" class="form-control" readonly>
           </div>
           <div class="form-group col-md-6" >
               <label>วันสิ้นสุด</label>
-              <input id="enddate" type="date" name="enddate" min="<?php echo date("Y-m-d")?>" class="form-control" required>
+              <input required id="enddate" type="date" name="enddate" min="<?php echo date("Y-m-d")?>" class="form-control" >
               <input type="checkbox" id="unlimit" value="unlimit">ไม่สิ้นสุด
           </div>
       </div>
       <div class="col-md-5 col-md-offset-1">
         <div class="form-group">
             <label>ภาพ</label>
-            <div id="showimg" class="form-control" style="background-color: lightgrey; width: 200px; height:200px;">
-              <img class="form-control" id="blah" src="#" alt="your image" />
+            <div id="showimg" style="background-color: lightgrey; width: 200px; height:200px;">
+              <img style="float:center" id="blah" src="#" alt="your image" />
             </div><br>
             <input type="file" onchange="readURL(this);">
         </div>
@@ -42,13 +42,18 @@
     </div>
     <div class="col-md-10 col-md-offset-1">
       <div class="form-group" >
+        <label><h4>เนื้อหา</h4></label>
+        <font id="valid" class="hide" style="color:red">กรุณาเพิ่มเนื้อหา</font>
         <textarea name="content" id="editor">
+          <p>Enter text here!</p>
         </textarea>
       </div>
       </div>
     </div>
-
-    <button id="submidNews" type="" class="btn btn-default">Submit Button</button>
+    Select file: <input type="file" id="file" name="img" multiple onchange="javascript:updateList()">
+    <br/>Selected files:
+    <div id="fileList"></div>
+    <button id="submidNews" type="submit" class="btn btn-default">Submit Button</button>
   </form>
 </div>
 
@@ -56,7 +61,7 @@
 <script type="text/javascript">
 ClassicEditor.create(document.querySelector( '#editor' ))
              .then( editor => {
-                      console.log( 'Editor was initialized', editor );
+                      //console.log( 'Editor was initialized', editor );
                       myEditor = editor;
              })
              .catch( error => {
@@ -68,25 +73,13 @@ ClassicEditor.create(document.querySelector( '#editor' ))
     document.getElementById("startdate").value="<?php echo date("Y-m-d")?>";
 
   });
-   $("#submidNews").submit(function(e){
-     var messageLength = myEditor.getData().replace(/<[^>]*>/gi, '').length;
-            if( !messageLength ) {
-                alert( 'Please enter a message' );
-                e.preventDefault();
-            }
-            console.log(myEditor.getData());
-
-   });
-
-  function myFunc() {
-    var messageLength = myEditor.getData().replace(/<[^>]*>/gi, '').length;
-           if( !messageLength ) {
-               alert( 'Please enter a message' );
-               return;
-             }
-             console.log(myEditor.getData());
-  }
-
+  $("form").submit( function(e) {
+          var messageLength = myEditor.getData().replace(/<[^>]*>/gi, '').replace('&nbsp;', '').replace('Enter text here!', '').length;
+          if( !messageLength ) {
+              alert( 'Please enter a message in content box' );
+              e.preventDefault();
+          }
+      });
 
   $( "input" ).change(function() {
     var input = $( this );
@@ -100,7 +93,7 @@ ClassicEditor.create(document.querySelector( '#editor' ))
 
 
   function readURL(input) {
-        if (input.files && input.files[0]) {
+        if (input.files && input.files[0] && isImage(input.files[0].name)) {
             var reader = new FileReader();
 
             reader.onload = function (e) {
@@ -116,4 +109,34 @@ ClassicEditor.create(document.querySelector( '#editor' ))
           $('#showimg').addClass('hide');
         }
     }
+
+    function getExtension(filename) {
+          var parts = filename.split('.');
+          return parts[parts.length - 1];
+        }
+
+        function isImage(filename) {
+        var ext = getExtension(filename);
+        switch (ext.toLowerCase()) {
+        case 'jpg':
+        case 'gif':
+        case 'bmp':
+        case 'png':
+            //etc
+            return true;
+        }
+        return false;
+    }
+
+    updateList = function() {
+      var input = document.getElementById('file');
+      var output = document.getElementById('fileList');
+
+      output.innerHTML = '<ul>';
+      for (var i = 0; i < input.files.length; ++i) {
+        output.innerHTML += '<li>' + input.files.item(i).name + '</li>';
+      }
+      output.innerHTML += '</ul>';
+    }
+
 </script>
