@@ -13,7 +13,7 @@ class Backend extends CI_Controller {
 	public function index()
 	{
 		echo "Index";
-		redirect('backend/news');
+		redirect('backend\news');
 	}
 
 	public function news()

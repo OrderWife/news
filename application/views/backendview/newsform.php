@@ -48,23 +48,44 @@
       </div>
     </div>
 
-    <button type="" class="btn btn-default" >Submit Button</button>
+    <button id="submidNews" type="" class="btn btn-default">Submit Button</button>
   </form>
 </div>
 
 
 <script type="text/javascript">
-var edit = ClassicEditor.create( document.querySelector( '#editor' ))
+ClassicEditor.create(document.querySelector( '#editor' ))
+             .then( editor => {
+                      console.log( 'Editor was initialized', editor );
+                      myEditor = editor;
+             })
              .catch( error => {
                 console.error( error );
-              } );
+             });
 
 
   $(function(){
     document.getElementById("startdate").value="<?php echo date("Y-m-d")?>";
-  
-  });
 
+  });
+   $("#submidNews").submit(function(e){
+     var messageLength = myEditor.getData().replace(/<[^>]*>/gi, '').length;
+            if( !messageLength ) {
+                alert( 'Please enter a message' );
+                e.preventDefault();
+            }
+            console.log(myEditor.getData());
+
+   });
+
+  function myFunc() {
+    var messageLength = myEditor.getData().replace(/<[^>]*>/gi, '').length;
+           if( !messageLength ) {
+               alert( 'Please enter a message' );
+               return;
+             }
+             console.log(myEditor.getData());
+  }
 
 
   $( "input" ).change(function() {
