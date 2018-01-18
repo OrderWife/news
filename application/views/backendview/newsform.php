@@ -1,3 +1,6 @@
+<script src="<?php echo base_url();?>assets/plugins/ckeditor5-build-classic/ckeditor.js"></script>
+
+
 <div class="col-md-12">
   <form class="" method="post">
     <div class="col-md-12" >
@@ -39,20 +42,30 @@
     </div>
     <div class="col-md-10 col-md-offset-1">
       <div class="form-group" >
-        
+        <textarea name="content" id="editor">
+        </textarea>
       </div>
       </div>
     </div>
 
-    <button type="submit" class="btn btn-default">Submit Button</button>
+    <button type="" class="btn btn-default" >Submit Button</button>
   </form>
 </div>
 
 
 <script type="text/javascript">
+var edit = ClassicEditor.create( document.querySelector( '#editor' ))
+             .catch( error => {
+                console.error( error );
+              } );
+
+
   $(function(){
     document.getElementById("startdate").value="<?php echo date("Y-m-d")?>";
+  
   });
+
+
 
   $( "input" ).change(function() {
     var input = $( this );
@@ -63,6 +76,7 @@
         d.disabled = false;
       }
   }).change();
+
 
   function readURL(input) {
         if (input.files && input.files[0]) {
