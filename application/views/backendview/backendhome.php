@@ -72,7 +72,7 @@
                     <div class="row">
                         <div class=".col-xs-12 .col-md-8">
                             <h1 class="page-header">Update News
-                              <button type="button" style="float:right;" class="btn btn-success btn-lg">Create News</button>
+                              <button type="button" style="float:right;" class="btn btn-success btn-lg" onclick="showform()">Create News</button>
                             </h1>
                             <!-- data Table -->
                             <div class="panel panel-default">
@@ -81,7 +81,7 @@
                             </div>
                             <!-- /.panel-heading -->
                             <div class="panel-body" id="panel_body">
-                              <div class="hide" id="table_box"> <!--hide-->
+                              <div class="" id="table_box"> <!--hide-->
                                 <div class="dataTable_wrapper">
                                     <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                                       <div class="row">
@@ -110,7 +110,10 @@
                                 </div> -->
                                 <!-- /.footer table -->
                               </div>
-                              <?php $this->load->view('backendview\newsform');?>
+                              <div class="hide" id="form-box">
+                                  <?php $this->load->view('backendview\newsform');?>
+                              </div>
+
                             </div>
                             <!-- /.panel-body -->
                         </div>
@@ -128,3 +131,9 @@
         <!-- /#wrapper -->
     </body>
 </html>
+<script type="text/javascript">
+  function showform() {
+    $('#table_box').addClass('form-group');
+    console.log($('#table_box').class);
+  }
+</script>

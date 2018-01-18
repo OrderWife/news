@@ -50,7 +50,7 @@
       </div>
       </div>
     </div>
-    Select file: <input type="file" id="file" name="img" multiple onchange="javascript:updateList()">
+    Select file: <input type="file" id="file" name="img" multiple onchange="updateList()">
     <br/>Selected files:
     <div id="fileList"></div>
     <button id="submidNews" type="submit" class="btn btn-default">Submit Button</button>
@@ -138,5 +138,15 @@ ClassicEditor.create(document.querySelector( '#editor' ))
       }
       output.innerHTML += '</ul>';
     }
+    function updateList() {
+    var input = document.getElementById('file');
+    var output = document.getElementById('fileList');
+
+    output.innerHTML = '<ul>';
+    for (var i = 0; i < input.files.length; ++i) {
+      output.innerHTML += '<li>' + input.files.item(i).name + '</li>';
+    }
+    output.innerHTML += '</ul>';
+  }
 
 </script>
