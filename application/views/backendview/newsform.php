@@ -20,7 +20,7 @@
               <option value="Safari">
             </datalist>
           </div>
-          <div class="form-group col-md-6" style="padding-right:20px">
+          <div class="form-group col-md-6" style="padding-right:15px">
               <label>วันเริ่มต้น</label>
               <input required id="startdate" name="startdate" type="date" class="form-control" readonly>
           </div>
@@ -47,12 +47,16 @@
         <textarea name="content" id="editor">
         </textarea>
       </div>
+      <br>
+        เพิ่มไฟล์: <input type="file" id="file" name="img" enctype="multipart/form-data" multiple onchange="updateList()">
+        <br/>
+        <p>ไฟล์ที่เลือก:</p>
+        <div id="fileList">ี</div>
       </div>
     </div>
-    Select file: <input type="file" id="file" name="img" multiple onchange="updateList()">
-    <br/>Selected files:
-    <div id="fileList"></div>
-    <button id="submidNews" type="submit" class="btn btn-success">Submit Button</button>
+    <div class="col-md-10 col-md-offset-1">
+      <button id="submidNews" type="submit" class="btn btn-success" style="float:right">บันทึก</button>
+    </div>
   </form>
 </div>
 

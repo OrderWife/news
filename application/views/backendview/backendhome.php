@@ -143,6 +143,7 @@
       btnYN.className = 'btn btn-success btn-lg';
       btnYN.innerHTML = 'Create News'
       boxTable.className = '';
+      $('#showimg').addClass('hide');
       box.reset();
       boxForm.className  = 'hide';
     }else{
