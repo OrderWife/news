@@ -2,7 +2,8 @@
 
 
 <div class="col-md-12">
-  <form class="" id="news">
+  <!-- action="createnews"  -->
+  <form action="createnews" class="" id="news" enctype="multipart/form-data" method="post">
     <div class="col-md-12" >
       <div class="col-md-5 col-md-offset-1">
           <div class="form-group">
@@ -36,7 +37,7 @@
             <div id="showimg" style="background-color: lightgrey; width: 200px; height:200px;">
               <img style="float:center" id="blah" src="#" alt="your image" />
             </div><br>
-            <input type="file" onchange="readURL(this);">
+            <input type="file" name="imgUp" onchange="readURL(this);">
         </div>
       </div>
     </div>
@@ -48,14 +49,15 @@
         </textarea>
       </div>
       <br>
-        เพิ่มไฟล์: <input type="file" id="file" name="img" enctype="multipart/form-data" multiple onchange="updateList()">
+        เพิ่มไฟล์: <input type="file" id="file" name="fileUp[]" multiple onchange="updateList()">
         <br/>
         <p>ไฟล์ที่เลือก:</p>
         <div id="fileList">ี</div>
       </div>
     </div>
     <div class="col-md-10 col-md-offset-1">
-      <button id="submidNews" type="submit" class="btn btn-success" style="float:right">บันทึก</button>
+      <button id="submidNews"  type="submit" class="btn btn-success" style="float:right">บันทึก</button>
+        <!-- formaction="<?php //echo base_url();?>index.php/backend/createnews" -->
     </div>
   </form>
 </div>

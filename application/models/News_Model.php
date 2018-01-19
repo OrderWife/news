@@ -14,4 +14,9 @@ class News_Model extends CI_Model {
     return $query->result();
   }
 
+  public function insertnews($data)
+  {
+
+  }
+
   }
