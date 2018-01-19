@@ -2,7 +2,7 @@
 
 
 <div class="col-md-12">
-  <form class="">
+  <form class="" id="news">
     <div class="col-md-12" >
       <div class="col-md-5 col-md-offset-1">
           <div class="form-group">
@@ -45,7 +45,6 @@
         <label><h4>เนื้อหา</h4></label>
         <font id="valid" class="hide" style="color:red">กรุณาเพิ่มเนื้อหา</font>
         <textarea name="content" id="editor">
-          <p>Enter text here!</p>
         </textarea>
       </div>
       </div>
@@ -53,15 +52,16 @@
     Select file: <input type="file" id="file" name="img" multiple onchange="updateList()">
     <br/>Selected files:
     <div id="fileList"></div>
-    <button id="submidNews" type="submit" class="btn btn-default">Submit Button</button>
+    <button id="submidNews" type="submit" class="btn btn-success">Submit Button</button>
   </form>
 </div>
 
 
 <script type="text/javascript">
-ClassicEditor.create(document.querySelector( '#editor' ))
+  ClassicEditor.create(document.querySelector( '#editor' ))
              .then( editor => {
                       //console.log( 'Editor was initialized', editor );
+                      editor.setData('<p>Enter text here!</p>');
                       myEditor = editor;
              })
              .catch( error => {

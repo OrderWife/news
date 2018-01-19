@@ -72,7 +72,7 @@
                     <div class="row">
                         <div class=".col-xs-12 .col-md-8">
                             <h1 class="page-header">Update News
-                              <button type="button" style="float:right;" class="btn btn-success btn-lg" onclick="showform()">Create News</button>
+                              <button id="btn-yes-no" type="button" style="float:right;" class="btn btn-success btn-lg" onclick="showform()">Create News</button>
                             </h1>
                             <!-- data Table -->
                             <div class="panel panel-default">
@@ -133,7 +133,24 @@
 </html>
 <script type="text/javascript">
   function showform() {
-    $('#table_box').addClass('form-group');
-    console.log($('#table_box').class);
+    var boxTable = document.getElementById('table_box');
+    var boxForm = document.getElementById('form-box');
+    var box = document.getElementById('news');
+    var btnYN = document.getElementById('btn-yes-no');
+    var classN = boxTable.className;
+    if(classN == 'hide')
+    {
+      btnYN.className = 'btn btn-success btn-lg';
+      btnYN.innerHTML = 'Create News'
+      boxTable.className = '';
+      box.reset();
+      boxForm.className  = 'hide';
+    }else{
+      btnYN.className = 'btn btn-danger btn-lg';
+      btnYN.innerHTML = 'Cancel'
+      boxTable.className = 'hide';
+      boxForm.className  = '';
+
+    }
   }
 </script>
