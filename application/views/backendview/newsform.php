@@ -34,7 +34,7 @@
       <div class="col-md-5 col-md-offset-1">
         <div class="form-group">
             <label>ภาพ</label>
-            <div id="showimg" style="background-color: lightgrey; width: 200px; height:200px;">
+            <div id="showimg" class="hide" style="background-color: lightgrey; width: 200px; height:200px; ">
               <img style="float:center" id="blah" src="#" alt="your image" />
             </div><br>
             <input type="file" name="imgUp" onchange="readURL(this);">
@@ -99,6 +99,12 @@
 
 
   function readURL(input) {
+        if(!isImage(input.files[0].name))
+        {
+          alert("Please enter imamge file type (jpg, png, gif, bmp)");
+          input.value='';
+          return;
+        }
         if (input.files && input.files[0] && isImage(input.files[0].name)) {
             var reader = new FileReader();
 
@@ -111,9 +117,10 @@
             };
 
             reader.readAsDataURL(input.files[0]);
-        }else{
+        }else if(!input.files[0]){
           $('#showimg').addClass('hide');
         }
+
     }
 
     function getExtension(filename) {
