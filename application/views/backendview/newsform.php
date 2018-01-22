@@ -99,13 +99,8 @@
 
 
   function readURL(input) {
-        if(!isImage(input.files[0].name))
-        {
-          alert("Please enter imamge file type (jpg, png, gif, bmp)");
-          input.value='';
-          return;
-        }
         if (input.files && input.files[0] && isImage(input.files[0].name)) {
+
             var reader = new FileReader();
 
             reader.onload = function (e) {
@@ -117,8 +112,13 @@
             };
 
             reader.readAsDataURL(input.files[0]);
-        }else if(!input.files[0]){
+
+
+        }else if(input.files && input.files[0] && !isImage(input.files[0].name)) {
+          alert("Please enter imamge file type (jpg, png, gif, bmp)");
+          input.value='';
           $('#showimg').addClass('hide');
+          return;
         }
 
     }
