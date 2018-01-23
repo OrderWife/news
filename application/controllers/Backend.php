@@ -39,48 +39,7 @@ class Backend extends CI_Controller {
 
 	public function createnews()
 	{
-		$config['upload_path']   = './upload/img/';
-		$config['allowed_types'] = 'gif|jpg|png';
-		$config['max_size']      = 0;
-		$config['max_width']     = 0;
-		$config['max_height']    = 0;
-		$config['encrypt_name']  = true;
 
-		$this->load->library('upload', $config);
-		if ( !$this->upload->do_upload('imgUp') && !empty($this->input->post('imgUp'))) {
-			$error = array('error' => $this->upload->display_errors());
-			$this->load->view('blank', $error);
-			return;
-		}
-		 if(!empty($_FILES['fileUp']['name'])) {
-					$filesCount = count($_FILES['fileUp']['name']);
-					for($i = 0; $i < $filesCount; $i++){
-							 $_FILES['fileUp']['name'] = $_FILES['fileUp']['name'][$i];
-							 $_FILES['fileUp']['type'] = $_FILES['fileUp']['type'][$i];
-							 $_FILES['fileUp']['tmp_name'] = $_FILES['fileUp']['tmp_name'][$i];
-							 $_FILES['fileUp']['error'] = $_FILES['fileUp']['error'][$i];
-							 $_FILES['fileUp']['size'] = $_FILES['fileUp']['size'][$i];
-
-							 $uploadPath = './upload/file/';
-							 $config['upload_path'] = $uploadPath;
-							 $config['allowed_types'] = '';
-							 $config['encrypt_name']  = true;
-
-							 $this->load->library('upload', $config);
-							 $this->upload->initialize($config);
-							 if($this->upload->do_upload('fileUp')){
-									 $fileData = $this->upload->data();
-									 $uploadData[$i]['file_name'] = $fileData['file_name'];
-									 $uploadData[$i]['created'] = date("Y-m-d H:i:s");
-									 $uploadData[$i]['modified'] = date("Y-m-d H:i:s");
-							 }else{
-								 	$error = array('error' => $this->upload->display_errors());
-					 				$this->load->view('blank', $error);
-							 }
-					 }
-
-
-		}
 
 			$data = array(
 				'PID'           => $this->session->userdata('pid'),
@@ -96,17 +55,72 @@ class Backend extends CI_Controller {
 
 	}
 
-	public function upfile()
-	{
-		$this->load->view('welcome_message');
-		if(!empty($_FILES['fileUp']['name'])){
-            $filesCount = count($_FILES['fileUp']['name']);
-						echo $filesCount;
-					}else {
-						echo "0";
+	private function upload_files(){
+
+		$config['upload_path']          = './upload/files/';
+		$config['allowed_types']        = 'pdf|zip|rar';
+		$config['max_size']             = 0;
+		$config['max_width']            = 0;
+		$config['max_height']           = 0;
+		$config['max_size']             = 10000;
+		$config['encrypt_name']         = true;
+
+		$this->load->library('upload', $config);
+
+		$files = $_FILES;
+		$cpt = count($_FILES['userfile']['name']);
+		for($i=0; $i<$cpt; $i++)
+		{
+				$_FILES['userfile']['name']= $files['userfile']['name'][$i];
+				$_FILES['userfile']['type']= $files['userfile']['type'][$i];
+				$_FILES['userfile']['tmp_name']= $files['userfile']['tmp_name'][$i];
+				$_FILES['userfile']['error']= $files['userfile']['error'][$i];
+				$_FILES['userfile']['size']= $files['userfile']['size'][$i];
+
+
+					if ( ! $this->upload->do_upload('userfile'))
+					{
+									$error = array('error' => $this->upload->display_errors());
+
+									$this->load->view('uploadform', $error);
 					}
+					else
+					{
+									$data = array('upload_data' => $this->upload->data()); //store data of file
+									$this->load->view('successupload', $data); ////data of file
+
+					}
+
+
+			}
 
 	}
 
+	private function upload_img()
+	{
+			$config['upload_path']          = './upload/img/';
+			$config['allowed_types']        = 'jpg|jpeg|png|gif';
+			$config['max_size']             = 0;
+			$config['max_width']            = 0;
+			$config['max_height']           = 0;
+			$config['max_size']             = 10000;
+			$config['encrypt_name']         = true;
+
+			$this->load->library('upload', $config);
+
+			if ( ! $this->upload->do_upload('userfile'))
+			{
+							$error = array('error' => $this->upload->display_errors());
+
+							$this->load->view('upload_form', $error);
+			}
+			else
+			{
+							$data = array('upload_data' => $this->upload->data()); //store data of img
+
+							$this->load->view('upload_success', $data); //data of img.
+			}
+
+	}
 
 }

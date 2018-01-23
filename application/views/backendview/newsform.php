@@ -34,10 +34,10 @@
       <div class="col-md-5 col-md-offset-1">
         <div class="form-group">
             <label>ภาพ</label>
-            <div id="showimg" class="hide" style="background-color: lightgrey; width: 200px; height:200px; ">
+            <div id="showimg" class="hide"  style="background-color: lightgrey; width: 200px; height:200px; ">
               <img style="float:center" id="blah" src="#" alt="your image" />
             </div><br>
-            <input type="file" name="imgUp" onchange="readURL(this);">
+            <input type="file" name="imgUp" accept=".jpg, .jpeg, .png, .gif, .bmp" onchange="readURL(this);">
         </div>
       </div>
     </div>
@@ -49,10 +49,10 @@
         </textarea>
       </div>
       <br>
-        เพิ่มไฟล์: <input type="file" id="file" name="fileUp[]" multiple onchange="updateList()">
+        เพิ่มไฟล์: <input type="file" id="file" name="fileUp" accept=".pdf, .zip, .rar" multiple onchange="updateList()">
         <br/>
         <p>ไฟล์ที่เลือก:</p>
-        <div id="fileList">ี</div>
+        <div id="fileList"></div>
       </div>
     </div>
     <div class="col-md-10 col-md-offset-1">
