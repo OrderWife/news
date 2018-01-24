@@ -151,6 +151,7 @@
       btnYN.innerHTML = 'Cancel'
       boxTable.className = 'hide';
       boxForm.className  = '';
+      document.getElementById("startdate").value="<?php echo date("Y-m-d")?>";
 
     }
   }
