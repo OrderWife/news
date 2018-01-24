@@ -49,7 +49,7 @@
         </textarea>
       </div>
       <br>
-        เพิ่มไฟล์: <input type="file" id="file" name="fileUp" accept=".pdf, .zip, .rar" multiple onchange="updateList()">
+        เพิ่มไฟล์: <input type="file" id="file" name="fileUp[]" accept=".pdf, .zip, .rar" multiple onchange="updateList()">
         <br/>
         <p>ไฟล์ที่เลือก:</p>
         <div id="fileList"></div>

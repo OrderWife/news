@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Backend extends CI_Controller {
-
+	protected $lastNewsId;
 	public function __construct()
 	{
 				parent::__construct();
@@ -39,88 +39,163 @@ class Backend extends CI_Controller {
 
 	public function createnews()
 	{
+			$imgname = 'null';
+			if(!$_FILES['imgUp']['size'] == 0 && $_FILES['imgUp']['error'] == 0){
+				echo "<br>imgUp have file.<br>";
+				$imgname  = $this->upload_img();//$_FILES['imgUp']
+			}else {
+				echo "<br>imgUp empty.<br>";
+			}
 
-
-			$data = array(
-				'PID'           => $this->session->userdata('pid'),
+			$dataofnews = array(
+				'PID'           => 1,//$this->session->userdata('pid'),
 				'N_TITLE'       => $this->input->post('title'),
 				'N_CATEGORY'    => $this->input->post('category'),
-				'N_IMG'         => $this->upload->data('file_name'),
+				'N_IMG'         => $imgname,
 				'N_CONTENT'     => $this->input->post('content'),
-				'N_START_DATE'  => $this->input->post('startdate'),
-				'N_END_DATE'    => $this->input->post('enddate'),
+				'N_START_DATE'  => $this->functodateOra($this->input->post('startdate')),
+				'N_END_DATE'    => $this->functodateOra($this->input->post('enddate')),
 			);
-			echo json_encode($data);
+
+			$idnews = $this->News_Model->insertnews($dataofnews);
+			//echo json_encode($idnews);
+			//echo var_dump($idnews);
+			$this->lastNewsId = $idnews-1;
+			//echo json_encode($dataofnews);
+
+			if(!$_FILES['fileUp']['size'][0] == 0 ){
+				echo "<br>fileUp have file.<br>";
+				$this->upload_files($_FILES['fileUp']);
+			}else{
+				echo "<br>fileUp empty.<br>";
+			}
 
 
 	}
+	private function functodateOra($date)
+	{
+		if($date){
+			$ed = strtotime($date);
+			$returndate = date('d-m-Y',$ed);
+		}else{
+			$returndate = null;
+		}
+		return $returndate;
+	}
 
-	private function upload_files(){
+	private function upload_files($formfiles){
 
-		$config['upload_path']          = './upload/files/';
-		$config['allowed_types']        = 'pdf|zip|rar';
+		$config['upload_path']          = './upload/';
+		$config['allowed_types']        = 'pdf|zip|rar|jpg|jpeg|png|gif';
 		$config['max_size']             = 0;
 		$config['max_width']            = 0;
 		$config['max_height']           = 0;
-		$config['max_size']             = 10000;
+		//$config['max_size']             = 10000000;
 		$config['encrypt_name']         = true;
 
 		$this->load->library('upload', $config);
 
-		$files = $_FILES;
-		$cpt = count($_FILES['userfile']['name']);
+		$files = $formfiles;
+		$cpt = count($_FILES['fileUp']['name']);
 		for($i=0; $i<$cpt; $i++)
 		{
-				$_FILES['userfile']['name']= $files['userfile']['name'][$i];
-				$_FILES['userfile']['type']= $files['userfile']['type'][$i];
-				$_FILES['userfile']['tmp_name']= $files['userfile']['tmp_name'][$i];
-				$_FILES['userfile']['error']= $files['userfile']['error'][$i];
-				$_FILES['userfile']['size']= $files['userfile']['size'][$i];
+				$_FILES['fileUp']['name']= $files['name'][$i];
+				$_FILES['fileUp']['type']= $files['type'][$i];
+				$_FILES['fileUp']['tmp_name']= $files['tmp_name'][$i];
+				$_FILES['fileUp']['error']= $files['error'][$i];
+				$_FILES['fileUp']['size']= $files['size'][$i];
 
 
-					if ( ! $this->upload->do_upload('userfile'))
+					if ( ! $this->upload->do_upload('fileUp'))
 					{
 									$error = array('error' => $this->upload->display_errors());
+									echo '<br> json error'.json_encode($error);
+									echo json_encode($_FILES['fileUp']);
 
-									$this->load->view('uploadform', $error);
 					}
 					else
 					{
 									$data = array('upload_data' => $this->upload->data()); //store data of file
-									$this->load->view('successupload', $data); ////data of file
+									$file = array(
+										'NEWS_ID' => $this->lastNewsId,
+										'N_FILE' => $data['upload_data']['file_name'],
+										);
+									$this->db->insert('TBL_FILENEWS', $file);
+									echo '<br> json data of file'.json_encode($data);
 
 					}
-
 
 			}
 
 	}
 
-	private function upload_img()
+	private function upload_img()//$imgfile
 	{
-			$config['upload_path']          = './upload/img/';
-			$config['allowed_types']        = 'jpg|jpeg|png|gif';
+
+			$config['upload_path']          = './upload/';
+			$config['allowed_types']        = 'pdf|zip|rar|jpg|jpeg|png|gif';
 			$config['max_size']             = 0;
 			$config['max_width']            = 0;
 			$config['max_height']           = 0;
-			$config['max_size']             = 10000;
+			//$config['max_size']             = 10000000;
 			$config['encrypt_name']         = true;
 
 			$this->load->library('upload', $config);
 
-			if ( ! $this->upload->do_upload('userfile'))
+			if ( ! $this->upload->do_upload('imgUp')) //default 'imgUp'
 			{
 							$error = array('error' => $this->upload->display_errors());
-
-							$this->load->view('upload_form', $error);
+							echo "error" . json_encode($error);
+							//echo '<br> json data of file'.json_encode($imgfile);
+							return 'null';
 			}
 			else
 			{
 							$data = array('upload_data' => $this->upload->data()); //store data of img
-
-							$this->load->view('upload_success', $data); //data of img.
+							echo '<br> json data of img'.json_encode($data);
+							return $data['upload_data']['file_name'];
 			}
 
 	}
+
+	public function FunctionName($len=4)
+		{
+				$th_word1 = array('ก', 'ข' ,'ค' ,'ฅ' ,'ฆ' ,'ง' ,'จ' ,'ฉ' ,'ช' ,'ซ', 'ฌ', 'ญ' ,'ฐ' ,'ฑ' ,'ฒ' ,
+												 'ณ', 'ด', 'ต', 'ถ' ,'ท' ,'ธ', 'น' ,'บ', 'ป' );
+				$th_word2 = array('ผ' ,'ฝ' ,'พ', 'ฟ' ,'ภ', 'ม' ,'ย', 'ร', 'ล' ,'ว',
+													'ศ', 'ษ' ,'ส' ,'ห' ,'ฬ' ,'อ' ,'ฮ');
+				$num1 = array(1,2,3,4,5);
+				$num2 = array(6,7,8,9,0);
+				$wordth = array_merge($th_word1,$th_word2);
+				$wordnum = array_merge($num1,$num2);
+				shuffle($wordth);
+				shuffle($wordnum);
+				$wordth = substr(implode($wordth),6,6);
+				$wordnum = substr(implode($wordnum),0,2);
+				$word = $wordth . $wordnum;
+				echo $word;
+
+
+		}
+
+	public function FuncRandom()
+		{
+			$th_word = array('ก', 'ข' ,'ค' ,'ฅ' ,'ฆ' ,'ง' ,'จ' ,'ฉ' ,'ช' ,'ซ', 'ฌ', 'ญ' ,'ฐ' ,'ฑ' ,'ฒ' ,
+											 'ณ', 'ด', 'ต', 'ถ' ,'ท' ,'ธ', 'น' ,'บ', 'ป','ผ' ,'ฝ' ,'พ', 'ฟ' ,'ภ', 'ม' ,'ย', 'ร', 'ล' ,'ว',
+												'ศ', 'ษ' ,'ส' ,'ห' ,'ฬ' ,'อ' ,'ฮ');
+			$num = array(1,2,3,4,5,6,7,8,9,0);
+			$word = array();
+			for ($i=0; $i < 4; $i++) {
+				if ($i < 2) {
+					shuffle($th_word);
+					$word[$i] = $th_word[rand(0,sizeof($th_word)-1)];
+				}else{
+					shuffle($num);
+					$word[$i] = $num[rand(0,sizeof($num)-1)];
+				}
+			}
+			shuffle($word);
+			echo implode($word);
+		}
 
 }
