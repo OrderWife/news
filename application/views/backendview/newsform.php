@@ -1,5 +1,10 @@
 <script src="<?php echo base_url();?>assets/plugins/ckeditor5-build-classic/ckeditor.js"></script>
 
+<link href="<?php echo base_url();?>assets/plugins/bootstrap/tag/dist/bootstrap-tagsinput.css" rel="stylesheet">
+
+<script src="<?php echo base_url();?>assets/plugins/bootstrap/tag/dist/bootstrap-tagsinput.min.js"></script>
+<script src="<?php echo base_url();?>assets/plugins/bootstrap/tag/dist/bootstrap-tagsinput-angular.min.js"></script>
+
 
 <div class="col-md-12">
   <!-- action="createnews"  -->
@@ -20,6 +25,10 @@
               <option value="Opera">
               <option value="Safari">
             </datalist>
+          </div>
+          <div class="form-group">
+            <label>Tag</label>
+            <input type="text" name="tagNews" value="" placeholder="tag" data-role="tagsinput" />
           </div>
           <div class="form-group col-md-6" style="padding-right:15px">
               <label>วันเริ่มต้น</label>
