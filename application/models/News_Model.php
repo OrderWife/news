@@ -16,7 +16,6 @@ class News_Model extends CI_Model {
 
   public function insertnews($data)
   {
-    //$this->db->insert('TBL_NEWS', $data);
     $this->db->set('PID', $data['PID']);
     $this->db->set('N_TITLE', $data['N_TITLE']);
     $this->db->set('N_CATEGORY', $data['N_CATEGORY']);
@@ -35,9 +34,50 @@ class News_Model extends CI_Model {
       }
   }
 
-  public function insertfile($data)
+  public function insertfile($data)//$data is array of column in table 'TBL_FILENEWS'.
   {
-    $this->db->insert('TBL_FILENEWS', $data);
+    if($this->db->insert('TBL_FILENEWS', $data))
+    {
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  public function delfile($idfile)//$idfile is array( 'ID_FILE' => $id_file). not test.
+  {
+    $query = $this->db->get_where('TBL_NEWS',$idfile);
+      foreach ($query->result() as $row) {
+          $filename = $row->N_FILE;
+        }
+
+    $isdel  =  unlink ( './upload/'.$filename );
+
+    if($this->db->delete('TBL_FILENEWS', $idfile) && $isdel){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  public function delNews($idnews)//$idfile is array( 'ID_FILE' => $id_news). not test.
+  {
+    if($this->db->delete('TBL_NEWS', $idnews)){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  public function editNews($news_ID, $data)//not test.
+  {
+    $this->db->where('NEWS_ID', $news_ID);
+    $this->db->update('TBL_NEWS', $data);
+  }
+
+  public function selectNewsEdit($news_ID)// $news_ID => array('NEWS_ID' => news_id). not test.
+  {
+    $this->db->get_where('TBL_NEWS',$news_ID);
   }
 
 }

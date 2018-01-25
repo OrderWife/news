@@ -22,14 +22,18 @@ $(function() {
             $('<td>').text(item.N_START_DATE),
             $('<td>').text(item.N_END_DATE),
             $('<td>').text(item.N_LAST_EDIT),
-            $('<td align="center" >').html('<button type="button" style="float:center;" class="btn btn-warning btn-sm"><b class="fa fa-edit"></b></button> <button type="button" style="float:center;" class="btn btn-danger btn-sm"><b class="fa fa-remove"></b></button>'),
+            $('<td align="center" >').html('<button type="button" style="float:center;" class="btn btn-warning btn-sm" value='+item.NEWS_ID+'><b class="fa fa-edit"></b></button> <button type="button" style="float:center;" class="btn btn-danger btn-sm" value='+item.NEWS_ID+'><b class="fa fa-remove"></b></button>'),
         ).appendTo('#dataTables-example');
     });
   } catch (e) {
     return;
   }
-
 });
+function delData(btn){
+  if(btn.value){
+    window.location.href = "<?php echo base_url().'/Backend/deleteNews/';?>"+id; //wait testing.
+  }
+}
 </script>
 
 <script>

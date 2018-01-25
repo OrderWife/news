@@ -32,11 +32,6 @@ class Backend extends CI_Controller {
 			$this->load->view('backendview\backendhome');
 		}
 
-	// public function newsform()
-	// {
-	// 	$this->load->view('backendview\newsform');
-	// }
-
 	public function createnews()
 	{
 			$imgname = 'null';
@@ -58,10 +53,7 @@ class Backend extends CI_Controller {
 			);
 
 			$idnews = $this->News_Model->insertnews($dataofnews);
-			//echo json_encode($idnews);
-			//echo var_dump($idnews);
 			$this->lastNewsId = $idnews-1;
-			//echo json_encode($dataofnews);
 
 			if(!$_FILES['fileUp']['size'][0] == 0 ){
 				echo "<br>fileUp have file.<br>";
@@ -69,8 +61,6 @@ class Backend extends CI_Controller {
 			}else{
 				echo "<br>fileUp empty.<br>";
 			}
-
-
 	}
 	private function functodateOra($date)
 	{
@@ -86,7 +76,7 @@ class Backend extends CI_Controller {
 	private function upload_files($formfiles){
 
 		$config['upload_path']          = './upload/';
-		$config['allowed_types']        = 'pdf|zip|rar|jpg|jpeg|png|gif';
+		$config['allowed_types']        = 'pdf|zip|rar';
 		$config['max_size']             = 0;
 		$config['max_width']            = 0;
 		$config['max_height']           = 0;
@@ -94,7 +84,7 @@ class Backend extends CI_Controller {
 		$config['encrypt_name']         = true;
 
 		$this->load->library('upload', $config);
-
+		$this->upload->initialize($config);
 		$files = $formfiles;
 		$cpt = count($_FILES['fileUp']['name']);
 		for($i=0; $i<$cpt; $i++)
@@ -119,6 +109,7 @@ class Backend extends CI_Controller {
 									$file = array(
 										'NEWS_ID' => $this->lastNewsId,
 										'N_FILE' => $data['upload_data']['file_name'],
+										'N_ORIGNAME' => $data['upload_data']['orig_name'],
 										);
 									$this->db->insert('TBL_FILENEWS', $file);
 									echo '<br> json data of file'.json_encode($data);
@@ -133,7 +124,7 @@ class Backend extends CI_Controller {
 	{
 
 			$config['upload_path']          = './upload/';
-			$config['allowed_types']        = 'pdf|zip|rar|jpg|jpeg|png|gif';
+			$config['allowed_types']        = 'jpg|jpeg|png|gif';
 			$config['max_size']             = 0;
 			$config['max_width']            = 0;
 			$config['max_height']           = 0;
@@ -141,7 +132,7 @@ class Backend extends CI_Controller {
 			$config['encrypt_name']         = true;
 
 			$this->load->library('upload', $config);
-
+			$this->upload->initialize($config);
 			if ( ! $this->upload->do_upload('imgUp')) //default 'imgUp'
 			{
 							$error = array('error' => $this->upload->display_errors());
@@ -156,6 +147,11 @@ class Backend extends CI_Controller {
 							return $data['upload_data']['file_name'];
 			}
 
+	}
+
+	public function deleteNews($idnews){
+		$data = array( 'ID_NEWS' => $idnews);
+		$this->News_Model->delfile($data);
 	}
 
 	public function FunctionName($len=4)
@@ -178,24 +174,33 @@ class Backend extends CI_Controller {
 
 		}
 
-	public function FuncRandom()
+	public function FuncRandom($range)
 		{
-			$th_word = array('ก', 'ข' ,'ค' ,'ฅ' ,'ฆ' ,'ง' ,'จ' ,'ฉ' ,'ช' ,'ซ', 'ฌ', 'ญ' ,'ฐ' ,'ฑ' ,'ฒ' ,
-											 'ณ', 'ด', 'ต', 'ถ' ,'ท' ,'ธ', 'น' ,'บ', 'ป','ผ' ,'ฝ' ,'พ', 'ฟ' ,'ภ', 'ม' ,'ย', 'ร', 'ล' ,'ว',
-												'ศ', 'ษ' ,'ส' ,'ห' ,'ฬ' ,'อ' ,'ฮ');
-			$num = array(1,2,3,4,5,6,7,8,9,0);
-			$word = array();
-			for ($i=0; $i < 4; $i++) {
-				if ($i < 2) {
-					shuffle($th_word);
-					$word[$i] = $th_word[rand(0,sizeof($th_word)-1)];
-				}else{
-					shuffle($num);
-					$word[$i] = $num[rand(0,sizeof($num)-1)];
+			echo "start gen!!";
+			$myfile = fopen("wordgen50k.txt", "w") or die("Unable to open file!");
+			for ($i=0; $i < $range ; $i++) {
+					$th_word = array('ก', 'ข' ,'ค' ,'ฅ' ,'ฆ' ,'ง' ,'จ' ,'ฉ' ,'ช' ,'ซ', 'ฌ', 'ญ' ,'ฐ' ,'ฑ' ,'ฒ' ,
+													 'ณ', 'ด', 'ต', 'ถ' ,'ท' ,'ธ', 'น' ,'บ', 'ป','ผ' ,'ฝ' ,'พ', 'ฟ' ,'ภ', 'ม' ,'ย', 'ร', 'ล' ,'ว',
+													 'ศ', 'ษ' ,'ส' ,'ห' ,'ฬ' ,'อ' ,'ฮ');
+					$num = array(1,2,3,4,5,6,7,8,9,0);
+					$word = array();
+					for ($j=0; $j < 4; $j++) {
+						if ($j < 2) {
+							shuffle($th_word);
+							$word[$j] = $th_word[rand(0,sizeof($th_word)-1)];
+						}else{
+							shuffle($num);
+							$word[$j] = $num[rand(0,sizeof($num)-1)];
+						}
+					}
+					shuffle($word);
+					$word = implode($word);
+					$word = $word."\n";
+					fwrite($myfile, $word);
 				}
+			fclose($myfile);
+			echo "finish";
 			}
-			shuffle($word);
-			echo implode($word);
-		}
+
 
 }

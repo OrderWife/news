@@ -163,6 +163,7 @@
     function updateList() {
     var input = document.getElementById('file');
     var output = document.getElementById('fileList');
+    document.getElementById('fileList').innerHTML = "";
 
     output.innerHTML = '<ul>';
     for (var i = 0; i < input.files.length; ++i) {
