@@ -8,7 +8,6 @@ class Backend extends CI_Controller {
 				parent::__construct();
 				$this->load->model('News_Model');
 				$this->load->library('session');
-				$this->load->helper('url');
 				$this->load->view('backendview\include\include_v');
 
 		}
@@ -16,7 +15,6 @@ class Backend extends CI_Controller {
 
 	public function index()
 	{
-		echo "Index";
 		redirect('backend\news');
 	}
 
@@ -26,9 +24,9 @@ class Backend extends CI_Controller {
 							'query' => $this->News_Model->selectNews()
 			);
 
-			//$this->load->view('backendview\include\include_v');
+			$this->load->view('backendview\include\include_v');
 			$this->load->view('backendview\include\include_table',$data);
-			//$this->load->view('backendview\include\scriptdatatable');
+			$this->load->view('backendview\include\scriptdatatable');
 			$this->load->view('backendview\backendhome');
 		}
 
@@ -150,29 +148,11 @@ class Backend extends CI_Controller {
 	}
 
 	public function deleteNews($idnews){
-		$data = array( 'ID_NEWS' => $idnews);
-		$this->News_Model->delfile($data);
+		$data = array( 'NEWS_ID' => $idnews);
+		$this->News_Model->delNews($data);
+		redirect('backend\news');
 	}
 
-	public function FunctionName($len=4)
-		{
-				$th_word1 = array('ก', 'ข' ,'ค' ,'ฅ' ,'ฆ' ,'ง' ,'จ' ,'ฉ' ,'ช' ,'ซ', 'ฌ', 'ญ' ,'ฐ' ,'ฑ' ,'ฒ' ,
-												 'ณ', 'ด', 'ต', 'ถ' ,'ท' ,'ธ', 'น' ,'บ', 'ป' );
-				$th_word2 = array('ผ' ,'ฝ' ,'พ', 'ฟ' ,'ภ', 'ม' ,'ย', 'ร', 'ล' ,'ว',
-													'ศ', 'ษ' ,'ส' ,'ห' ,'ฬ' ,'อ' ,'ฮ');
-				$num1 = array(1,2,3,4,5);
-				$num2 = array(6,7,8,9,0);
-				$wordth = array_merge($th_word1,$th_word2);
-				$wordnum = array_merge($num1,$num2);
-				shuffle($wordth);
-				shuffle($wordnum);
-				$wordth = substr(implode($wordth),6,6);
-				$wordnum = substr(implode($wordnum),0,2);
-				$word = $wordth . $wordnum;
-				echo $word;
-
-
-		}
 
 	public function FuncRandom($range)
 		{

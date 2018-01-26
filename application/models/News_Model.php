@@ -60,13 +60,9 @@ class News_Model extends CI_Model {
     }
   }
 
-  public function delNews($idnews)//$idfile is array( 'ID_FILE' => $id_news). not test.
+  public function delNews($idnews)//$idfile is array( 'ID_FILE' => $id_news).
   {
-    if($this->db->delete('TBL_NEWS', $idnews)){
-      return true;
-    }else{
-      return false;
-    }
+    $this->db->delete('TBL_NEWS', $idnews);
   }
 
   public function editNews($news_ID, $data)//not test.
