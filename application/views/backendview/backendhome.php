@@ -86,15 +86,15 @@
                                     <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                                       <div class="row">
                                          <div class=".col-xs-12 .col-md-8">
-                                              <table class="table dataTable no-footer" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+                                              <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
                                                 <thead>
                                                     <tr role="row">
-                                                      <th class="" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 99px;">Catgory</th>
-                                                      <th class="" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 80px;">Title</th>
-                                                      <th class="" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 90px;">Start Date</th>
-                                                      <th class="" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 90px;">End Date</th>
-                                                      <th class="" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 90px;">Last Edit</th>
-                                                      <th class="" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 90px;">Edit News</th>
+                                                      <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 99px;">Catgory</th>
+                                                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 80px;">Title</th>
+                                                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 90px;">Start Date</th>
+                                                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 90px;">End Date</th>
+                                                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 90px;">Last Edit</th>
+                                                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 90px;">Edit News</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
