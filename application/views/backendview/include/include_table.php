@@ -9,12 +9,10 @@
 <script src="<?php echo base_url();?>assets/startmin-master/js/dataTables/dataTables.bootstrap.min.js"></script>
 
 <!-- Sweetalert -->
-<!-- <link href="<?php //echo base_url()."assets/plugins/sweetalert/sweet-alert.css"?>" rel="stylesheet"></link>
-<link href="<?php //echo base_url()."assets/plugins/sweetalert/swal-forms.css"?>" rel="stylesheet"></link> -->
-
 <script src="<?php echo base_url()."assets/plugins/sweetalert/sweetalert.min.js"?>"></script>
-<!-- <script src="<?php //echo base_url()."assets/plugins/sweetalert/sweet-alert.js"?>"></script>
-<script src="<?php //echo base_url()."assets/plugins/sweetalert/swal-forms.js"?>"></script> -->
+
+<!-- Custom Fonts -->
+<link href="<?php echo base_url();?>assets/startmin-master/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 
@@ -30,8 +28,9 @@ $(function() {
             $('<td>').text(item.N_START_DATE),
             $('<td>').text(item.N_END_DATE),
             $('<td>').text(item.N_LAST_EDIT),
-            $('<td align="center" >').html('<button type="button" style="float:center;" class="btn btn-warning btn-sm" value='+item.NEWS_ID+'><b class="fa fa-edit"></b></button> <button type="button" style="float:center;" class="btn btn-danger btn-sm" value='+item.NEWS_ID+' onclick=(delData(this))><b class="fa fa-remove"></b></button>'),
+            $('<td align="center" >').html('<button type="button" style="float:center;" class="btn btn-warning btn-sm"  onclick="editData('+item.NEWS_ID+')"><b class="fa fa-edit"></b></button> <button type="button" style="float:center;" class="btn btn-danger btn-sm" onclick=(delData('+item.NEWS_ID+'))><b class="fa fa-remove"></b></button>'),
         ).appendTo('#dataTables-example');
+        // data-toggle="modal" data-target="#myModal"
     });
   } catch (e) {
     return;
@@ -39,33 +38,65 @@ $(function() {
 });
 
 function delData(btn)
-{
-  var link = "<?php echo base_url().'index.php/Backend/deleteNews/';?>"+btn.value;;
-  swal({
-    title: "Are you sure?",
-    text: "Once deleted, you will not be able to recover this imaginary file!",
-    icon: "warning",
-    buttons: true,
-    dangerMode: true,
-    })
-    .then((willDelete) => {
-    if (willDelete) {
-      $.post(link).then
-      swal("Poof! Your imaginary file has been deleted! ", {
-          icon: "success",
-          button: "Ok"
-        }).then(function(){
-          window.location = "<?php echo base_url(). 'index.php/backend/'?>";
-        });
+  {
+    var link = "<?php echo base_url().'index.php/Backend/deleteNews/';?>"+btn.value;
+    swal({
+      title: "ต้องการลบข่าวนี้ จริงหรอ ?",
+      text: "หากลบข่าวนี้ ภาพและไฟล์ของข่าวจะถูกลบออกไปด้วย !",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+      })
+      .then((willDelete) => {
+      if (willDelete) {
+        $.post(link).then
+        swal("ข่าวถูกลบเรียบร้อยแล้ว ! ", {
+            icon: "success",
+            button: "ตกลง"
+          }).then(function(){
+            window.location = "<?php echo base_url(). 'index.php/backend/'?>";
+          });
+        }
+      });
+  }
+
+function editData(id) { //function Edit news [json]
+  //window.location = "<?php //echo base_url().'index.php/Backend/edit/';?>"+btn.value;
+  $('#form-box').removeClass('hide');
+  $('#table_box').addClass('hide');
+  var btnYN = document.getElementById('btn-yes-no');
+  btnYN.className = 'btn btn-danger btn-lg';
+  btnYN.innerHTML = 'Cancel';
+
+  $.getJSON( "./edit/38", function( jsonObj ) {
+    $.each(jsonObj, function(i, item){
+      //console.log(i,item);
+      switch (i) {
+        case 'NEWS':
+        $.each(item, function(i, news){
+          console.log(news);
+          $('#title').val(news.N_TITLE);
+          $('#category').val(news.N_CATEGORY);
+          $('#tag').tagsinput('add',news.N_TAG);
+          console.log(news.N_START_DATE);
+          console.log(Date(news.N_START_DATE));
+          $('#startdate').val(news.N_START_DATE);
+          $('#enddate').val('');
+          myEditor.setData(news.N_CONTENT);//obj-> "myEditor" form newsform.php.
+        }); //loop
+        break;
+        case 'FILES':console.log(item); break;
+        default:
       }
-    });
+          }); // loop
+      });
 
 }
 </script>
 
 <script>
     $(document).ready(function() {
-        $('#dataTables-example').DataTable({
+        $("#dataTables-example").DataTable({
                 responsive: true
         });
     });

@@ -1,10 +1,7 @@
 <script src="<?php echo base_url();?>assets/plugins/ckeditor5-build-classic/ckeditor.js"></script>
 
 <link href="<?php echo base_url();?>assets/plugins/bootstrap/tag/dist/bootstrap-tagsinput.css" rel="stylesheet">
-
-<script src="<?php echo base_url();?>assets/plugins/bootstrap/tag/dist/bootstrap-tagsinput.min.js"></script>
-<script src="<?php echo base_url();?>assets/plugins/bootstrap/tag/dist/bootstrap-tagsinput-angular.min.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 
 <div class="col-md-12">
   <!-- action="createnews"  -->
@@ -13,11 +10,11 @@
       <div class="col-md-5 col-md-offset-1">
           <div class="form-group">
             <label>หัวข้อ</label>
-            <input required class="form-control" type="text" name="title" placeholder="กรุณากรอกชื่อหัวข้อข่าว">
+            <input required id="title" class="form-control" type="text" name="title" placeholder="กรุณากรอกชื่อหัวข้อข่าว">
           </div>
           <div class="form-group">
             <label>หมวดหมู่</label>
-            <input required class="form-control" type="text" list="browsers" name="category" placeholder="กรุณาเลือกหมวดหมู่" >
+            <input required id="category" class="form-control" type="text" list="browsers" name="category" placeholder="กรุณาเลือกหมวดหมู่" >
             <datalist id="browsers">
               <option value="Internet Explorer">
               <option value="Firefox">
@@ -28,7 +25,7 @@
           </div>
           <div class="form-group">
             <label>Tag</label>
-            <input type="text" name="tagNews" value="" placeholder="tag" data-role="tagsinput" />
+            <input type="text" id="tag" name="tagNews" value="" data-role="tagsinput">
           </div>
           <div class="form-group col-md-6" style="padding-right:15px">
               <label>วันเริ่มต้น</label>
@@ -36,7 +33,7 @@
           </div>
           <div class="form-group col-md-6" >
               <label>วันสิ้นสุด</label>
-              <input required id="enddate" type="date" name="enddate" min="<?php echo date("Y-m-d")?>" class="form-control" >
+              <input required id="enddate" type="date" name="enddate" min="<?php echo date("Y-m-d")?>" max="<?php echo date('Y-m-d', strtotime('+5 years', strtotime(date("Y-m-d"))))?>" class="form-control" >
               <input type="checkbox" id="unlimit" value="unlimit">ไม่สิ้นสุด
           </div>
       </div>
@@ -66,10 +63,11 @@
     </div>
     <div class="col-md-10 col-md-offset-1">
       <button id="submidNews"  type="submit" class="btn btn-success" style="float:right">บันทึก</button>
-        <!-- formaction="<?php //echo base_url();?>index.php/backend/createnews" -->
     </div>
   </form>
 </div>
+<script src="<?php echo base_url();?>assets/plugins/bootstrap/tag/dist/bootstrap-tagsinput.min.js"></script>
+<script src="<?php echo base_url();?>assets/plugins/bootstrap/tag/dist/bootstrap-tagsinput-angular.min.js"></script>
 
 
 <script type="text/javascript">

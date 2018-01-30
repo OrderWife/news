@@ -86,15 +86,15 @@
                                     <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                                       <div class="row">
                                          <div class=".col-xs-12 .col-md-8">
-                                              <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+                                              <table class="table dataTable no-footer" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
                                                 <thead>
                                                     <tr role="row">
-                                                      <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 99px;">Catgory</th>
-                                                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 122;">Title</th>
-                                                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 80px;">Start Date</th>
-                                                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 80px;">End Date</th>
-                                                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 80px;">Last Edit</th>
-                                                      <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 62px;">Edit News</th>
+                                                      <th class="" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 99px;">Catgory</th>
+                                                      <th class="" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 80px;">Title</th>
+                                                      <th class="" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 90px;">Start Date</th>
+                                                      <th class="" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 90px;">End Date</th>
+                                                      <th class="" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 90px;">Last Edit</th>
+                                                      <th class="" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 90px;">Edit News</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -113,6 +113,26 @@
                               <div class="hide" id="form-box">
                                   <?php $this->load->view('backendview\newsform');?>
                               </div>
+
+          <!-- Modal -->
+          <!-- <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                      <?php //$this->load->view('backendview\newsform');?>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+              </div>
+
+            </div>
+          </div> -->
+          <!-- /.Modal -->
 
                             </div>
                             <!-- /.panel-body -->
@@ -138,13 +158,14 @@
     var box = document.getElementById('news');
     var btnYN = document.getElementById('btn-yes-no');
     var classN = boxTable.className;
-    if(classN == 'hide')
+    if(classN == 'hide' || btnYN.innerHTML == 'Cancel')
     {
       btnYN.className = 'btn btn-success btn-lg';
       btnYN.innerHTML = 'Create News'
       boxTable.className = '';
       $('#showimg').addClass('hide');
       box.reset();
+      $('#tag').tagsinput('removeAll');
       boxForm.className  = 'hide';
     }else{
       btnYN.className = 'btn btn-danger btn-lg';

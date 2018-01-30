@@ -8,7 +8,6 @@ class Backend extends CI_Controller {
 				parent::__construct();
 				$this->load->model('News_Model');
 				$this->load->library('session');
-				$this->load->view('backendview\include\include_v');
 
 		}
 
@@ -31,46 +30,49 @@ class Backend extends CI_Controller {
 		}
 
 	public function createnews()
-	{
-			$imgname = 'null';
-			if(!$_FILES['imgUp']['size'] == 0 && $_FILES['imgUp']['error'] == 0){
-				echo "<br>imgUp have file.<br>";
-				$imgname  = $this->upload_img();//$_FILES['imgUp']
-			}else {
-				echo "<br>imgUp empty.<br>";
-			}
+		{
+				$imgname = 'null';
+				if(!$_FILES['imgUp']['size'] == 0 && $_FILES['imgUp']['error'] == 0){
+					echo "<br>imgUp have file.<br>";
+					$imgname  = $this->upload_img();//$_FILES['imgUp']
+				}else {
+					echo "<br>imgUp empty.<br>";
+				}
 
-			$dataofnews = array(
-				'PID'           => 1,//$this->session->userdata('pid'),
-				'N_TITLE'       => $this->input->post('title'),
-				'N_CATEGORY'    => $this->input->post('category'),
-				'N_IMG'         => $imgname,
-				'N_CONTENT'     => $this->input->post('content'),
-				'N_START_DATE'  => $this->functodateOra($this->input->post('startdate')),
-				'N_END_DATE'    => $this->functodateOra($this->input->post('enddate')),
-			);
+				$dataofnews = array(
+					'PID'           => 1,//$this->session->userdata('pid'),
+					'N_TITLE'       => $this->input->post('title'),
+					'N_CATEGORY'    => $this->input->post('category'),
+					'N_TAG'    			=> $this->input->post('tagNews'),
+					'N_IMG'         => $imgname,
+					'N_CONTENT'     => $this->input->post('content'),
+					'N_START_DATE'  => $this->functodateOra($this->input->post('startdate')),
+					'N_END_DATE'    => $this->functodateOra($this->input->post('enddate')),
+				);
 
-			$idnews = $this->News_Model->insertnews($dataofnews);
-			$this->lastNewsId = $idnews-1;
+				$idnews = $this->News_Model->insertnews($dataofnews);
+				$this->lastNewsId = $idnews-1;
 
-			if(!$_FILES['fileUp']['size'][0] == 0 ){
-				echo "<br>fileUp have file.<br>";
-				$this->upload_files($_FILES['fileUp']);
-			}else{
-				echo "<br>fileUp empty.<br>";
-			}
-	}
-	private function functodateOra($date)
-	{
-		if($date){
-			$ed = strtotime($date);
-			$returndate = date('d-m-Y',$ed);
-		}else{
-			$returndate = null;
+				if(!$_FILES['fileUp']['size'][0] == 0 ){
+					//echo "<br>fileUp have file.<br>";
+					$this->upload_files($_FILES['fileUp']);
+				}else{
+					//echo "<br>fileUp empty.<br>";
+				}
+				//echo json_encode($dataofnews);
+
+				redirect('./backend/');
 		}
-		return $returndate;
-	}
-
+	private function functodateOra($date)
+		{
+			if($date){
+				$ed = strtotime($date);
+				$returndate = date('d-m-Y',$ed);
+			}else{
+				$returndate = null;
+			}
+			return $returndate;
+		}
 	private function upload_files($formfiles){
 
 		$config['upload_path']          = './upload/';
@@ -110,49 +112,56 @@ class Backend extends CI_Controller {
 										'N_ORIGNAME' => $data['upload_data']['orig_name'],
 										);
 									$this->db->insert('TBL_FILENEWS', $file);
-									echo '<br> json data of file'.json_encode($data);
 
 					}
 
 			}
 
 	}
-
 	private function upload_img()//$imgfile
-	{
+		{
 
-			$config['upload_path']          = './upload/';
-			$config['allowed_types']        = 'jpg|jpeg|png|gif';
-			$config['max_size']             = 0;
-			$config['max_width']            = 0;
-			$config['max_height']           = 0;
-			//$config['max_size']             = 10000000;
-			$config['encrypt_name']         = true;
+				$config['upload_path']          = './upload/';
+				$config['allowed_types']        = 'jpg|jpeg|png|gif';
+				$config['max_size']             = 0;
+				$config['max_width']            = 0;
+				$config['max_height']           = 0;
+				//$config['max_size']             = 10000000;
+				$config['encrypt_name']         = true;
 
-			$this->load->library('upload', $config);
-			$this->upload->initialize($config);
-			if ( ! $this->upload->do_upload('imgUp')) //default 'imgUp'
-			{
-							$error = array('error' => $this->upload->display_errors());
-							echo "error" . json_encode($error);
-							//echo '<br> json data of file'.json_encode($imgfile);
-							return 'null';
-			}
-			else
-			{
-							$data = array('upload_data' => $this->upload->data()); //store data of img
-							echo '<br> json data of img'.json_encode($data);
-							return $data['upload_data']['file_name'];
-			}
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				if ( ! $this->upload->do_upload('imgUp')) //default 'imgUp'
+				{
+								$error = array('error' => $this->upload->display_errors());
+								echo "error" . json_encode($error);
+								return 'null';
+				}
+				else
+				{
+								$data = array('upload_data' => $this->upload->data()); //store data of img
+								echo '<br> json data of img'.json_encode($data);
+								return $data['upload_data']['file_name'];
+				}
 
-	}
-
+		}
 	public function deleteNews($idnews){
 		$data = array( 'NEWS_ID' => $idnews);
 		$this->News_Model->delNews($data);
 		redirect('backend\news');
 	}
+	public function delfileimg($filename){
+			@unlink('./upload/'.$filename) or die ('No such file or directory') ;
+	}
 
+
+	public function edit($id)
+	{
+		$id = array('NEWS_ID' => $id);
+		$json = $this->News_Model->selectNewsEdit($id);
+		header('Content-Type: application/json');
+		echo json_encode($json);
+	}
 
 	public function FuncRandom($range)
 		{
@@ -181,6 +190,4 @@ class Backend extends CI_Controller {
 			fclose($myfile);
 			echo "finish";
 			}
-
-
 }

@@ -19,6 +19,7 @@ class News_Model extends CI_Model {
     $this->db->set('PID', $data['PID']);
     $this->db->set('N_TITLE', $data['N_TITLE']);
     $this->db->set('N_CATEGORY', $data['N_CATEGORY']);
+    $this->db->set('N_TAG', $data['N_TAG']);
     $this->db->set('N_IMG', $data['N_IMG']);
     $this->db->set('N_CONTENT', $data['N_CONTENT']);
     $this->db->set('N_START_DATE',"to_date('".$data['N_START_DATE']."','dd/mm/yyyy')",false);
@@ -46,26 +47,37 @@ class News_Model extends CI_Model {
 
   public function delfile($idfile)//$idfile is array( 'ID_FILE' => $id_file). not test.
   {
-    $query = $this->db->get_where('TBL_NEWS',$idfile);
+    $query = $this->db->get_where('TBL_FILENEWS',$idfile);
       foreach ($query->result() as $row) {
-          $filename = $row->N_FILE;
+          unlink ( './upload/'.$row->N_FILE );
         }
-
-    $isdel  =  unlink ( './upload/'.$filename );
-
-    if($this->db->delete('TBL_FILENEWS', $idfile) && $isdel){
-      return true;
+    if($this->db->delete('TBL_FILENEWS', $idfile)){
+      return 'success';
     }else{
-      return false;
+      return 'error';
     }
   }
 
   public function delNews($idnews)//$idfile is array( 'ID_FILE' => $id_news).
   {
-    $this->db->delete('TBL_NEWS', $idnews);
+    $query = $this->db->get_where('TBL_FILENEWS',$idnews);
+      foreach ($query->result() as $row) {
+          @unlink ( './upload/'.$row->N_FILE );
+        }
+    $query = $this->db->get_where('TBL_NEWS',$news_ID);
+      foreach ($query->result() as $row) {
+        if (!$row->N_IMG == 'null') {
+          @unlink ( './upload/'.$row->N_IMG);
+        }
+      }
+    if($this->db->delete('TBL_NEWS', $idnews)){
+      return 'success';
+    }else{
+      return 'error';
+    }
   }
 
-  public function editNews($news_ID, $data)//not test.
+  public function UpdateNews($news_ID, $data)//not test.
   {
     $this->db->where('NEWS_ID', $news_ID);
     $this->db->update('TBL_NEWS', $data);
@@ -73,7 +85,15 @@ class News_Model extends CI_Model {
 
   public function selectNewsEdit($news_ID)// $news_ID => array('NEWS_ID' => news_id). not test.
   {
-    $this->db->get_where('TBL_NEWS',$news_ID);
+    //Query News join file.
+    //$query = $this->db->query("SELECT * FROM ".'TBL_NEWS'." FULL JOIN ".'TBL_FILENEWS'." ON TBL_FILENEWS.NEWS_ID=TBL_NEWS.NEWS_ID  WHERE TBL_NEWS.NEWS_ID = '".$news_ID['NEWS_ID']."'");
+    $news = $this->db->get_where('TBL_NEWS',$news_ID);
+    $files = $this->db->get_where('TBL_FILENEWS',$news_ID);
+    $query = array(
+      'NEWS'    => $news->result(),
+      'FILES'   => $files->result(),
+    );
+    return $query;
   }
 
 }
