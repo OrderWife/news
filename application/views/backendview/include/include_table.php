@@ -15,6 +15,7 @@
 <link href="<?php echo base_url();?>assets/startmin-master/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script src="<?php echo base_url()."assets/plugins/dateformat/date.format.js"?>"></script>
 
 <script type="text/javascript">
 
@@ -60,32 +61,37 @@ function delData(btn)
       });
   }
 
-function editData(id) { //function Edit news [json]
-  //window.location = "<?php //echo base_url().'index.php/Backend/edit/';?>"+btn.value;
+function editData(id) {
   $('#form-box').removeClass('hide');
   $('#table_box').addClass('hide');
   var btnYN = document.getElementById('btn-yes-no');
   btnYN.className = 'btn btn-danger btn-lg';
   btnYN.innerHTML = 'Cancel';
 
-  $.getJSON( "./edit/38", function( jsonObj ) {
+  $.getJSON( "./edit/"+id, function( jsonObj ) {
     $.each(jsonObj, function(i, item){
-      //console.log(i,item);
       switch (i) {
         case 'NEWS':
-        $.each(item, function(i, news){
-          console.log(news);
-          $('#title').val(news.N_TITLE);
-          $('#category').val(news.N_CATEGORY);
-          $('#tag').tagsinput('add',news.N_TAG);
-          console.log(news.N_START_DATE);
-          console.log(Date(news.N_START_DATE));
-          $('#startdate').val(news.N_START_DATE);
-          $('#enddate').val('');
-          myEditor.setData(news.N_CONTENT);//obj-> "myEditor" form newsform.php.
+          $.each(item, function(i, news){
+            //console.log(news);
+            $('#title').val(news.N_TITLE);
+            $('#category').val(news.N_CATEGORY);
+            $('#tag').tagsinput('add',news.N_TAG);
+            //console.log(news.N_TAG);
+            $('#startdate').val(news.START_DATE);
+            $('#enddate').val(news.END_DATE);
+            myEditor.setData(news.N_CONTENT);//obj-> "myEditor" form newsform.php.
+            if(news.N_IMG!='null'){
+              $("#showimg").removeClass('hide');
+              $("#blah").attr('src','<?php echo base_url()?>upload/'+news.N_IMG).width(300).height(200);
+            }
         }); //loop
         break;
-        case 'FILES':console.log(item); break;
+        case 'FILES': console.log(item);
+            $.each(item, function(i, files){
+              console.log(files);
+            });
+        break;
         default:
       }
           }); // loop

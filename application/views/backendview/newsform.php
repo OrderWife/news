@@ -40,10 +40,10 @@
       <div class="col-md-5 col-md-offset-1">
         <div class="form-group">
             <label>ภาพ</label>
-            <div id="showimg" class="hide"  style="background-color: lightgrey; width: 200px; height:200px; ">
+            <div id="showimg" class="hide"  style="background-color: lightgrey; width: 250px; height:200px; ">
               <img style="float:center" id="blah" src="#" alt="your image" />
             </div><br>
-            <input type="file" name="imgUp" accept=".jpg, .jpeg, .png, .gif, .bmp" onchange="readURL(this);">
+            <input class="btn btn-info btn-xs" id="inputImg" type="file" name="imgUp" accept=".jpg, .jpeg, .png, .gif, .bmp" onchange="readURL(this);">
         </div>
       </div>
     </div>
@@ -58,7 +58,7 @@
         เพิ่มไฟล์: <input type="file" id="file" name="fileUp[]" accept=".pdf, .zip, .rar" multiple onchange="updateList()">
         <br/>
         <p>ไฟล์ที่เลือก:</p>
-        <div id="fileList"></div>
+        <div class="panel-body" id="fileList"></div>
       </div>
     </div>
     <div class="col-md-10 col-md-offset-1">
@@ -71,6 +71,36 @@
 
 
 <script type="text/javascript">
+    document.getElementById("file").onchange = function(){
+        var inputFiles = document.getElementById("file");
+        if (inputFiles.files.length < 1) {
+          return;
+        }
+        //console.log(inputFiles.files.length);
+        if (inputFiles.files.length > 10) {
+          swal({
+            title: "คุณเลือกไฟล์นำเข้ามากเกินกว่าที่ระบบได้กำหนดไว้ !!",
+            text: "คุณสามารถนำไฟล์เข้าสู่ระบบได้มากสุด 10 ไฟล์ !",
+            icon: "warning",
+            buttons: "เข้าใจแล้ว ^_^!",
+          });
+            inputFiles.value = null;
+        }else{
+          var input = document.getElementById('file');
+          var output = document.getElementById('fileList');
+          document.getElementById('fileList').innerHTML = "";
+          //console.log(input.files);
+          //output.innerHTML = '<ul>';
+          //console.log(input.files.item(0));
+          for (var i = 0; i < input.files.length; ++i) {
+            output.innerHTML += '<div class="alert alert-info">' + input.files.item(i).name +'  <button style="float:right" type="button" class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></button></div>';
+
+          }
+          // console.log(input.files);
+
+          //output.innerHTML += '</ul>';
+        }
+    };
   ClassicEditor.create(document.querySelector( '#editor' ))
              .then( editor => {
                       //console.log( 'Editor was initialized', editor );
@@ -111,21 +141,25 @@
             var reader = new FileReader();
 
             reader.onload = function (e) {
+              console.log(e);
                 $('#showimg').removeClass('hide');
                 $('#blah')
                     .attr('src', e.target.result)
-                    .width(200)
+                    .width(250)
                     .height(200);
             };
 
             reader.readAsDataURL(input.files[0]);
 
-
         }else if(input.files && input.files[0] && !isImage(input.files[0].name)) {
           alert("Please enter imamge file type (jpg, png, gif, bmp)");
-          input.value='';
+          //input.value='';
           $('#showimg').addClass('hide');
           return;
+        }
+
+        if (input.files.length==0) {
+          $('#showimg').addClass('hide');
         }
 
     }
@@ -147,27 +181,5 @@
         }
         return false;
     }
-
-    updateList = function() {
-      var input = document.getElementById('file');
-      var output = document.getElementById('fileList');
-
-      output.innerHTML = '<ul>';
-      for (var i = 0; i < input.files.length; ++i) {
-        output.innerHTML += '<li>' + input.files.item(i).name + '</li>';
-      }
-      output.innerHTML += '</ul>';
-    }
-    function updateList() {
-    var input = document.getElementById('file');
-    var output = document.getElementById('fileList');
-    document.getElementById('fileList').innerHTML = "";
-
-    output.innerHTML = '<ul>';
-    for (var i = 0; i < input.files.length; ++i) {
-      output.innerHTML += '<li>' + input.files.item(i).name + '</li>';
-    }
-    output.innerHTML += '</ul>';
-  }
 
 </script>

@@ -86,8 +86,8 @@ class News_Model extends CI_Model {
   public function selectNewsEdit($news_ID)// $news_ID => array('NEWS_ID' => news_id). not test.
   {
     //Query News join file.
-    //$query = $this->db->query("SELECT * FROM ".'TBL_NEWS'." FULL JOIN ".'TBL_FILENEWS'." ON TBL_FILENEWS.NEWS_ID=TBL_NEWS.NEWS_ID  WHERE TBL_NEWS.NEWS_ID = '".$news_ID['NEWS_ID']."'");
-    $news = $this->db->get_where('TBL_NEWS',$news_ID);
+    $news = $this->db->query("SELECT PID, N_TITLE, N_CATEGORY, N_IMG, N_TAG, N_CONTENT, TO_CHAR(N_START_DATE,'YYYY-MM-DD') as START_DATE,TO_CHAR(N_END_DATE,'YYYY-MM-DD') as END_DATE, 'N_LAST_EDIT', 'N_TAG'
+      FROM TBL_NEWS WHERE NEWS_ID =". $news_ID['NEWS_ID']);
     $files = $this->db->get_where('TBL_FILENEWS',$news_ID);
     $query = array(
       'NEWS'    => $news->result(),
