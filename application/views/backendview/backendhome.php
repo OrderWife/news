@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="app" flow-init>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-
+        <script src="<?php echo base_url();?>assets/plugins/angular/angular.js"></script>
+        <script src="<?php echo base_url();?>assets/ng-flow-master/dist/ng-flow-standalone.js"></script>
+        <script src="<?php echo base_url();?>assets/ng-flow-master/agular_app/app.js"></script>
         <title>NHSO BACKEND</title>
-
     </head>
     <body>
-
         <div id="wrapper">
-
             <!-- Navigation -->
             <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                 <div class="navbar-header">
@@ -71,6 +70,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class=".col-xs-12 .col-md-8">
+                            <!-- <h1><?php echo base_url(); ?></h1> -->
                             <h1 class="page-header">Update News
                               <button id="btn-yes-no" type="button" style="float:right;" class="btn btn-success btn-lg" onclick="showform()">Create News</button>
                             </h1>

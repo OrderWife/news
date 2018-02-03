@@ -15,6 +15,7 @@ class Backend extends CI_Controller {
 	public function index()
 	{
 		redirect('backend\news');
+
 	}
 
 	public function news()
@@ -33,10 +34,10 @@ class Backend extends CI_Controller {
 		{
 				$imgname = 'null';
 				if(!$_FILES['imgUp']['size'] == 0 && $_FILES['imgUp']['error'] == 0){
-					echo "<br>imgUp have file.<br>";
+					//echo "<br>imgUp have file.<br>";
 					$imgname  = $this->upload_img();//$_FILES['imgUp']
 				}else {
-					echo "<br>imgUp empty.<br>";
+					//echo "<br>imgUp empty.<br>";
 				}
 
 				$dataofnews = array(
@@ -145,6 +146,12 @@ class Backend extends CI_Controller {
 				}
 
 		}
+
+	public function upload(){
+
+	}
+
+
 	public function deleteNews($idnews){
 		$data = array( 'NEWS_ID' => $idnews);
 		$this->News_Model->delNews($data);

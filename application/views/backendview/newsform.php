@@ -3,6 +3,7 @@
 <link href="<?php echo base_url();?>assets/plugins/bootstrap/tag/dist/bootstrap-tagsinput.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 
+
 <div class="col-md-12">
   <!-- action="createnews"  -->
   <form action="createnews" class="" id="news" enctype="multipart/form-data" method="post">
@@ -54,11 +55,18 @@
         <textarea name="content" id="editor">
         </textarea>
       </div>
-      <br>
-        เพิ่มไฟล์: <input type="file" id="file" name="fileUp[]" accept=".pdf, .zip, .rar" multiple onchange="updateList()">
+        <!-- เพิ่มไฟล์: <input type="file" id="file" name="fileUp[]" accept=".pdf, .zip, .rar" multiple onchange="updateList()"> -->
+        <span class="btn btn-default btn" flow-btn flow-files-submitted="$flow.upload()"><i class="fa fa-file"></i>Upload File</span>
         <br/>
         <p>ไฟล์ที่เลือก:</p>
-        <div class="panel-body" id="fileList"></div>
+        <div class="panel-body" id="fileList" flow-transfers>
+          <div class="alert alert-info" ng-repeat="file in transfers">{{$index+1}}. {{file.name}}
+            <button style="float:right; padding:3px; margin:3px;" type="button" class="btn btn-danger btn-xs" ng-click="file.retry()" ng-show="file.error"></i></button>
+            <button style="float:right; padding:3px; margin:3px;" type="button" class="btn btn-danger btn-xs" ng-click="file.cancel()"><i class="fa fa-remove"></i></button>
+            <button style="float:right; padding:3px; margin:3px;" type="button" class="btn btn-primary btn-xs" ng-click="file.pause()" ng-hide="file.paused"><i class="fa fa-pause"></i></button>
+            <button style="float:right; padding:3px; margin:3px;" type="button" class="btn btn-primary btn-xs" ng-click="file.resume()" ng-show="file.paused"><i class="fa fa-play"></i></button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-md-10 col-md-offset-1">
@@ -71,36 +79,36 @@
 
 
 <script type="text/javascript">
-    document.getElementById("file").onchange = function(){
-        var inputFiles = document.getElementById("file");
-        if (inputFiles.files.length < 1) {
-          return;
-        }
-        //console.log(inputFiles.files.length);
-        if (inputFiles.files.length > 10) {
-          swal({
-            title: "คุณเลือกไฟล์นำเข้ามากเกินกว่าที่ระบบได้กำหนดไว้ !!",
-            text: "คุณสามารถนำไฟล์เข้าสู่ระบบได้มากสุด 10 ไฟล์ !",
-            icon: "warning",
-            buttons: "เข้าใจแล้ว ^_^!",
-          });
-            inputFiles.value = null;
-        }else{
-          var input = document.getElementById('file');
-          var output = document.getElementById('fileList');
-          document.getElementById('fileList').innerHTML = "";
-          //console.log(input.files);
-          //output.innerHTML = '<ul>';
-          //console.log(input.files.item(0));
-          for (var i = 0; i < input.files.length; ++i) {
-            output.innerHTML += '<div class="alert alert-info">' + input.files.item(i).name +'  <button style="float:right" type="button" class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></button></div>';
-
-          }
-          // console.log(input.files);
-
-          //output.innerHTML += '</ul>';
-        }
-    };
+    // document.getElementById("file").onchange = function(){
+    //     var inputFiles = document.getElementById("file");
+    //     if (inputFiles.files.length < 1) {
+    //       return;
+    //     }
+    //     //console.log(inputFiles.files.length);
+    //     if (inputFiles.files.length > 10) {
+    //       swal({
+    //         title: "คุณเลือกไฟล์นำเข้ามากเกินกว่าที่ระบบได้กำหนดไว้ !!",
+    //         text: "คุณสามารถนำไฟล์เข้าสู่ระบบได้มากสุด 10 ไฟล์ !",
+    //         icon: "warning",
+    //         buttons: "เข้าใจแล้ว ^_^!",
+    //       });
+    //         inputFiles.value = null;
+    //     }else{
+    //       var input = document.getElementById('file');
+    //       var output = document.getElementById('fileList');
+    //       document.getElementById('fileList').innerHTML = "";
+    //       //console.log(input.files);
+    //       //output.innerHTML = '<ul>';
+    //       //console.log(input.files.item(0));
+    //       for (var i = 0; i < input.files.length; ++i) {
+    //         output.innerHTML += '<div class="alert alert-info">' + input.files.item(i).name +'  <button style="float:right" type="button" class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></button></div>';
+    //
+    //       }
+    //       // console.log(input.files);
+    //
+    //       //output.innerHTML += '</ul>';
+    //     }
+    // };
   ClassicEditor.create(document.querySelector( '#editor' ))
              .then( editor => {
                       //console.log( 'Editor was initialized', editor );
