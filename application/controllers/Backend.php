@@ -147,9 +147,9 @@ class Backend extends CI_Controller {
 
 		}
 
-	public function upload(){
-
-	}
+	// public function upload(){
+  //
+	// }
 
 
 	public function deleteNews($idnews){

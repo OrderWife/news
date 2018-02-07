@@ -2,6 +2,10 @@
 
 <link href="<?php echo base_url();?>assets/plugins/bootstrap/tag/dist/bootstrap-tagsinput.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="<?php echo base_url();?>assets/jQueryFileUpload/js/vendor/jquery.ui.widget.js"></script>
+<script src="<?php echo base_url();?>assets/jQueryFileUpload/js/jquery.iframe-transport.js"></script>
+<script src="<?php echo base_url();?>assets/jQueryFileUpload/js/jquery.fileupload.js"></script>
 
 
 <div class="col-md-12">
@@ -55,18 +59,15 @@
         <textarea name="content" id="editor">
         </textarea>
       </div>
-        <!-- เพิ่มไฟล์: <input type="file" id="file" name="fileUp[]" accept=".pdf, .zip, .rar" multiple onchange="updateList()"> -->
-        <span class="btn btn-default btn" flow-btn flow-files-submitted="$flow.upload()"><i class="fa fa-file"></i>Upload File</span>
-        <br/>
-        <p>ไฟล์ที่เลือก:</p>
-        <div class="panel-body" id="fileList" flow-transfers>
-          <div class="alert alert-info" ng-repeat="file in transfers">{{$index+1}}. {{file.name}}
-            <button style="float:right; padding:3px; margin:3px;" type="button" class="btn btn-danger btn-xs" ng-click="file.retry()" ng-show="file.error"></i></button>
-            <button style="float:right; padding:3px; margin:3px;" type="button" class="btn btn-danger btn-xs" ng-click="file.cancel()"><i class="fa fa-remove"></i></button>
-            <button style="float:right; padding:3px; margin:3px;" type="button" class="btn btn-primary btn-xs" ng-click="file.pause()" ng-hide="file.paused"><i class="fa fa-pause"></i></button>
-            <button style="float:right; padding:3px; margin:3px;" type="button" class="btn btn-primary btn-xs" ng-click="file.resume()" ng-show="file.paused"><i class="fa fa-play"></i></button>
-          </div>
-        </div>
+      <br>
+        <!-- เพิ่มไฟล์: -->
+        <!-- <input type="file" id="file" name="fileUp[]" accept=".pdf, .zip, .rar" multiple> -->
+        <!-- <input id="file" type="file" name="files[]" accept=".pdf, .zip, .rar" multiple> -->
+        <!-- onchange="updateList()" -->
+        <!-- <br/> -->
+        <!-- <p>ไฟล์ที่เลือก:</p> -->
+        <!-- <div class="panel-body" id="fileList"></div> -->
+        <!-- <div class="panel-body" id="updateList"></div> -->
       </div>
     </div>
     <div class="col-md-10 col-md-offset-1">
@@ -109,6 +110,7 @@
     //       //output.innerHTML += '</ul>';
     //     }
     // };
+
   ClassicEditor.create(document.querySelector( '#editor' ))
              .then( editor => {
                       //console.log( 'Editor was initialized', editor );
@@ -190,4 +192,17 @@
         return false;
     }
 
+</script>
+
+<script type="text/javascript">
+$(function () {
+  $('#file').fileupload({
+      dataType: 'json',
+      done: function (e, data) {
+          $.each(data.result.files, function (index, file) {
+              $('<p/>').text(file.name).appendTo(document.body);
+          });
+      }
+  });
+});
 </script>
