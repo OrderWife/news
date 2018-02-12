@@ -1,18 +1,26 @@
 <script src="<?php echo base_url();?>assets/plugins/ckeditor5-build-classic/ckeditor.js"></script>
-
 <link href="<?php echo base_url();?>assets/plugins/bootstrap/tag/dist/bootstrap-tagsinput.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
-<script src="<?php echo base_url();?>assets/jQueryFileUpload/js/vendor/jquery.ui.widget.js"></script>
-<script src="<?php echo base_url();?>assets/jQueryFileUpload/js/jquery.iframe-transport.js"></script>
-<script src="<?php echo base_url();?>assets/jQueryFileUpload/js/jquery.fileupload.js"></script>
-
+<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"> -->
+<link href="<?php echo base_url();?>assets/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css"/> -->
+<link href="<?php echo base_url();?>assets/bootstrap-fileinput/themes/explorer-fa/theme.css" media="all" rel="stylesheet" type="text/css"/>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+<script src="<?php echo base_url();?>assets/bootstrap-fileinput/js/plugins/sortable.js" type="text/javascript"></script>
+<script src="<?php echo base_url();?>assets/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
+<script src="<?php echo base_url();?>assets/bootstrap-fileinput/js/locales/fr.js" type="text/javascript"></script>
+<script src="<?php echo base_url();?>assets/bootstrap-fileinput/js/locales/es.js" type="text/javascript"></script>
+<script src="<?php echo base_url();?>assets/bootstrap-fileinput/themes/explorer-fa/theme.js" type="text/javascript"></script>
+<script src="<?php echo base_url();?>assets/bootstrap-fileinput/themes/fa/theme.js" type="text/javascript"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" type="text/javascript"></script> -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" type="text/javascript"></script> -->
 
 <div class="col-md-12">
   <!-- action="createnews"  -->
-  <form action="createnews" class="" id="news" enctype="multipart/form-data" method="post">
-    <div class="col-md-12" >
-      <div class="col-md-5 col-md-offset-1">
+  <form action="" class="" id="news" enctype="multipart/form-data" method="post">
+    <div class="row" >
+      <div class="col-md-8">
           <div class="form-group">
             <label>หัวข้อ</label>
             <input required id="title" class="form-control" type="text" name="title" placeholder="กรุณากรอกชื่อหัวข้อข่าว">
@@ -42,32 +50,40 @@
               <input type="checkbox" id="unlimit" value="unlimit">ไม่สิ้นสุด
           </div>
       </div>
-      <div class="col-md-5 col-md-offset-1">
+      <div class="col-md-4">
         <div class="form-group">
             <label>ภาพ</label>
             <div id="showimg" class="hide"  style="background-color: lightgrey; width: 250px; height:200px; ">
-              <img style="float:center" id="blah" src="#" alt="your image" />
+            <img style="float:center" id="blah" src="#" alt="your image" />
             </div><br>
-            <input class="btn btn-info btn-xs" id="inputImg" type="file" name="imgUp" accept=".jpg, .jpeg, .png, .gif, .bmp" onchange="readURL(this);">
+            <input class="btn btn-info btn-xs" id="inputImg" type="file" name="imgUp" accept=".jpg, .jpeg, .png, .gif, .bmp" onchange="readURL(this);"/>
         </div>
       </div>
     </div>
-    <div class="col-md-10 col-md-offset-1">
+    <div class="col-md-12">
       <div class="form-group" >
-        <label><h4>เนื้อหา</h4></label>
+        <label><h4>เนื้อหาข่าว</h4></label>
         <font id="valid" class="hide" style="color:red">กรุณาเพิ่มเนื้อหา</font>
         <textarea name="content" id="editor">
         </textarea>
       </div>
       <br>
         <!-- เพิ่มไฟล์: -->
-        <!-- <input type="file" id="file" name="fileUp[]" accept=".pdf, .zip, .rar" multiple> -->
-        <!-- <input id="file" type="file" name="files[]" accept=".pdf, .zip, .rar" multiple> -->
-        <!-- onchange="updateList()" -->
+        <!-- <input type="file" id="file" name="fileUp[]" accept=".pdf, .zip, .rar" onchange="updateList()" multiple> -->
+        <!-- <input  id="file" type="file" name="files[]" accept=".pdf, .zip, .rar" multiple> -->
         <!-- <br/> -->
         <!-- <p>ไฟล์ที่เลือก:</p> -->
         <!-- <div class="panel-body" id="fileList"></div> -->
         <!-- <div class="panel-body" id="updateList"></div> -->
+        <!-- <div class="file-loading">
+            <input id="file" class="file" type="file" accept=".pdf, .zip, .rar" multiple>
+        </div> -->
+        <div id="uploadTips" class="form-group col-md-12">
+          <div class="file-loading">
+              <label>Preview File</label>
+              <input id="file" type="file" name="fileUp[]" accept=".pdf, .zip, .rar" multiple>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-md-10 col-md-offset-1">
@@ -80,36 +96,36 @@
 
 
 <script type="text/javascript">
-    // document.getElementById("file").onchange = function(){
-    //     var inputFiles = document.getElementById("file");
-    //     if (inputFiles.files.length < 1) {
-    //       return;
-    //     }
-    //     //console.log(inputFiles.files.length);
-    //     if (inputFiles.files.length > 10) {
-    //       swal({
-    //         title: "คุณเลือกไฟล์นำเข้ามากเกินกว่าที่ระบบได้กำหนดไว้ !!",
-    //         text: "คุณสามารถนำไฟล์เข้าสู่ระบบได้มากสุด 10 ไฟล์ !",
-    //         icon: "warning",
-    //         buttons: "เข้าใจแล้ว ^_^!",
-    //       });
-    //         inputFiles.value = null;
-    //     }else{
-    //       var input = document.getElementById('file');
-    //       var output = document.getElementById('fileList');
-    //       document.getElementById('fileList').innerHTML = "";
-    //       //console.log(input.files);
-    //       //output.innerHTML = '<ul>';
-    //       //console.log(input.files.item(0));
-    //       for (var i = 0; i < input.files.length; ++i) {
-    //         output.innerHTML += '<div class="alert alert-info">' + input.files.item(i).name +'  <button style="float:right" type="button" class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></button></div>';
-    //
-    //       }
-    //       // console.log(input.files);
-    //
-    //       //output.innerHTML += '</ul>';
-    //     }
-    // };
+    document.getElementById("file").onchange = function(){
+        var inputFiles = document.getElementById("file");
+        if (inputFiles.files.length < 1) {
+          return;
+        }
+        //console.log(inputFiles.files.length);
+        if (inputFiles.files.length > 10) {
+          swal({
+            title: "คุณเลือกไฟล์นำเข้ามากเกินกว่าที่ระบบได้กำหนดไว้ !!",
+            text: "คุณสามารถนำไฟล์เข้าสู่ระบบได้มากสุด 10 ไฟล์ !",
+            icon: "warning",
+            buttons: "เข้าใจแล้ว ^_^!",
+          });
+            inputFiles.value = null;
+        }else{
+          // var input = document.getElementById('file');
+          // var output = document.getElementById('fileList');
+          // document.getElementById('fileList').innerHTML = "";
+          // //console.log(input.files);
+          // //output.innerHTML = '<ul>';
+          // //console.log(input.files.item(0));
+          // for (var i = 0; i < input.files.length; ++i) {
+          //   output.innerHTML += '<div class="alert alert-info">' + input.files.item(i).name +'  <button style="float:right" type="button" class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></button></div>';
+          //
+          // }
+          // console.log(input.files);
+
+          //output.innerHTML += '</ul>';
+        }
+    };
 
   ClassicEditor.create(document.querySelector( '#editor' ))
              .then( editor => {
@@ -124,7 +140,6 @@
 
   $(function(){
     document.getElementById("startdate").value="<?php echo date("Y-m-d")?>";
-
   });
   $("form").submit( function(e) {
           var messageLength = myEditor.getData().replace(/<[^>]*>/gi, '').replace('&nbsp;', '').replace('Enter text here!', '').length;
@@ -144,14 +159,13 @@
       }
   }).change();
 
-
   function readURL(input) {
         if (input.files && input.files[0] && isImage(input.files[0].name)) {
 
             var reader = new FileReader();
 
             reader.onload = function (e) {
-              console.log(e);
+              //console.log(e);
                 $('#showimg').removeClass('hide');
                 $('#blah')
                     .attr('src', e.target.result)
@@ -191,18 +205,15 @@
         }
         return false;
     }
+    $("#file").fileinput({
+        theme: 'fa',
+        showUpload: false,
+        showCaption: false,
+        dropZoneEnabled: false,
+        browseClass: "btn btn-primary",
+        overwriteInitial: false,
+        initialPreviewAsData: true,
 
-</script>
+    });
 
-<script type="text/javascript">
-$(function () {
-  $('#file').fileupload({
-      dataType: 'json',
-      done: function (e, data) {
-          $.each(data.result.files, function (index, file) {
-              $('<p/>').text(file.name).appendTo(document.body);
-          });
-      }
-  });
-});
 </script>

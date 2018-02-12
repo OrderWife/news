@@ -35,27 +35,27 @@ class News_Model extends CI_Model {
       }
   }
 
-  public function insertfile($data)//$data is array of column in table 'TBL_FILENEWS'.
-  {
-    if($this->db->insert('TBL_FILENEWS', $data))
-    {
-      return true;
-    }else{
-      return false;
-    }
-  }
+  // public function insertfile($data)//$data is array of column in table 'TBL_FILENEWS'.
+  // {
+  //   if($this->db->insert('TBL_FILENEWS', $data))
+  //   {
+  //     return true;
+  //   }else{
+  //     return false;
+  //   }
+  // }
 
-  public function delfile($idfile)//$idfile is array( 'ID_FILE' => $id_file). not test.
+  public function delfile($filename)//$idfile is array( 'N_FILE' => $filename).
   {
-    $query = $this->db->get_where('TBL_FILENEWS',$idfile);
+    $query = $this->db->get_where('TBL_FILENEWS',$filename);
       foreach ($query->result() as $row) {
-          unlink ( './upload/'.$row->N_FILE );
+          @unlink ( './upload/'.$row->N_FILE ) or die ('No such file or directory');
         }
-    if($this->db->delete('TBL_FILENEWS', $idfile)){
-      return 'success';
-    }else{
-      return 'error';
-    }
+        if($this->db->delete('TBL_FILENEWS', $filename)){
+          //return 'success';
+        }else{
+          //return 'error';
+        }
   }
 
   public function delNews($idnews)//$idfile is array( 'ID_FILE' => $id_news).
@@ -79,8 +79,28 @@ class News_Model extends CI_Model {
 
   public function UpdateNews($news_ID, $data)//not test.
   {
+      $query = $this->db->query("SELECT N_IMG FROM TBL_NEWS WHERE NEWS_ID = ".$news_ID);
+      foreach ($query->result() as $row)
+        {
+          if(isset($row->N_IMG) || $row->N_IMG != 'null')
+            @unlink ( './upload/'.$row->N_IMG ) or die ('No such file or directory');
+        }
+    // $this->db->where('NEWS_ID', $news_ID);
+    // $this->db->update('TBL_NEWS', $data);
+    //$this->db->set('PID', $data['PID']);
+
+    $this->db->set('N_TITLE', $data['N_TITLE']);
+    $this->db->set('N_CATEGORY', $data['N_CATEGORY']);
+    $this->db->set('N_TAG', $data['N_TAG']);
+    if(isset($data['N_IMG'])){
+      $this->db->set('N_IMG', $data['N_IMG']);
+    }
+    $this->db->set('N_CONTENT', $data['N_CONTENT']);
+    if(isset($data['N_END_DATE'])){
+      $this->db->set('N_END_DATE',"to_date('".$data['N_END_DATE']."','dd/mm/yyyy')",false);
+    }
     $this->db->where('NEWS_ID', $news_ID);
-    $this->db->update('TBL_NEWS', $data);
+    $this->db->update('TBL_NEWS');
   }
 
   public function selectNewsEdit($news_ID)// $news_ID => array('NEWS_ID' => news_id). not test.

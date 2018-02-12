@@ -11,7 +11,6 @@ class Backend extends CI_Controller {
 
 		}
 
-
 	public function index()
 	{
 		redirect('backend\news');
@@ -64,6 +63,42 @@ class Backend extends CI_Controller {
 
 				redirect('./backend/');
 		}
+
+public function savenews($news_ID)
+{
+	$imgname = null;
+	if(!$_FILES['imgUp']['size'] == 0 && $_FILES['imgUp']['error'] == 0){
+		//echo "<br>imgUp have file.<br>";
+		$imgname  = $this->upload_img();//$_FILES['imgUp']
+	}else {
+		//echo "<br>imgUp empty.<br>";
+	}
+	$dataofedit = array(
+		//'PID'           => 1,//$this->session->userdata('pid'),
+		'N_TITLE'       => $this->input->post('title'),
+		'N_CATEGORY'    => $this->input->post('category'),
+		'N_TAG'    			=> $this->input->post('tagNews'),
+		'N_CONTENT'     => $this->input->post('content'),
+		'N_END_DATE'    => $this->functodateOra($this->input->post('enddate')),
+	);
+	if(isset($imgname) && $imgname != null){
+		$dataofedit['N_IMG'] = $imgname;
+	}else {
+		$dataofedit['N_IMG'] = null;
+	}
+	$this->News_Model->UpdateNews($news_ID,$dataofedit);
+	$this->lastNewsId = $news_ID;
+
+	if(!$_FILES['fileUp']['size'][0] == 0 ){
+		$this->upload_files($_FILES['fileUp']);
+	}else{
+		//echo "<br>fileUp empty.<br>";
+	}
+
+
+	//redirect('./backend/');
+}
+
 	private function functodateOra($date)
 		{
 			if($date){
@@ -74,7 +109,7 @@ class Backend extends CI_Controller {
 			}
 			return $returndate;
 		}
-	private function upload_files($formfiles){
+	public function upload_files(){
 
 		$config['upload_path']          = './upload/';
 		$config['allowed_types']        = 'pdf|zip|rar';
@@ -86,7 +121,7 @@ class Backend extends CI_Controller {
 
 		$this->load->library('upload', $config);
 		$this->upload->initialize($config);
-		$files = $formfiles;
+		$files = $_FILES['fileUp'];
 		$cpt = count($_FILES['fileUp']['name']);
 		for($i=0; $i<$cpt; $i++)
 		{
@@ -111,6 +146,7 @@ class Backend extends CI_Controller {
 										'NEWS_ID' => $this->lastNewsId,
 										'N_FILE' => $data['upload_data']['file_name'],
 										'N_ORIGNAME' => $data['upload_data']['orig_name'],
+										'N_SIZE' => $data['upload_data']['file_size'],
 										);
 									$this->db->insert('TBL_FILENEWS', $file);
 
@@ -119,9 +155,8 @@ class Backend extends CI_Controller {
 			}
 
 	}
-	private function upload_img()//$imgfile
+	public function upload_img()//$imgfile
 		{
-
 				$config['upload_path']          = './upload/';
 				$config['allowed_types']        = 'jpg|jpeg|png|gif';
 				$config['max_size']             = 0;
@@ -136,7 +171,7 @@ class Backend extends CI_Controller {
 				{
 								$error = array('error' => $this->upload->display_errors());
 								echo "error" . json_encode($error);
-								return 'null';
+								return null;
 				}
 				else
 				{
@@ -147,20 +182,18 @@ class Backend extends CI_Controller {
 
 		}
 
-	// public function upload(){
-  //
-	// }
-
-
 	public function deleteNews($idnews){
 		$data = array( 'NEWS_ID' => $idnews);
 		$this->News_Model->delNews($data);
 		redirect('backend\news');
 	}
-	public function delfileimg($filename){
-			@unlink('./upload/'.$filename) or die ('No such file or directory') ;
-	}
 
+	public function delfileimg($filename){
+		$data = array( 'N_FILE' => $filename);
+		$this->News_Model->delfile($data);
+			//@unlink('./upload/'.$filename) or die ('No such file or directory');
+		echo json_encode(array());
+	}
 
 	public function edit($id)
 	{
@@ -197,4 +230,51 @@ class Backend extends CI_Controller {
 			fclose($myfile);
 			echo "finish";
 			}
+
+
+		// public function upload_files($formfiles){
+      //
+			// 	$config['upload_path']          = './upload/';
+			// 	$config['allowed_types']        = 'pdf|zip|rar';
+			// 	$config['max_size']             = 0;
+			// 	$config['max_width']            = 0;
+			// 	$config['max_height']           = 0;
+			// 	//$config['max_size']             = 10000000;
+			// 	$config['encrypt_name']         = true;
+      //
+			// 	$this->load->library('upload', $config);
+			// 	$this->upload->initialize($config);
+			// 	$files = $formfiles;
+			// 	$cpt = count($_FILES['fileUp']['name']);
+			// 	for($i=0; $i<$cpt; $i++)
+			// 	{
+			// 			$_FILES['fileUp']['name']= $files['name'][$i];
+			// 			$_FILES['fileUp']['type']= $files['type'][$i];
+			// 			$_FILES['fileUp']['tmp_name']= $files['tmp_name'][$i];
+			// 			$_FILES['fileUp']['error']= $files['error'][$i];
+			// 			$_FILES['fileUp']['size']= $files['size'][$i];
+      //
+      //
+			// 				if ( ! $this->upload->do_upload('fileUp'))
+			// 				{
+			// 								$error = array('error' => $this->upload->display_errors());
+			// 								echo '<br> json error'.json_encode($error);
+			// 								echo json_encode($_FILES['fileUp']);
+      //
+			// 				}
+			// 				else
+			// 				{
+			// 								$data = array('upload_data' => $this->upload->data()); //store data of file
+			// 								$file = array(
+			// 									'NEWS_ID' => $this->lastNewsId,
+			// 									'N_FILE' => $data['upload_data']['file_name'],
+			// 									'N_ORIGNAME' => $data['upload_data']['orig_name'],
+			// 									);
+			// 								$this->db->insert('TBL_FILENEWS', $file);
+      //
+			// 				}
+      //
+			// 		}
+      //
+			// }
 }
