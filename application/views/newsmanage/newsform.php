@@ -15,7 +15,16 @@
 <script src="<?php echo base_url();?>assets/bootstrap-fileinput/themes/fa/theme.js" type="text/javascript"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" type="text/javascript"></script> -->
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" type="text/javascript"></script> -->
-
+<style>
+.ck-editor{
+    min-height: 300px;
+}
+</style>
+<style>
+.ck-editor__editable {
+    min-height: 300px;
+}
+</style>
 <div class="col-md-12">
   <!-- action="createnews"  -->
   <form action="" class="" id="news" enctype="multipart/form-data" method="post">
@@ -37,14 +46,14 @@
             </datalist>
           </div>
           <div class="form-group">
-            <label>Tag</label>
+            <label>Tag</label><br>
             <input type="text" id="tag" name="tagNews" value="" data-role="tagsinput">
           </div>
-          <div class="form-group col-md-6" style="padding-right:15px">
+          <div class="form-group col-md-6" style="padding-left:0px">
               <label>วันเริ่มต้น</label>
               <input required id="startdate" name="startdate" type="date" class="form-control" readonly>
           </div>
-          <div class="form-group col-md-6" >
+          <div class="form-group col-md-6" style="padding-right:0px">
               <label>วันสิ้นสุด</label>
               <input required id="enddate" type="date" name="enddate" min="<?php echo date("Y-m-d")?>" max="<?php echo date('Y-m-d', strtotime('+5 years', strtotime(date("Y-m-d"))))?>" class="form-control" >
               <input type="checkbox" id="unlimit" value="unlimit">ไม่สิ้นสุด
@@ -60,28 +69,18 @@
         </div>
       </div>
     </div>
-    <div class="col-md-12">
-      <div class="form-group" >
-        <label><h4>เนื้อหาข่าว</h4></label>
+    <div class="">
+      <label>เนื้อหาข่าว</label>
+      <div class="ck-editor" >
         <font id="valid" class="hide" style="color:red">กรุณาเพิ่มเนื้อหา</font>
-        <textarea name="content" id="editor">
-        </textarea>
+        <textarea name="content" id="editor"></textarea>
       </div>
       <br>
-        <!-- เพิ่มไฟล์: -->
-        <!-- <input type="file" id="file" name="fileUp[]" accept=".pdf, .zip, .rar" onchange="updateList()" multiple> -->
-        <!-- <input  id="file" type="file" name="files[]" accept=".pdf, .zip, .rar" multiple> -->
-        <!-- <br/> -->
-        <!-- <p>ไฟล์ที่เลือก:</p> -->
-        <!-- <div class="panel-body" id="fileList"></div> -->
-        <!-- <div class="panel-body" id="updateList"></div> -->
-        <!-- <div class="file-loading">
-            <input id="file" class="file" type="file" accept=".pdf, .zip, .rar" multiple>
-        </div> -->
-        <div id="uploadTips" class="form-group col-md-12">
+        <div id="uploadTips">
+          <label>เอกสารแนบ</label>
           <div class="file-loading">
               <label>Preview File</label>
-              <input id="file" type="file" name="fileUp[]" accept=".pdf, .zip, .rar" multiple>
+              <input id="file" type="file" name="fileUp[]" accept=".pdf, .zip" multiple>
           </div>
         </div>
       </div>
@@ -127,15 +126,17 @@
         }
     };
 
-  ClassicEditor.create(document.querySelector( '#editor' ))
-             .then( editor => {
+
+  ClassicEditor.create(document.querySelector( '#editor' )).then( editor => {
                       //console.log( 'Editor was initialized', editor );
                       editor.setData('<p>Enter text here!</p>');
+                      console.log(editor.config);
                       myEditor = editor;
              })
              .catch( error => {
                 console.error( error );
              });
+
 
 
   $(function(){

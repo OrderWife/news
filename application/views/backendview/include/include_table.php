@@ -24,6 +24,7 @@ $(function() {
   try {
     $.each(response, function(i, item) {
         var $tr = $('<tr>').append(
+            $('<td align="center" >').text(item.NO),
             $('<td>').text(item.N_CATEGORY),
             $('<td>').text(item.N_TITLE),
             $('<td>').text(item.N_START_DATE),
@@ -61,7 +62,7 @@ function delData(btn)
   }
 var itemFiles;
 function editData(id) {
-  $('#news').attr('action', 'savenews/'+id);
+  $('#news').attr('action', 'index.php/backend/savenews/'+id);
   console.log($('#news').attr('action'));
   $('#form-box').removeClass('hide');
   $('#table_box').addClass('hide');
@@ -69,7 +70,7 @@ function editData(id) {
   btnYN.className = 'btn btn-danger btn-lg';
   btnYN.innerHTML = 'ยกเลิก';
 
-  $.getJSON( "./edit/"+id, function( jsonObj ) {
+  $.getJSON( "./index.php/backend/edit/"+id, function( jsonObj ) {
     $.each(jsonObj, function(i, item){
       switch (i) {
         case 'NEWS':

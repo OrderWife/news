@@ -13,21 +13,19 @@ class Backend extends CI_Controller {
 
 	public function index()
 	{
-		redirect('backend\news');
-
+		redirect('backend/home');
 	}
 
-	public function news()
-		{
-			$data = array (
-							'query' => $this->News_Model->selectNews()
-			);
-
-			$this->load->view('backendview\include\include_v');
-			$this->load->view('backendview\include\include_table',$data);
-			$this->load->view('backendview\include\scriptdatatable');
-			$this->load->view('backendview\backendhome');
-		}
+	public function home()
+	{
+		$data = array (
+						'query' => $this->News_Model->selectNews(),
+		);
+		$page = array( 'page' => 'news', );
+		$this->load->view('backendhome',$page);
+		$this->load->view('backendview\include\include_table',$data);
+		$this->load->view('backendview\include\scriptdatatable');
+	}
 
 	public function createnews()
 		{
@@ -94,9 +92,7 @@ public function savenews($news_ID)
 	}else{
 		//echo "<br>fileUp empty.<br>";
 	}
-
-
-	//redirect('./backend/');
+	redirect('backend/');
 }
 
 	private function functodateOra($date)
@@ -112,11 +108,11 @@ public function savenews($news_ID)
 	public function upload_files(){
 
 		$config['upload_path']          = './upload/';
-		$config['allowed_types']        = 'pdf|zip|rar';
+		$config['allowed_types']        = 'pdf|zip';
 		$config['max_size']             = 0;
 		$config['max_width']            = 0;
 		$config['max_height']           = 0;
-		//$config['max_size']             = 10000000;
+		$config['max_size']             = 1000000;
 		$config['encrypt_name']         = true;
 
 		$this->load->library('upload', $config);
@@ -185,7 +181,7 @@ public function savenews($news_ID)
 	public function deleteNews($idnews){
 		$data = array( 'NEWS_ID' => $idnews);
 		$this->News_Model->delNews($data);
-		redirect('backend\news');
+		redirect('backend/');
 	}
 
 	public function delfileimg($filename){

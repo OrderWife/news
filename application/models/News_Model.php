@@ -10,7 +10,7 @@ class News_Model extends CI_Model {
 
   public function selectNews()
   {
-    $query = $this->db->get('TBL_NEWS');
+    $query = $this->db->get('VIEW_NEWS');
     return $query->result();
   }
 
@@ -82,8 +82,8 @@ class News_Model extends CI_Model {
       $query = $this->db->query("SELECT N_IMG FROM TBL_NEWS WHERE NEWS_ID = ".$news_ID);
       foreach ($query->result() as $row)
         {
-          if(isset($row->N_IMG) || $row->N_IMG != 'null')
-            @unlink ( './upload/'.$row->N_IMG ) or die ('No such file or directory');
+          if(isset($row->N_IMG) && $row->N_IMG != null)
+            unlink ( './upload/'.$row->N_IMG ) or die ('No such file or directory img');
         }
     // $this->db->where('NEWS_ID', $news_ID);
     // $this->db->update('TBL_NEWS', $data);
