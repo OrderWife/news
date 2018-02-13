@@ -2,7 +2,7 @@
 <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script> -->
 <h1 class="page-header">จัดการเอกสาร</h1>
 <!-- data Table -->
-<ol class="hide breadcrumb">
+<ol class="breadcrumb">
   <li class="breadcrumb-item"><a href="index.php/Myshelf">Root</a></li>
   <!-- <li class="breadcrumb-item">[ Folder Name 1 ]</li>
   <li class="breadcrumb-item">[ Folder Name 2 ]</li>
@@ -10,17 +10,30 @@
 </ol>
 
   <div class="panel panel-default">
-    <div class="panel-heading hide " id="panel-header">
+    <div class="panel-heading" id="panel-header">
       <div class="row">
         <div class="col-md-12">
           <div class="col-md-6" style="padding-left:0px;"> [User Name] </div>
+          <div class="col-md-6">
+            <div class="row" style="float:right">
+              <button title="Add Folder" type="button" class="btn btn-success" name="button"><i class="fa fa-plus"></i> <small> Folder</small></button>
+              <button title="Upload" type="button" class="btn btn-info" name="button"><i class="fa fa-upload"></i> <small> Upload</small></button>
+              <button title="Upload" type="button" class="btn btn-danger" name="button"><i class="fa fa-upload"></i></button>
+            </div>
+            <!-- <div class="row" style="float:right">
+              <button title="Copy" type="button" class="btn btn-info" name="button"  ><i class="fa fa-copy"></i></button>
+              <button title="Move" type="button" class="btn btn-warning" name="button"  ><i class="fa fa-arrows"></i></button>
+              <button title="Delete" type="button" class="btn btn-danger" name="button"  ><i class="fa fa-trash"></i></button>
+            </div> -->
+          </div>
         </div>
       </div>
     </div>
 <!-- /.panel-heading -->
-    <div class="panel-body" id="panel_body" style="padding:10px">
-      <iframe class="" src="http://localhost/news/assets/angular-filemanager-bundle-php-local/"frameborder="0" scrolling="yes" width="100%" height="500px"></iframe>
-      <div class="dataTable_wrapper hide">
+    <div class="panel-body" id="panel_body">
+      <!-- <iframe class="" src="http://localhost/angular-filemanager-bundle-php-local/"frameborder="0" scrolling="no" width="100%" height="500px"></iframe> -->
+      <!-- //width="950px" height="500px" -->
+      <div class="dataTable_wrapper">
           <table class="table" id="dataTables-file">
               <thead>
                   <tr>
@@ -111,40 +124,40 @@
 </div>
 
 <script>
-// var response = <?php //echo json_encode($query); ?>;
-// var response = [1,2,3,4,5]
-// $(function() {
-//   try {
-//     $.each(response, function(i, item) {
-//         var strBtnC= '<button title="Copy" type="button" class="btn btn-info" name="button"  ><i class="fa fa-copy"></i></button> ';
-//         var strBtnM= '<button title="Move" type="button" class="btn btn-warning" name="button"  ><i class="fa fa-arrows"></i></button> ';
-//         var strBtnD= '<button title="Delete" type="button" class="btn btn-danger" name="button"  ><i class="fa fa-trash"></i></button> ';
-//         var strBTN = strBtnC + strBtnM + strBtnD;
-//         var $tr = $('<tr>').append(
-//             $('<td>').html('<a href="#"><i class="fa fa-folder-o fa-fw"></i> '+"item.FILE_NAME"+'</a> '),
-//             $('<td>').html('<a href="#"><i class="fa fa-download fa-fw"></i></a>'),
-//             $('<td>').text('12/2/2561'),
-//             $('<td>').text('Folder'),
-//             $('<td class="center">').text('-'),
-//             $('<td align="right" >').html(strBTN),
-//             ).appendTo('#dataTables-file');
-//     });
-//   } catch (e) {
-//     return;
-//   }
-// });
-//
-//
-//   $(document).ready(function() {
-//       $('#dataTables-file').DataTable({
-//               responsive: true,
-//               "lengthMenu": [[25, 50, -1], [25, 50, "All"]],
-//               "columnDefs": [{
-//                               "targets": [1,5],
-//                               "orderable": false
-//                             }]
-//             });
-//           });
+var response = <?php //echo json_encode($query); ?>;
+var response = [1,2,3,4,5]
+$(function() {
+  try {
+    $.each(response, function(i, item) {
+        var strBtnC= '<button title="Copy" type="button" class="btn btn-info" name="button"  ><i class="fa fa-copy"></i></button> ';
+        var strBtnM= '<button title="Move" type="button" class="btn btn-warning" name="button"  ><i class="fa fa-arrows"></i></button> ';
+        var strBtnD= '<button title="Delete" type="button" class="btn btn-danger" name="button"  ><i class="fa fa-trash"></i></button> ';
+        var strBTN = strBtnC + strBtnM + strBtnD;
+        var $tr = $('<tr>').append(
+            $('<td>').html('<a href="#"><i class="fa fa-folder-o fa-fw"></i> '+"item.FILE_NAME"+'</a> '),
+            $('<td>').html('<a href="#"><i class="fa fa-download fa-fw"></i></a>'),
+            $('<td>').text('12/2/2561'),
+            $('<td>').text('Folder'),
+            $('<td class="center">').text('-'),
+            $('<td align="right" >').html(strBTN),
+            ).appendTo('#dataTables-file');
+    });
+  } catch (e) {
+    return;
+  }
+});
+
+
+  $(document).ready(function() {
+      $('#dataTables-file').DataTable({
+              responsive: true,
+              "lengthMenu": [[25, 50, -1], [25, 50, "All"]],
+              "columnDefs": [{
+                              "targets": [1,5],
+                              "orderable": false
+                            }]
+            });
+          });
 
 
 </script>

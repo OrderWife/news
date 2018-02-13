@@ -55,14 +55,14 @@ function delData(btn)
             icon: "success",
             button: "ตกลง"
           }).then(function(){
-            window.location = "<?php echo base_url(). 'index.php/backend/'?>";
+            window.location = "<?php echo base_url(). 'backend/'?>";
           });
         }
       });
   }
 var itemFiles;
 function editData(id) {
-  $('#news').attr('action', 'index.php/backend/savenews/'+id);
+  $('#news').attr('action', 'backend/savenews/'+id);
   console.log($('#news').attr('action'));
   $('#form-box').removeClass('hide');
   $('#table_box').addClass('hide');
@@ -70,7 +70,7 @@ function editData(id) {
   btnYN.className = 'btn btn-danger btn-lg';
   btnYN.innerHTML = 'ยกเลิก';
 
-  $.getJSON( "./index.php/backend/edit/"+id, function( jsonObj ) {
+  $.getJSON( "./backend/edit/"+id, function( jsonObj ) {
     $.each(jsonObj, function(i, item){
       switch (i) {
         case 'NEWS':
@@ -98,7 +98,7 @@ function editData(id) {
             var initialConfig = {};
             var dataJson = [];
             initialConfig.dataJson = dataJson;
-            var urlDel = "<?php echo base_url();?>index.php/backend/delfileimg/";
+            var urlDel = "<?php echo base_url();?>backend/delfileimg/";
             itemFiles = item;
             $.each(item, function(i, files){
               PreviewfileInnitial[i] = "<?php echo base_url();?>upload/"+files.N_FILE;

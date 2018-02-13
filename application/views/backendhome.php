@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html ng-app="app" flow-init>
+<html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-        <base href="<?php echo base_url();?>" target=""> <!--_blank-->
-        <script src="assets/plugins/angular/angular.js"></script>
-        <script src="assets/ng-flow-master/dist/ng-flow-standalone.js"></script>
-        <script src="assets/ng-flow-master/agular_app/app.js"></script>
+        <base href="<?php echo base_url();?>index.php/" target=""> <!--_blank-->
         <?php $this->load->view('backendview/include/include_v'); ?>
         <title>NHSO BACKEND</title>
     </head>
@@ -18,7 +15,7 @@
             <!-- Navigation -->
             <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="index.php/backend/"><b>NHSO</b> Dashboard</a>
+                    <a class="navbar-brand" href="backend/"><b>NHSO</b> Dashboard</a>
                 </div>
                 <ul class="nav navbar-right navbar-top-links"> <!-- User bar -->
                     <li class="dropdown ">
@@ -47,24 +44,17 @@
                         <ul class="nav" id="side-menu">
                             <li>
                               <!-- active -->
-                                <a class="" href="index.php/backend/home"><i class="fa fa-newspaper-o"></i> การจัดการข่าวสาร</a>
+                                <a class="" href="backend/home"><i class="fa fa-newspaper-o"></i> การจัดการข่าวสาร</a>
                             </li>
                             <li>
-                                <a href="index.php/Myshelf"><i class="fa fa-bar-chart-o fa-fw"></i>Shelf Menu</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Menu<span class="fa arrow"></span></a>
+                                <a href="Myshelf"><i class="fa fa-book fa-fw"></i>Shelf Menu <span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="#">Flot Charts</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Morris.js Charts</a>
-                                    </li>
+                                    <li><a href="Myshelf">My Shelf</a></li>
+                                    <li><a href="#">_blank menu</a></li>
                                 </ul>
-                                <!-- /.nav-second-level -->
                             </li>
                         </ul>
+
                     </div>
                     <!-- /.sidebar-collapse -->
                 </div>
