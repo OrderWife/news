@@ -36,8 +36,8 @@
           </div>
           <div class="form-group">
             <label>หมวดหมู่</label>
-            <input required id="category" class="form-control" type="text" list="browsers" name="category" placeholder="กรุณาเลือกหมวดหมู่" >
-            <datalist id="browsers">
+            <input required id="category" class="form-control" type="text" list="list_category" name="category" placeholder="กรุณาเลือกหมวดหมู่" >
+            <datalist id="list_category">
               <option value="Internet Explorer">
               <option value="Firefox">
               <option value="Chrome">

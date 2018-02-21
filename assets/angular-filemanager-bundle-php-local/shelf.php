@@ -1,3 +1,14 @@
+<?php
+    if (isset($_GET['root'])) {
+      $root = $_GET['root'];
+      if (empty($root)) {
+        exit;
+      }
+    }else{
+      echo "Not Found root path.";
+      exit;
+    }
+ ?>
 <!doctype html>
 <html lang="th" data-ng-app="FileManagerApp">
 <head>
@@ -47,6 +58,7 @@
     angular.module('FileManagerApp').config(['fileManagerConfigProvider', function (config) {
       var defaults = config.$get();
       config.set({
+        basePath: '<?php echo $root;?>',
         appName: 'angular-filemanager',
         pickCallback: function(item) {
           var msg = 'Picked %s "%s" for external use'
@@ -73,12 +85,12 @@
         allowedActions: angular.extend(defaults.allowedActions, {
           pickFiles: false,
           pickFolders: false,
+          changePermissions: false,
         }),
       });
     }]);
   </script>
 </head>
-
 <body class="ng-cloak">
   <angular-filemanager></angular-filemanager>
 </body>

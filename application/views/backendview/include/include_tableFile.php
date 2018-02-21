@@ -11,5 +11,5 @@
 <!-- Sweetalert -->
 <script src="<?php echo base_url()."assets/plugins/sweetalert/sweetalert.min.js"?>"></script>
 
-<!-- Custom Fonts -->a
+<!-- Custom Fonts -->
 <link href="<?php echo base_url();?>assets/startmin-master/css/font-awesome.min.css" rel="stylesheet" type="text/css">

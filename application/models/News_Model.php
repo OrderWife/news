@@ -28,11 +28,25 @@ class News_Model extends CI_Model {
     }
     $this->db->insert('TBL_NEWS');
     $query = $this->db->query("SELECT last_number FROM user_sequences WHERE sequence_name = 'ID_NEWS'");
+    $this->autoAddCate($data['N_CATEGORY']);
 
     foreach ($query->result() as $row)
       {
         return $row->LAST_NUMBER;
       }
+
+
+
+  }
+
+  private function autoAddCate($category)
+  {
+    $queryCate = $this->db->get_where('TBL_N_CATEGORY', array('CATEGORY' => $category, ));
+    echo 'DB'.$queryCate->num_rows();
+    if ($queryCate->num_rows()<1) {
+      echo "<br>Add Cate!";
+      $this->db->insert('TBL_N_CATEGORY',array('CATEGORY' => $category));
+    }
   }
 
   // public function insertfile($data)//$data is array of column in table 'TBL_FILENEWS'.
@@ -101,6 +115,7 @@ class News_Model extends CI_Model {
     }
     $this->db->where('NEWS_ID', $news_ID);
     $this->db->update('TBL_NEWS');
+    $this->autoAddCate($data['N_CATEGORY']);
   }
 
   public function selectNewsEdit($news_ID)// $news_ID => array('NEWS_ID' => news_id). not test.
@@ -114,6 +129,12 @@ class News_Model extends CI_Model {
       'FILES'   => $files->result(),
     );
     return $query;
+  }
+
+  public function getCate()
+  {
+    $query = $this->db->get('TBL_N_CATEGORY');
+    return $query->result();
   }
 
 }

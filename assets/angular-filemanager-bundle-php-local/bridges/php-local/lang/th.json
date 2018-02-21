@@ -1,0 +1,18 @@
+{
+	"function_not_implemented": "Function not implemented",
+	"file_not_found": "ไม่พบไฟล์",
+	"listing_filed": "รายการล้มเหลว",
+	"moving_failed": "การย้ายไฟล์ล้มเหลว",
+	"renaming_failed": "การเปลี่ยนชื่อล้มเหลว",
+	"copying_failed": "การคัดลอกล้มเหลว",
+	"removing_failed": "การลบไฟล์ล้มเหลว",
+	"removing_failed_directory_not_empty": "Removing failed, the directory you are trying to remove is not empty",
+	"saving_failed": "บันทึกล้มเหลว",
+	"folder_already_exists": "มีโฟลเดอร์ชื่อนี้อยู่แล้ว",
+	"folder_creation_failed": "การสร้างโฟลเดอร์ล้มเหลว",
+	"permissions_change_failed": "Permissions change failed",
+	"compression_failed": "การบีบอัดไฟล์ ล้มเหลว",
+	"archive_opening_failed": "Could not open the archive, it is either corrupted or unsupported",
+	"extraction_failed": "การแตกไฟล์ ล้มเหล้ว",
+	"upload_failed": "การอัพโหลดล้มเหลว!"
+}

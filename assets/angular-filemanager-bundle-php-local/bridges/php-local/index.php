@@ -18,6 +18,7 @@ include 'LocalBridge/FileManagerApi.php';
  * - language (default: 'en'); mute_errors (default: true, will call ini_set('display_errors', 0))
  */
 $fileManagerApi = new FileManagerApi();
+//$fileManagerApi = new FileManagerApi(__DIR__ . '/../../../../fm_root/root_1'); // get Dir form dataBase.
 
 $rest = new Rest();
 $rest->post([$fileManagerApi, 'postHandler'])

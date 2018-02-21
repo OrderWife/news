@@ -10,6 +10,7 @@ namespace AngularFilemanager\LocalBridge;
 class FileManagerApi
 {
     private $basePath = null;
+    //private $basePath = __DIR__.'/news/fm_root/';
 
     private $translate;
 
@@ -19,14 +20,14 @@ class FileManagerApi
             ini_set('display_errors', 0);
         }
 
-        $this->basePath = $this->canonicalizePath($basePath ?: dirname(__DIR__) . '/../../files');
+        $this->basePath = $this->canonicalizePath(dirname(dirname(dirname(dirname(dirname(__DIR__))))) ."/fm_root". $basePath);
         $this->translate = new Translate($lang);
     }
 
     public function postHandler($query, $request, $files)
     {
         $t = $this->translate;
-        
+
         // Probably file upload
         if (!isset($request['action'])
             && (isset($_SERVER["CONTENT_TYPE"])
@@ -162,7 +163,7 @@ class FileManagerApi
                     $response = $this->simpleErrorResponse($t->extraction_failed);
                 }
                 break;
-            
+
             default:
                 $response = $this->simpleErrorResponse($t->function_not_implemented);
                 break;
@@ -183,7 +184,7 @@ class FileManagerApi
                 } else {
                     $response = $this->simpleErrorResponse($t->file_not_found);
                 }
-                
+
                 break;
 
             case 'downloadMultiple':
@@ -209,7 +210,10 @@ class FileManagerApi
         $file_name = basename($path);
         $path = $this->canonicalizePath($this->basePath . $path);
 
+        // echo $file_name .'<br>'.$path;
+
         if (!file_exists($path)) {
+
             return false;
         }
 
@@ -220,10 +224,12 @@ class FileManagerApi
         if (ob_get_level()) {
             ob_end_clean();
         }
-
-        header("Content-Disposition: attachment; filename=\"$file_name\"");
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Disposition: attachment; filename="'.$file_name.'"');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header("Content-Type: $mime_type");
+        // header("Content-Type: $mime_type");
         header('Pragma: public');
         header('Content-Length: ' . filesize($path));
         readfile($path);
@@ -344,7 +350,6 @@ class FileManagerApi
             if (!file_exists($this->basePath . $oldPath)) {
                 return false;
             }
-
             $copied = copy(
                 $this->basePath . $oldPath,
                 $newPath . basename($oldPath)
@@ -425,7 +430,7 @@ class FileManagerApi
 
                 foreach ($iterator as $item) {
                     $changed = chmod($this->basePath . $item, octdec($permissions));
-                    
+
                     if ($changed === false) {
                         return false;
                     }

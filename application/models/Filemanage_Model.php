@@ -8,11 +8,13 @@ class Filemanage_Model extends CI_Model {
         $this->load->database();
     }
 
-  public function getShelf()
+  public function getShelf($pid)
   {
-    $data = array(
-      'query' => $this->db->get_where('TBL_FM',1), // ' 1 ' is PID
-    );
+    $query = $this->db->get_where('TBL_FM',array('PID' => $pid, ));
+
+    foreach ($query->result() as $row) {
+      return $row->PATH_NAME;
+    }
   }
 
 

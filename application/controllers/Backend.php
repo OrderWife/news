@@ -13,13 +13,14 @@ class Backend extends CI_Controller {
 
 	public function index()
 	{
-		redirect('backend/home');
+		$this->home();
 	}
 
 	public function home()
 	{
 		$data = array (
 						'query' => $this->News_Model->selectNews(),
+						'listCate' => $this->News_Model->getCate(),
 		);
 		$page = array( 'page' => 'news', );
 		$this->load->view('backendhome',$page);
@@ -105,7 +106,7 @@ public function savenews($news_ID)
 			}
 			return $returndate;
 		}
-	public function upload_files(){
+	private function upload_files(){
 
 		$config['upload_path']          = './upload/';
 		$config['allowed_types']        = 'pdf|zip';
@@ -151,7 +152,7 @@ public function savenews($news_ID)
 			}
 
 	}
-	public function upload_img()//$imgfile
+	private function upload_img()//$imgfile
 		{
 				$config['upload_path']          = './upload/';
 				$config['allowed_types']        = 'jpg|jpeg|png|gif';
@@ -225,6 +226,12 @@ public function savenews($news_ID)
 				}
 			fclose($myfile);
 			echo "finish";
+			}
+
+			public function getCateJSON()
+			{
+				$data = $this->News_Model->getCate();
+				echo json_encode($data);
 			}
 
 

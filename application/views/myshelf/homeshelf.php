@@ -1,6 +1,6 @@
 <?php $this->load->view('backendview/include/include_tableFile'); ?>
 <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script> -->
-<h1 class="page-header">จัดการเอกสาร</h1>
+<h1 class="page-header ">จัดการเอกสาร</h1>
 <!-- data Table -->
 <ol class="hide breadcrumb">
   <li class="breadcrumb-item"><a href="index.php/Myshelf">Root</a></li>
@@ -19,7 +19,7 @@
     </div>
 <!-- /.panel-heading -->
     <div class="panel-body" id="panel_body" style="padding:10px">
-      <iframe class="" src="http://localhost/news/assets/angular-filemanager-bundle-php-local/"frameborder="0" scrolling="yes" width="100%" height="500px"></iframe>
+      <iframe class="" src="http://localhost/news/assets/angular-filemanager-bundle-php-local/shelf.php?root=<?php echo $root;?>"frameborder="0" scrolling="yes" width="100%" height="500px"></iframe>
       <div class="dataTable_wrapper hide">
           <table class="table" id="dataTables-file">
               <thead>

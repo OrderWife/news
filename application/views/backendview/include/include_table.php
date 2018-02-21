@@ -29,9 +29,20 @@ $(function() {
             $('<td>').text(item.N_TITLE),
             $('<td>').text(item.N_START_DATE),
             $('<td>').text(item.N_END_DATE),
-            $('<td>').text(item.N_LAST_EDIT),
+            // $('<td>').text(item.N_LAST_EDIT),
             $('<td align="center" >').html('<button type="button" style="float:center;" class="btn btn-warning btn-sm"  onclick="editData('+item.NEWS_ID+')"><b class="fa fa-edit"></b></button> <button type="button" style="float:center;" class="btn btn-danger btn-sm" onclick=(delData('+item.NEWS_ID+'))><b class="fa fa-remove"></b></button>'),
         ).appendTo('#dataTables-example');
+    });
+  } catch (e) {
+    return;
+  }
+});
+
+var resDataList = <?php echo json_encode($listCate); ?>;
+$(function() {
+  try {
+    $.each(resDataList, function(i, item) {
+        var $list = $('<option>').val(item.CATEGORY).appendTo('#list_category');
     });
   } catch (e) {
     return;

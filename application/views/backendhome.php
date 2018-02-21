@@ -47,12 +47,16 @@
                                 <a class="" href="backend/home"><i class="fa fa-newspaper-o"></i> การจัดการข่าวสาร</a>
                             </li>
                             <li>
-                                <a href="Myshelf"><i class="fa fa-book fa-fw"></i>Shelf Menu <span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
+                                <a href="Myshelf"><i class="fa fa-book fa-fw"></i>Shelf Menu </a>
+                            </li>
+                            <!-- <li> -->
+                                <!-- <a href="Myshelf/ang_fm"><i class="fa fa-book fa-fw"></i>Shelf-Angular-FM Menu </a> -->
+                                <!-- <span class="fa arrow"></span> -->
+                                <!-- <ul class="nav nav-second-level">
                                     <li><a href="Myshelf">My Shelf</a></li>
                                     <li><a href="#">_blank menu</a></li>
-                                </ul>
-                            </li>
+                                </ul> -->
+                            <!-- </li> -->
                         </ul>
 
                     </div>
@@ -71,9 +75,15 @@
                             if($page == 'news'){
                               $this->load->view('newsmanage\newsmanage');
                               //echo "News";
-                            }else if($page == 'shelf'){
+                            }
+                            // else if($page == 'shelf-disagree'){
+                            //   // echo "MyShelf";
+                            //   $this->load->view('myshelf\homeshelf',array('root' => $root,));
+                            // }
+                            else if($page == 'shelf'){
                               // echo "MyShelf";
-                              $this->load->view('myshelf\homeshelf');
+                              $this->load->view('myshelf/homeshelf-bak-noIframe');
+
                             }
                             ?>
                             <!--/.data table-->
