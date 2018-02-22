@@ -38,7 +38,7 @@ $(function() {
         if(isImage(parts))
         {
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+path + item + '" target="_blank"><i class="fa fa-file-image-o fa-fw"></i> '+ OrigName[i][0]+'</a><br>  <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="'+path + item + '" target="_blank"><i class="fa fa-file-image-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</a><br>  <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
               $('<td>').html('<a href="Myshelf/download/'+strPath +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
               $('<td>').text(OrigName[i][1]),
               $('<td>').text('Image '+ parts),
@@ -47,7 +47,7 @@ $(function() {
               ).appendTo('#dataTables-file');
         }else if(isDoc(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-word-o fa-fw"></i> '+ OrigName[i][0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-word-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
               $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
               $('<td>').text(OrigName[i][1]),
               $('<td>').text('Word, '+ parts),
@@ -56,7 +56,7 @@ $(function() {
               ).appendTo('#dataTables-file');
         }else if(isDocEx(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-excel-o fa-fw"></i> '+ OrigName[i][0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-excel-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
               $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
               $('<td>').text(OrigName[i][1]),
               $('<td>').text('Excel, '+ parts),
@@ -65,7 +65,7 @@ $(function() {
               ).appendTo('#dataTables-file');
         }else if(isDocPp(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-powerpoint-o fa-fw"></i> '+ OrigName[i][0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-powerpoint-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
               $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
               $('<td>').text(OrigName[i][1]),
               $('<td>').text('Powerpoint, '+ parts),
@@ -74,7 +74,7 @@ $(function() {
               ).appendTo('#dataTables-file');
         }else if(isZip(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-archive-o fa-fw"></i> '+ OrigName[i][0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-archive-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
               $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
               $('<td>').text(OrigName[i][1]),
               $('<td>').text('Archive, '+ parts),
@@ -83,7 +83,7 @@ $(function() {
               ).appendTo('#dataTables-file');
         }else if(isTxt(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="' +path + item + '" target="_blank"><i class="fa fa-file-text-o fa-fw"></i>'+ OrigName[i][0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="' +path + item + '" target="_blank"><i class="fa fa-file-text-o fa-fw"></i>'+ OrigName[i][0].split(".")[0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
               $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
               $('<td>').text(OrigName[i][1]),
               $('<td>').text('Text, '+ parts),
@@ -92,7 +92,7 @@ $(function() {
               ).appendTo('#dataTables-file');
         }else if(isPdf(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-pdf-o fa-fw"></i> '+ OrigName[i][0]+'</abbr></a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-pdf-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</abbr></a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
               $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
               $('<td>').text(OrigName[i][1]),
               $('<td>').text('Portable Document Format, '+ parts),
@@ -220,8 +220,11 @@ function isPdf(filename) { //Pdf
 
   $(document).ready(function() {
       $('#dataTables-file').DataTable({
+              rowReorder: {
+                  selector: 'td:nth-child(2)'
+              },
               responsive: true,
-              "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+              // "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
               "columnDefs": [{
                               "targets": [1,5],
                               "orderable": false

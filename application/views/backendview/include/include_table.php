@@ -193,7 +193,10 @@ function editData(id) {
 <script>
     $(document).ready(function() {
         $("#dataTables-example").DataTable({
-                responsive: true
+          rowReorder: {
+              selector: 'td:nth-child(2)'
+          },
+          responsive: true,
         });
     });
 </script>

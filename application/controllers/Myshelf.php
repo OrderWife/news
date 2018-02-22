@@ -236,15 +236,19 @@ class Myshelf extends CI_Controller {
 	}
 
 	public static function deleteDir($dirPath,$up) {
-
-    if (! is_dir($dirPath)) {
-        throw new InvalidArgumentException("$dirPath must be a directory");
+		$CI =& get_instance();
+		$CI->load->model('Filemanage_Model');
+    if (!is_dir($dirPath)) {
+			if ($CI->Filemanage_Model->deleteFile(str_replace(str_split("\/"),'',str_replace($up,'',$dirPath)))) {
+				 @unlink($dirPath);
+			}
+			// echo str_replace(str_split("\/"),'',str_replace($up,'',$dirPath));
+			return;
+        // throw new InvalidArgumentException("$dirPath must be a directory");
     }
     if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
         $dirPath .= '/';
     }
-		$CI =& get_instance();
-		$CI->load->model('Filemanage_Model');
     $files = glob($dirPath . '*', GLOB_MARK);
     foreach ($files as $file) {
         if (is_dir($file)) {
@@ -252,14 +256,14 @@ class Myshelf extends CI_Controller {
         } else {
 					// echo "file : ".str_replace(str_split("\/"),'',str_replace($dirPath,'',$file))."<br>";
 						if ($CI->Filemanage_Model->deleteFile(str_replace(str_split("\/"),'',str_replace($dirPath,'',$file)))) {
-							unlink($file);
+							@unlink($file);
 						}
         }
 
     }
 		// echo 'FOLDER : '.str_replace(str_split("\/"),'',str_replace($up,'',$dirPath)).'<br>';
     if ($CI->Filemanage_Model->deleteFile(str_replace(str_split("\/"),'',str_replace($up,'',$dirPath)))) {
-			rmdir($dirPath);
+			@rmdir($dirPath);
 		}
 }
 

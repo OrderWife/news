@@ -14,6 +14,11 @@
 <script src="<?php echo base_url();?>assets/bootstrap-fileinput/themes/explorer-fa/theme.js" type="text/javascript"></script>
 <script src="<?php echo base_url();?>assets/bootstrap-fileinput/themes/fa/theme.js" type="text/javascript"></script>
 
+<style href="https://cdn.datatables.net/rowreorder/1.2.3/css/rowReorder.dataTables.min.css" media="screen"></style>
+<style href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" media="screen"></style>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js" type="text/javascript"></script>
 <style>
 .ck-editor{
     min-height: 300px;
@@ -24,9 +29,9 @@
     min-height: 300px;
 }
 </style>
-<h2 class="page-header">จัดการบริหารข่าว
+<h3 class="page-header">จัดการบริหารข่าว
   <button id="btn-yes-no" type="button" style="float:right;" class="btn btn-success btn-md" onclick="showform()">เพิ่มข่าว</button>
-</h2>
+</h3>
 <!-- data Table -->
 <div class="panel panel-default">
 <div class="panel-heading" id="panel-header">
@@ -39,7 +44,7 @@
     <div class="dataTable_wrapper">
         <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
           <div class="row">
-             <div class="col-md-12">
+             <div class="col-md-12 col-sm-10">
                   <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
                     <thead>
                         <tr role="row">
