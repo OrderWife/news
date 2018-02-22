@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class login_Model extends CI_Model {
+class Login_Model extends CI_Model {
 
   function __construct() {
         parent::__construct();
@@ -10,9 +10,23 @@ class login_Model extends CI_Model {
 
   public function Checkuser($uname, $pass)
   {
+    $data = array();
     $data_where = array('USERNAME' => $uname, 'PASSWORD' => $pass);
     $query = $this->db->get_where('HR_PERSON', $data_where);
-    return $query->result();
+    $query = $query->result();
+    $gid;
+    foreach ($query as $row) {
+      $data['PID'] = $row->PID;
+      $data['USERNAME'] = $row->USERNAME;
+      $data['EMPLOYEE_GROUPID'] = $row->EMPLOYEE_GROUPID;
+      $gid = $row->EMPLOYEE_GROUPID;
+    }
+    $group = $this->db->get_where('HR_EMPLOYEE_GROUPID', array('EMPLOYEE_GROUPID' =>$gid , ));
+    $group = $group->result();
+    foreach ($group as $row) {
+        $data['GROUPNAME'] = $row->GROUPNAME;
+    }
+    return $data;
   }
 
   }

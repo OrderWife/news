@@ -3,17 +3,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Myshelf extends CI_Controller {
 
-	private $basePath = NULL; //get form db.
+	private $basePath = NULL;
 	private $root = NULL;
 
 	public function __construct()
 	{
 				parent::__construct();
+				$this->authenclass->checkauthen();
 				$this->load->model('Filemanage_Model');
-				$this->load->library('session');
+				// $this->load->library('session');
 				$this->load->helper('download');
 
-				$this->basePath = '../news/fm_root/root_1';
+				$this->basePath = '../news/fm_root/' . $this->Filemanage_Model->getShelf($this->session->userdata('gid'));
 				$this->root = $this->basePath;
 
 	}
@@ -28,10 +29,15 @@ class Myshelf extends CI_Controller {
   {
     $data = array(
 			'page' 			=> 'shelf',
-			'files' 		=> json_encode(scandir($this->basePath)),
+			'files' 		=> json_encode(@scandir($this->basePath)),
+			'filesOrig'		=> json_encode($this->getOrigName(@scandir($this->basePath))),
 			// 'picePath'	=> explode('/',$this->basePath),
 			'basePath'	=> $this->basePath,
-			'upPath'			=> 'f',
+			'upPath'		=> 'f',
+			'id'				=> $this->session->userdata('id'),
+			'user' 			=> $this->session->userdata('user'),
+			'gid' 			=> $this->session->userdata('gid'),
+			'gname' 			=> $this->session->userdata('gname'),
 		 );
     $this->load->view('backendhome',$data);
   }
@@ -42,16 +48,21 @@ class Myshelf extends CI_Controller {
 			if (!isset($taketpath)) {
 				redirect('myshelf/');
 			}
-			$this->basePath = base64_decode($path) .'/'. $taketpath;
+			$this->basePath = base64_decode($path).'/'. $taketpath;
 			// $this->basePath = str_replace('-','/',);
 			$this->basePath = $this->checkSpace($this->basePath);
 	    $data = array(
 				'page' 				=> 'shelf',
-				'files' 			=> json_encode(@scandir($this->basePath)),
+				'files' 			=> json_encode(@scandir($this->basePath."/")),
+				'filesOrig'		=> json_encode($this->getOrigName(@scandir($this->basePath."/"))),
 				// 'picePath'	=> explode('/',$this->basePath),
-				'basePath'		=> $this->basePath,
+				'basePath'		=> $this->basePath."/",
 				'upPath'			=> str_replace('=','',base64_encode(dirname($this->basePath))),
 				// 'upPath'			=> str_replace('=','',base64_encode(realpath($this->basePath))),
+				'id'				=> $this->session->userdata('id'),
+				'user' 			=> $this->session->userdata('user'),
+				'gid' 			=> $this->session->userdata('gid'),
+				'gname' 			=> $this->session->userdata('gname'),
 			 );
 	    $this->load->view('backendhome',$data);
 		} catch (Exception $e) {
@@ -78,13 +89,19 @@ class Myshelf extends CI_Controller {
 					redirect('myshelf');
 					break;
 			}
+
 	    $data = array(
 				'page' 				=> 'shelf',
-				'files' 			=> json_encode(scandir($this->basePath)),
+				'files' 			=> json_encode(@scandir($this->basePath."/")),
+				'filesOrig'		=> json_encode($this->getOrigName(@scandir($this->basePath."/"))),
 				// 'picePath'	=> explode('/',$this->basePath),
 				'basePath'		=> $this->basePath,
 				'upPath'			=> str_replace('=','',base64_encode(dirname($this->basePath))),
 				// 'upPath'			=> str_replace('=','',base64_encode(realpath($this->basePath))),
+				'id'				=> $this->session->userdata('id'),
+				'user' 			=> $this->session->userdata('user'),
+				'gid' 			=> $this->session->userdata('gid'),
+				'gname' 			=> $this->session->userdata('gname'),
 			 );
 	    $this->load->view('backendhome',$data);
 		} catch (Exception $e) {
@@ -95,49 +112,101 @@ class Myshelf extends CI_Controller {
   }
 
 
+
+	function getOrigName($data)
+	{
+		$OrigName = array();
+		foreach ($data as $value => $item) {
+			if($this->getOrigFileName($item)){
+				$OrigName[$value] = $this->getOrigFileName($item);
+			}else{
+				$OrigName[$value] = NULL;
+			}
+
+		}
+		return $OrigName;
+	}
+
+
 	public function createFolder($basePath)
 	{
-		$path = $this->input->post('folderName');
-		$path = base64_decode($basePath) .'/'. $path;
-		if (file_exists($path) && is_dir($path)) {
+		$foldername = $this->input->post('folderName');
+		$realName = $this->createUniqueId();
+		$path = base64_decode($basePath) .'/'. $realName;
+		if (file_exists($path) && is_dir($path) && !$this->idExistsOrig($foldername)) {
 				echo '<script type="text/javascript">
 				  					alert("ไม่สามารถสร้างไฟล์เดอร์ได้ เนื่องจากชื่อซ้ำกัน.");
 									</script>';
 				return redirect('myshelf/','refresh');
 		}
 		if(mkdir($path)){
-			redirect('myshelf/'.$basePath);
+			$data = array(
+						 'FILE_NAME' 					=> $realName,
+						 'FILE_NAME_ORIG' 		=> $foldername,
+						 'PATH' 							=> realpath(base64_decode($basePath)),
+						 'PID' 								=> $this->session->userdata('id'),
+						 'EMPLOYEE_GROUPID' 	=> $this->session->userdata('gid'),
+						 'DESCRIBE' 					=> $this->input->post('describe'),
+										);
+			$this->Filemanage_Model->createFile($data);
+			// echo realpath($path).'<br>';
+			// echo realpath($this->root);
+			// echo (realpath($path) == realpath($this->root));
+			if (realpath($path) === realpath($this->root)) {
+				// echo "True";
+				redirect('myshelf/');
+			}else{
+				// echo "False";
+				redirect('myshelf/up/'.$basePath);
+			}
+
 		}
 	}
 
-	public function upload()
+	public function upload($basePath)
 	{
-		// echo !isset($_FILES['file']);
-		// $basePath = base64_decode($basePath);
-		// echo "Upload : ".realpath($basePath);
-		// $this->upload_file(realpath($basePath));
-		$config['upload_path']          = './upload/';
-		$config['allowed_types']        = 'jpg|jpeg|png|gif|pdf|zip';
-		$config['max_size']             = 0;
-		$config['max_width']            = 0;
-		$config['max_height']           = 0;
-		$config['max_size']             = 10000000;
-		$config['encrypt_name']         = true;
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
 
-		if ( ! $this->upload->do_upload('file'))
-		{
-						$error = array('error' => $this->upload->display_errors());
-						echo "error" . json_encode($error);
-						return null;
+		$basePath = base64_decode($basePath);
+		$path = realpath($basePath);
+		if (substr($path, strlen($path) - 1, 1) != '/') {
+        $path .= '/';
+    }
+		// echo 'Upload :'.$path;
+		if($this->upload_file($path)){
+			echo "Success";
+			redirect('myshelf/folder/'.realpath('=','',base64_encode($basePath)));
+		}else{
+			echo '<script type="text/javascript">
+									alert("ไม่อัพโหลดไฟล์ได้ ขนาดไฟล์ของท่านอาจใหญ่เกินไปหรือชื่อไฟล์ของท่านซ้ำในระบบ.");
+								</script>';
+			 return redirect('myshelf/','refresh');
 		}
-		else
-		{
-						$data = array('upload_data' => $this->upload->data()); //store data of img
-						echo '<br> json data of file'.json_encode($data);
-						return $data['upload_data']['file_name'];
-		}
+
+	}
+
+	public function rename()
+	{
+		 $newName = $this->input->post('newName');
+		 $refName = $this->input->post('refName');
+		 $describe = $this->input->post('describe');
+		 if (isset($describe) && !empty($describe)) {
+			 $data = array(
+				 'FILE_NAME_ORIG' => $newName ,
+				 'DESCRIBE' => $describe ,
+			  );
+		 }else {
+			 $data = array(
+ 				'FILE_NAME_ORIG' => $newName ,
+ 			 );
+		 }
+
+		 if($this->Filemanage_Model->rename($data,$refName)){
+			 echo "success";
+		 }else{
+			 echo "error";
+		 }
+
+		 redirect('myshelf/');
 
 	}
 
@@ -152,11 +221,47 @@ class Myshelf extends CI_Controller {
 		echo "moveFile";
 	}
 
-	public function deleteFile()
+	public function deleteFile($path, $taket)
 	{
-		echo "DeleteFile success!";
-		# code...
+		if (!isset($path, $taket)) {
+			return;
+		}
+		$dirPath = (base64_decode($path));
+	 	$up = realpath($dirPath);
+	 	$dirPath = realpath(base64_decode($path).'/'.$taket);
+		$this->deleteDir($dirPath,$up);
+		redirect('myshelf/');
+		// echo "<br>DeleteFile success!";
+
 	}
+
+	public static function deleteDir($dirPath,$up) {
+
+    if (! is_dir($dirPath)) {
+        throw new InvalidArgumentException("$dirPath must be a directory");
+    }
+    if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
+        $dirPath .= '/';
+    }
+		$CI =& get_instance();
+		$CI->load->model('Filemanage_Model');
+    $files = glob($dirPath . '*', GLOB_MARK);
+    foreach ($files as $file) {
+        if (is_dir($file)) {
+            self::deleteDir($file,$dirPath);
+        } else {
+					// echo "file : ".str_replace(str_split("\/"),'',str_replace($dirPath,'',$file))."<br>";
+						if ($CI->Filemanage_Model->deleteFile(str_replace(str_split("\/"),'',str_replace($dirPath,'',$file)))) {
+							unlink($file);
+						}
+        }
+
+    }
+		// echo 'FOLDER : '.str_replace(str_split("\/"),'',str_replace($up,'',$dirPath)).'<br>';
+    if ($CI->Filemanage_Model->deleteFile(str_replace(str_split("\/"),'',str_replace($up,'',$dirPath)))) {
+			rmdir($dirPath);
+		}
+}
 
 	public function download($path,$item)
 	{
@@ -197,12 +302,15 @@ private function checkSpace($spell)
 
 private function upload_file($path)
 	{
+		if (substr($path, strlen($path) - 1, 1) != '/') {
+        $path .= '/';
+    }
 			$config['upload_path']          = $path;
 			$config['allowed_types']        = 'jpg|jpeg|png|gif|pdf|zip';
 			$config['max_size']             = 0;
 			$config['max_width']            = 0;
 			$config['max_height']           = 0;
-			//$config['max_size']             = 10000000;
+			$config['max_size']             = 8000000;
 			$config['encrypt_name']         = true;
 
 			$this->load->library('upload', $config);
@@ -210,17 +318,59 @@ private function upload_file($path)
 			if ( ! $this->upload->do_upload('file'))
 			{
 							$error = array('error' => $this->upload->display_errors());
-							echo "error" . json_encode($error);
-							return null;
+							// echo "error" . json_encode($error);
+							return false;
 			}
 			else
 			{
 							$data = array('upload_data' => $this->upload->data()); //store data of img
-							echo '<br> json data of file'.json_encode($data);
-							return $data['upload_data']['file_name'];
+							// echo '<br> json data of file'.json_encode($data);
+							$data = array(
+										 'FILE_NAME' 					=> $data['upload_data']['file_name'],
+										 'FILE_NAME_ORIG' 		=> $data['upload_data']['orig_name'],
+										 'PATH' 							=> $data['upload_data']['file_path'],
+										 'PID' 								=> $this->session->userdata('id'),
+										 'EMPLOYEE_GROUPID' 	=> $this->session->userdata('gid'),
+										 'DESCRIBE' 					=> $this->input->post('describe'),
+														);
+							$this->Filemanage_Model->createFile($data);
+							return true;
 			}
 
 	}
+
+	function getRandomWord($len = 32) {
+    $word = array_merge(range('a', 'z'), range('A', 'Z'), range('0', '9'));
+    shuffle($word);
+    return substr(implode($word), 0, $len);
+	}
+
+public function createUniqueId() {
+
+    while (1) {
+       $word = $this->getRandomWord();
+       if (!$this->idExists($word)) { // idExists returns true if the id is already used
+				 		 // echo $word;
+					 return $word;
+	    }
+	}
+}
+
+	function idExists($word)
+	{
+			return $this->Filemanage_Model->getFilename($word);
+	}
+
+	function idExistsOrig($word)
+	{
+		return $this->Filemanage_Model->getFilenameOrig($word);
+	}
+
+	function getOrigFileName($name)
+	{
+		return $this->Filemanage_Model->getnameOrig($name);
+	}
+
 
 
 }

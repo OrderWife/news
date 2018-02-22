@@ -1,7 +1,7 @@
 <?php $this->load->view('backendview/include/include_tableFile');?>
 <base href="<?php echo base_url();?>" > <!--target="_blank"-->
 <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script> -->
-<h1 class="page-header">จัดการเอกสาร</h1>
+<h2 class="page-header">จัดการเอกสาร</h2>
 <!-- data Table -->
 <!-- <ol id="breadPath" class="breadcrumb"> -->
   <!-- <li class="breadcrumb-item"><a href="./Myshelf">Root</a></li> -->
@@ -14,11 +14,11 @@
     <div class="panel-heading" id="panel-header">
       <div class="row">
         <div class="col-md-12">
-          <div class="col-md-6" style="padding-left:0px;"> [User Name] - [Group Name] </div>
+          <div class="col-md-6" style="padding-left:0px;"> <?php if(isset($user,$gid)){echo $user . ' - ' .$gname;}else{ echo "[ User name ] - [Group Name]";} ?></div>
           <div class="col-md-6">
             <div class="row" style="float:right">
-              <button id='createFolder' title="Add Folder" type="button" class="btn btn-success" name="button"><i class="fa fa-plus"></i> <small> Folder</small></button>
-              <button id="uploadBtn" title="Upload" type="button" class="btn btn-info" name="button"><i class="fa fa-upload"></i> <small> Upload</small></button>
+              <button id='createFolder' title="Add Folder" type="button" class="btn btn-success" name="button"><i class="fa fa-plus"></i> <small> สร้างโฟล์เดอร์</small></button>
+              <button id="uploadBtn" title="Upload" type="button" class="btn btn-info" name="button"><i class="fa fa-upload"></i> <small> อัพโหลดไฟล์</small></button>
               <!-- <button title="Share" type="button" class="btn btn-primary" name="button"><i class="fa fa-share"></i> <small>Share</small> </button> -->
             </div>
             <!-- <div class="row" style="float:right">
@@ -65,10 +65,13 @@
 <script type="text/javascript">
   var response = <?php echo $files; ?>;
   var strPath = '<?php echo str_replace('=','',base64_encode($basePath)) ;?>';
-  var path = '<?php echo str_replace('news/','',$basePath).'/'; ?>';
+  var path = "<?php echo str_replace('news/','',$basePath); ?>";
   var upPath = '<?php echo $upPath; ?>';
-  var FMdel = function () {
-            var link = "<?php echo base_url().'index.php/Backend/deleteFile/';?>";
+  var OrigName = <?php echo $filesOrig; ?>;
+  var pid = '<?php echo $id;?>';
+  function FMdel(ggg) {
+          // console.log(ggg);
+             var link = "<?php echo base_url().'index.php/myshelf/deleteFile/';?>"+ggg;
                 swal({
                   title: "ลบไฟล์!",
                   text: "คุณต้องการลบไฟล์นี้ใช่หรือไม่ ?",
@@ -79,11 +82,12 @@
                 }).then((willDelete) => {
                 if (willDelete) {
                   if (willDelete) {
-                    $.post(link).then
+                    // $.post('link').then
                     swal("Poof! ลบไฟล์เรียบร้อยแล้ว!", {
                       icon: "success",
                     }).then(function(){
-                        window.location = "<?php echo base_url(). 'index.php/myshelf/'?>";
+                        // window.location = "<?php //echo base_url(). 'index.php/myshelf/deleteFile/'?>"+a;
+                        window.location = link;
                       });
                     }
                 } else {

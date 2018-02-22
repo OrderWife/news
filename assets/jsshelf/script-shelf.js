@@ -6,13 +6,6 @@ $(function() {
       if(item == '.'){ //|| item == '..'
         return;
       }
-      // console.log(item);
-        // var strBtnC= '<button title="Copy" type="button" class="btn btn-info" name="button" onclick="copy()" ><i class="fa fa-copy"></i></button> ';
-        // var strBtnM= '<button title="Move" type="button" class="btn btn-warning" name="button" onclick="move()" ><i class="fa fa-arrows"></i></button> ';
-        var strBtnD= '<button title="Delete" type="button" class="btn btn-danger" name="button" onclick="FMdel()" ><i class="fa fa-trash"></i></button> ';
-        // var strBTN = strBtnC + strBtnM + strBtnD;
-        // var strBTN = strBtnC + strBtnD;
-        var strBTN = strBtnD;
         if (item == '..' && upPath != 'f') {
           var $tr = $('<tr>').append(
               $('<td>').html('<a href="Myshelf/up/'+upPath+'/."><i class="fa fa-home fa-fw"></i></a> '),
@@ -23,68 +16,85 @@ $(function() {
               $('<td align="right" >').html(''),
               ).appendTo('#dataTables-file');
         }
+
+        if (item == '..'){
+          return;
+        }
+        var isHide = '';
+        if(pid!=OrigName[i][3]){
+        isHide = 'hide';
+          // console.log('hide '+ item);
+        }
+        // console.log(item);
+        // var strBtnC= '<button title="Copy" type="button" class="btn btn-info" name="button" onclick="copy()" ><i class="fa fa-copy"></i></button> ';
+        // var strBtnM= '<button title="Move" type="button" class="btn btn-warning" name="button" onclick="move()" ><i class="fa fa-arrows"></i></button> ';
+        var strBtnD = '<button title="Delete" type="button" class="btn btn-danger '+isHide+' " name="button" onclick="FMdel('+"'"+strPath+"/"+item+"'"+')"><i class="fa fa-trash"></i></button> ';
+        var strBtnR = '<button title="Rename" type="button" class="btn btn-warning '+isHide+' " name="button" onclick="rename('+"'"+item+"'"+')"><i class="fa fa-edit"></i></button> ';
+        // var strBTN = strBtnC + strBtnM + strBtnD;
+        // var strBTN = strBtnC + strBtnD;
+        var strBTN = strBtnR+strBtnD ;
         var parts = getExtension(item);
         // console.log(parts);
         if(isImage(parts))
         {
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+path + item + '"><i class="fa fa-file-image-o fa-fw"></i> '+ item.replace(/%20/g,' ') +'</a> '),
-              $('<td>').html('<a href="Myshelf/download/'+strPath + item + '"><i class="fa fa-download fa-fw"></i></a>'),
-              $('<td>').text('12/2/2561'),
+              $('<td>').html('<a href="'+path + item + '" target="_blank"><i class="fa fa-file-image-o fa-fw"></i> '+ OrigName[i][0]+'</a><br>  <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="Myshelf/download/'+strPath +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
+              $('<td>').text(OrigName[i][1]),
               $('<td>').text('Image '+ parts),
               $('<td class="center">').text('-'),
               $('<td align="right" >').html(strBTN),
               ).appendTo('#dataTables-file');
         }else if(isDoc(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+ path + item + '"><i class="fa fa-file-word-o fa-fw"></i> '+ item.replace(/%20/g,' ') +'</a> '),
-              $('<td>').html('<a href="Myshelf/download/'+strPath + item + '"><i class="fa fa-download fa-fw"></i></a>'),
-              $('<td>').text('12/2/2561'),
+              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-word-o fa-fw"></i> '+ OrigName[i][0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
+              $('<td>').text(OrigName[i][1]),
               $('<td>').text('Word, '+ parts),
               $('<td class="center">').text('-'),
               $('<td align="right" >').html(strBTN),
               ).appendTo('#dataTables-file');
         }else if(isDocEx(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+ path + item + '"><i class="fa fa-file-excel-o fa-fw"></i> '+ item.replace(/%20/g,' ') +'</a> '),
-              $('<td>').html('<a href="Myshelf/download/'+strPath + item + '"><i class="fa fa-download fa-fw"></i></a>'),
-              $('<td>').text('12/2/2561'),
+              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-excel-o fa-fw"></i> '+ OrigName[i][0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
+              $('<td>').text(OrigName[i][1]),
               $('<td>').text('Excel, '+ parts),
               $('<td class="center">').text('-'),
               $('<td align="right" >').html(strBTN),
               ).appendTo('#dataTables-file');
         }else if(isDocPp(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+ path + item + '"><i class="fa fa-file-powerpoint-o fa-fw"></i> '+ item.replace(/%20/g,' ') +'</a> '),
-              $('<td>').html('<a href="Myshelf/download/'+strPath + item + '"><i class="fa fa-download fa-fw"></i></a>'),
-              $('<td>').text('12/2/2561'),
+              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-powerpoint-o fa-fw"></i> '+ OrigName[i][0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
+              $('<td>').text(OrigName[i][1]),
               $('<td>').text('Powerpoint, '+ parts),
               $('<td class="center">').text('-'),
               $('<td align="right" >').html(strBTN),
               ).appendTo('#dataTables-file');
         }else if(isZip(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+ path + item + '"><i class="fa fa-file-archive-o fa-fw"></i> '+ item.replace(/%20/g,' ') +'</a> '),
-              $('<td>').html('<a href="Myshelf/download/'+strPath + item + '"><i class="fa fa-download fa-fw"></i></a>'),
-              $('<td>').text('12/2/2561'),
+              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-archive-o fa-fw"></i> '+ OrigName[i][0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
+              $('<td>').text(OrigName[i][1]),
               $('<td>').text('Archive, '+ parts),
               $('<td class="center">').text('-'),
               $('<td align="right" >').html(strBTN),
               ).appendTo('#dataTables-file');
         }else if(isTxt(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="' +path + item + '"><i class="fa fa-file-text-o fa-fw"></i> '+ item.replace(/%20/g,' ') +'</a> '),
-              $('<td>').html('<a href="Myshelf/download/'+strPath + item + '"><i class="fa fa-download fa-fw"></i></a>'),
-              $('<td>').text('12/2/2561'),
+              $('<td>').html('<a href="' +path + item + '" target="_blank"><i class="fa fa-file-text-o fa-fw"></i>'+ OrigName[i][0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
+              $('<td>').text(OrigName[i][1]),
               $('<td>').text('Text, '+ parts),
               $('<td class="center">').text('-'),
               $('<td align="right" >').html(strBTN),
               ).appendTo('#dataTables-file');
         }else if(isPdf(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+ path + item + '"><i class="fa fa-file-pdf-o fa-fw"></i> '+ item.replace(/%20/g,' ') +'</a> '),
-              $('<td>').html('<a href="Myshelf/download/'+strPath + item + '"><i class="fa fa-download fa-fw"></i></a>'),
-              $('<td>').text('12/2/2561'),
+              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-pdf-o fa-fw"></i> '+ OrigName[i][0]+'</abbr></a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
+              $('<td>').text(OrigName[i][1]),
               $('<td>').text('Portable Document Format, '+ parts),
               $('<td class="center">').text('-'),
               $('<td align="right" >').html(strBTN),
@@ -92,16 +102,17 @@ $(function() {
         }else if(item != '..' && item != '.'){
           // var strPath = '<?php echo str_replace('=','',base64_encode($basePath."/")) ;?>';
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="Myshelf/folder/'+ strPath+'/'+item+'"><i class="fa fa-folder-o fa-fw"></i> '+ item.replace(/%20/g,' ') +'</a> '),
+              $('<td>').html('<a href="Myshelf/folder/'+ strPath+'/'+item+'"><i class="fa fa-folder-o fa-fw"></i>'+ OrigName[i][0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
               $('<td>').html(' '),
-              $('<td>').text('12/2/2561'),
+              $('<td>').text(OrigName[i][1]),
               $('<td>').text('Folder'),
               $('<td class="center">').text('-'),
-              $('<td align="right" >').html(strBtnD),
+              $('<td align="right" >').html(strBTN),
               ).appendTo('#dataTables-file');
         }
 
-    });
+      });
+
     ////////////////////////////////////////////////////////////////////////////////////////
       // var bredC =  <?php echo json_encode($picePath);?>;
 //     var root ='';

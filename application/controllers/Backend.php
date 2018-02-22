@@ -6,6 +6,7 @@ class Backend extends CI_Controller {
 	public function __construct()
 	{
 				parent::__construct();
+				$this->authenclass->checkauthen();
 				$this->load->model('News_Model');
 				$this->load->library('session');
 
@@ -22,7 +23,7 @@ class Backend extends CI_Controller {
 						'query' => $this->News_Model->selectNews(),
 						'listCate' => $this->News_Model->getCate(),
 		);
-		$page = array( 'page' => 'news', );
+		$page = array( 'page' => 'news', 'user' => $this->session->userdata('user'), 'gid' => $this->session->userdata('gid'),);
 		$this->load->view('backendhome',$page);
 		$this->load->view('backendview\include\include_table',$data);
 		$this->load->view('backendview\include\scriptdatatable');
@@ -39,7 +40,7 @@ class Backend extends CI_Controller {
 				}
 
 				$dataofnews = array(
-					'PID'           => 1,//$this->session->userdata('pid'),
+					'PID'           => $this->session->userdata('id'),
 					'N_TITLE'       => $this->input->post('title'),
 					'N_CATEGORY'    => $this->input->post('category'),
 					'N_TAG'    			=> $this->input->post('tagNews'),
@@ -73,7 +74,7 @@ public function savenews($news_ID)
 		//echo "<br>imgUp empty.<br>";
 	}
 	$dataofedit = array(
-		//'PID'           => 1,//$this->session->userdata('pid'),
+		// 'PID'           => $this->session->userdata('id'),
 		'N_TITLE'       => $this->input->post('title'),
 		'N_CATEGORY'    => $this->input->post('category'),
 		'N_TAG'    			=> $this->input->post('tagNews'),

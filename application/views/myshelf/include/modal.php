@@ -89,7 +89,7 @@
       <div class="modal-body">
         <!-- <p>Upload...</p> -->
         <div style="margin:10px" class="">
-          <form class="" action="myshelf/upload/" enctype="multipart/form-data" method="post">
+          <form class="" action="myshelf/upload/<?php echo str_replace('=','',base64_encode($basePath)) ;?>" enctype="multipart/form-data" method="post">
             <input class="form-control" id="file" type="file" name="file" accept=".pdf, .zip, image/*" required>
             <!-- <div class="file-loading">
                 <label>Preview File</label>
@@ -127,6 +127,36 @@
                 <input class="form-control" type="text" name="describe" placeholder="คำอธิบายไฟล์">
                 <br>
                 <button style="float:right" type="submit" class="btn btn-success" name="button">สร้างโฟลเดอร์ใหม่</button>
+                <br><br>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <h4>[Group Name]</h4>
+      </div>
+  </div>
+</div>
+
+<div id="RenameModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span id="renameX" class="close">&times;</span>
+        <h3>เปลี่ยนชื่อไฟล์</h3>
+      </div>
+      <div class="modal-body">
+        <div class="">
+          <br>
+          <form class="" action="myshelf/rename" method="post">
+                <label>ชื่อใหม่</label>
+                <input required id="title" title='ชื่อโฟลเดอร์ใหม่' class="form-control" type="text" name="newName" placeholder="กรุณากรอกชื่อโฟลเดอร์">
+                <br>
+                <!-- <label>ชื่ออ้างอิง</label> -->
+                <input readonly id="refname" title='ชื่ออ้างอิง' class="hide form-control" type="text" name="refName" value="">
+                <br>
+                <label>คำอธิบายไฟล์</label>
+                <input class="form-control" type="text" name="describe" placeholder="คำอธิบายไฟล์">
+                <br>
+                <button style="float:right" type="submit" class="btn btn-success" name="button">ตกลง</button>
                 <br><br>
           </form>
         </div>
@@ -192,6 +222,7 @@ var UploadModal = document.getElementById('UploadModal');
 var CreateFolderModal = document.getElementById('CreateFolderModal');
 var CopyModal = document.getElementById('CopyModal');
 var MoveModal = document.getElementById('MoveModal');
+var RenameModal = document.getElementById('RenameModal');
 
 // Get the button that opens the modal
 var uploadBtn = document.getElementById("uploadBtn");
@@ -203,6 +234,7 @@ var closeUp = document.getElementById("closeUp");
 var folderX = document.getElementById("folderX");
 var CopyX = document.getElementById("CopyX");
 var moveX = document.getElementById("moveX");
+var renameX = document.getElementById("renameX");
 
 // When the user clicks the button, open the modal
 uploadBtn.onclick = function() {
@@ -217,7 +249,12 @@ function copy() {
   // console.log('click');
    CopyModal.style.display = "block";
 }
-
+function rename(refName) {
+  // console.log('click');
+   RenameModal.style.display = "block";
+   $('#refname').val(refName);
+   console.log($('#refname').val());
+}
 function move() {
   // console.log('click');
    MoveModal.style.display = "block";
@@ -232,6 +269,9 @@ folderX.onclick = function() {
 }
 CopyX.onclick = function() {
     CopyModal.style.display = "none";
+}
+renameX.onclick = function() {
+    RenameModal.style.display = "none";
 }
 
 moveX.onclick = function() {
@@ -248,6 +288,8 @@ window.onclick = function(event) {
         CopyModal.style.display = "none";
     }else if (event.target == MoveModal) {
         MoveModal.style.display = "none";
+    }else if (event.target == RenameModal) {
+        RenameModal.style.display = "none";
     }
 }
 

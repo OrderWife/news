@@ -24,9 +24,9 @@
     min-height: 300px;
 }
 </style>
-<h1 class="page-header">จัดการบริหารข่าว
-  <button id="btn-yes-no" type="button" style="float:right;" class="btn btn-success btn-lg" onclick="showform()">เพิ่มข่าว</button>
-</h1>
+<h2 class="page-header">จัดการบริหารข่าว
+  <button id="btn-yes-no" type="button" style="float:right;" class="btn btn-success btn-md" onclick="showform()">เพิ่มข่าว</button>
+</h2>
 <!-- data Table -->
 <div class="panel panel-default">
 <div class="panel-heading" id="panel-header">
