@@ -17,7 +17,7 @@
 <style href="https://cdn.datatables.net/rowreorder/1.2.3/css/rowReorder.dataTables.min.css" media="screen"></style>
 <style href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" media="screen"></style>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js" type="text/javascript"></script>
+<!-- <script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js" type="text/javascript"></script> -->
 <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js" type="text/javascript"></script>
 <style>
 .ck-editor{
@@ -29,8 +29,8 @@
     min-height: 300px;
 }
 </style>
-<h3 class="page-header">จัดการบริหารข่าว
-  <button id="btn-yes-no" type="button" style="float:right;" class="btn btn-success btn-md" onclick="showform()">เพิ่มข่าว</button>
+<h3 class="page-header">จัดการข่าวสาร
+  <button id="btn-yes-no" type="button" style="float:right;" class="btn btn-success " onclick="showform()">เพิ่มข่าว</button>
 </h3>
 <!-- data Table -->
 <div class="panel panel-default">
@@ -45,16 +45,16 @@
         <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
           <div class="row">
              <div class="col-md-12 col-sm-10">
-                  <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+                  <table class="table" id="dataTables-example" >
                     <thead>
                         <tr role="row">
-                          <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10px;">ลำดับ</th>
-                          <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">หมวดหมู่</th>
-                          <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 200px;">หัวข้อข่าว</th>
-                          <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">วันเริ่มต้น</th>
-                          <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">วันสิ้นสุด</th>
+                          <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" aria-sort="ascending" style="width: 10px;">ลำดับ</th>
+                          <th class="" tabindex="0" aria-controls="dataTables-example" style="width: 200px;">หัวข้อข่าว</th>
+                          <th class="" tabindex="0" aria-controls="dataTables-example" style="width: 50px;">หมวดหมู่</th>
+                          <th class="" tabindex="0" aria-controls="dataTables-example" style="width: 50px;">วันเริ่มต้น</th>
+                          <th class="" tabindex="0" aria-controls="dataTables-example" style="width: 50px;">วันสิ้นสุด</th>
                           <!-- <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 90px;">แก้ไขล่าสุด</th> -->
-                          <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 40px;">แก้ไข/ลบ ข่าว</th>
+                          <th class="" tabindex="0" aria-controls="dataTables-example"style="width: 40px;">แก้ไข/ลบ ข่าว</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -75,7 +75,7 @@
   <div class="hide" id="form-box">
     <div class="col-md-12">
       <!-- action="createnews"  -->
-      <form action="" class="" id="news" enctype="multipart/form-data" method="post">
+      <form class="" id="news" enctype="multipart/form-data" method="post">
         <div class="row" >
           <div class="col-md-8">
               <div class="form-group">
@@ -129,7 +129,9 @@
           </div>
         </div>
         <div class="col-md-10 col-md-offset-1">
-          <button id="submidNews"  type="submit" class="btn btn-success" style="float:right">บันทึก</button>
+          <button id="submidNews" type="submit" class="btn btn-success" style="float:right">บันทึก</button>
+          <!-- <button type="button" onclick="functionName()" name="button">getlog</button> -->
+          <!-- id="submidNews" type="submit" -->
         </div>
       </form>
     </div>
@@ -149,7 +151,7 @@
     var classN = boxTable.className;
     if(classN == 'hide' || btnYN.innerHTML == 'ยกเลิก')
     {
-      btnYN.className = 'btn btn-success btn-lg';
+      btnYN.className = 'btn btn-success btn-md';
       btnYN.innerHTML = 'เพิ่มข่าว'
       boxTable.className = '';
       $('#showimg').addClass('hide');
@@ -165,12 +167,13 @@
           browseClass: "btn btn-primary",
           overwriteInitial: false,
       });
+      myEditor.setData('Enter text here!');
       $('#delTips').replaceWith();
     }else{
-      $('#news').attr('action', 'backend/createnews');
+      $('#news').attr('action', 'backend/createnews');//backend/createnews
       $('#delTips').replaceWith();
       //console.log($('#news').attr('action'));
-      btnYN.className = 'btn btn-danger btn-lg';
+      btnYN.className = 'btn btn-danger btn-md';
       btnYN.innerHTML = 'ยกเลิก'
       boxTable.className = 'hide';
       boxForm.className  = '';
@@ -219,6 +222,7 @@
   ClassicEditor.create(document.querySelector( '#editor' )).then( editor => {
                       //console.log( 'Editor was initialized', editor );
                       editor.setData('<p>Enter text here!</p>');
+
                       console.log(editor.config);
                       myEditor = editor;
              })
@@ -228,16 +232,22 @@
 
 
 
+
   $(function(){
     document.getElementById("startdate").value="<?php echo date("Y-m-d")?>";
   });
   $("form").submit( function(e) {
+    console.log(myEditor.getData());
           var messageLength = myEditor.getData().replace(/<[^>]*>/gi, '').replace('&nbsp;', '').replace('Enter text here!', '').length;
           if( !messageLength ) {
               alert( 'Please enter a message in content box' );
               e.preventDefault();
           }
       });
+
+  function functionName() {
+      console.log(myEditor.getData());
+  }
 
   $( "input" ).change(function() {
     var input = $( this );

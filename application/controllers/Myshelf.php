@@ -11,7 +11,6 @@ class Myshelf extends CI_Controller {
 				parent::__construct();
 				$this->authenclass->checkauthen();
 				$this->load->model('Filemanage_Model');
-				// $this->load->library('session');
 				$this->load->helper('download');
 
 				$this->basePath = '../news/fm_root/' . $this->Filemanage_Model->getShelf($this->session->userdata('gid'));
@@ -29,7 +28,8 @@ class Myshelf extends CI_Controller {
   {
     $data = array(
 			'page' 			=> 'shelf',
-			'files' 		=> json_encode(@scandir($this->basePath)),
+			// 'files' 		=> json_encode(@scandir($this->basePath)),
+			'files' 		  => $this->fileandsize($this->basePath),
 			'filesOrig'		=> json_encode($this->getOrigName(@scandir($this->basePath))),
 			// 'picePath'	=> explode('/',$this->basePath),
 			'basePath'	=> $this->basePath,
@@ -53,7 +53,8 @@ class Myshelf extends CI_Controller {
 			$this->basePath = $this->checkSpace($this->basePath);
 	    $data = array(
 				'page' 				=> 'shelf',
-				'files' 			=> json_encode(@scandir($this->basePath."/")),
+				// 'files' 			=> json_encode(@scandir($this->basePath."/")),
+				'files' 		  => $this->fileandsize($this->basePath),
 				'filesOrig'		=> json_encode($this->getOrigName(@scandir($this->basePath."/"))),
 				// 'picePath'	=> explode('/',$this->basePath),
 				'basePath'		=> $this->basePath."/",
@@ -92,7 +93,8 @@ class Myshelf extends CI_Controller {
 
 	    $data = array(
 				'page' 				=> 'shelf',
-				'files' 			=> json_encode(@scandir($this->basePath."/")),
+				// 'files' 			=> json_encode(@scandir($this->basePath."/")),
+				'files' 		  => $this->fileandsize($this->basePath),
 				'filesOrig'		=> json_encode($this->getOrigName(@scandir($this->basePath."/"))),
 				// 'picePath'	=> explode('/',$this->basePath),
 				'basePath'		=> $this->basePath,
@@ -374,6 +376,41 @@ public function createUniqueId() {
 	{
 		return $this->Filemanage_Model->getnameOrig($name);
 	}
+
+	// public function testJson()
+	// {
+	// 	$json = array(
+	// 			array(
+	// 				'fn' => 'aaa.txt',
+	// 				'fz' => 2,
+	// 			),
+	// 			array(
+	// 				'fn' => 'ggg.png',
+	// 				'fz' => 7,
+	// 			),
+	// 		);
+	//
+	// 		header('Content-Type: application/json');
+	// 		echo json_encode($json);
+	// }
+
+	function fileandsize($path)//$path
+	{
+		// $path = base64_decode($path);
+		$fn = @scandir(realpath($path));
+		$file = array();
+		foreach ($fn as $key => $value) {
+			// echo "Key : ".$key ." => ".$value;
+			if ($value != "." && $value != ".." && !is_dir($value)) {
+				$file[$key] = array("fn"=>$value, "fz"=>filesize(realpath($path)."\\".$value),);
+			}else{
+				$file[$key] = array("fn"=>$value, "fz"=>'-',);
+			}
+		}
+		return json_encode($file);
+	}
+
+
 
 
 

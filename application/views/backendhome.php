@@ -44,10 +44,10 @@
                         <ul class="nav" id="side-menu">
                             <li>
                               <!-- active -->
-                                <a class="" href="backend/home"><i class="fa fa-newspaper-o"></i> การจัดการข่าวสาร</a>
+                                <a class="" href="backend/home"><i class="fa fa-newspaper-o"></i> จัดการข่าวสาร</a>
                             </li>
                             <li>
-                                <a href="Myshelf"><i class="fa fa-book fa-fw"></i>Shelf Menu </a>
+                                <a href="Myshelf"><i class="fa fa-book fa-fw"></i> จัดการเอกสาร </a>
                             </li>
                             <!-- <li> -->
                                 <!-- <a href="Myshelf/ang_fm"><i class="fa fa-book fa-fw"></i>Shelf-Angular-FM Menu </a> -->

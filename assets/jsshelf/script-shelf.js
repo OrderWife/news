@@ -3,10 +3,11 @@
 $(function() {
   try {
     $.each(response, function(i, item) {
-      if(item == '.'){ //|| item == '..'
+      console.log(item);
+      if(item['fn'] == '.'){ //|| item['fn'] == '..'
         return;
       }
-        if (item == '..' && upPath != 'f') {
+        if (item['fn'] == '..' && upPath != 'f') {
           var $tr = $('<tr>').append(
               $('<td>').html('<a href="Myshelf/up/'+upPath+'/."><i class="fa fa-home fa-fw"></i></a> '),
               $('<td>').html(''),
@@ -17,100 +18,99 @@ $(function() {
               ).appendTo('#dataTables-file');
         }
 
-        if (item == '..'){
+        if (item['fn'] == '..'){
           return;
         }
         var isHide = '';
         if(pid!=OrigName[i][3]){
         isHide = 'hide';
-          // console.log('hide '+ item);
+          // console.log('hide '+ item['fn']);
         }
-        // console.log(item);
+        // console.log(item['fn']);
         // var strBtnC= '<button title="Copy" type="button" class="btn btn-info" name="button" onclick="copy()" ><i class="fa fa-copy"></i></button> ';
         // var strBtnM= '<button title="Move" type="button" class="btn btn-warning" name="button" onclick="move()" ><i class="fa fa-arrows"></i></button> ';
-        var strBtnD = '<button title="Delete" type="button" class="btn btn-danger '+isHide+' " name="button" onclick="FMdel('+"'"+strPath+"/"+item+"'"+')"><i class="fa fa-trash"></i></button> ';
-        var strBtnR = '<button title="Rename" type="button" class="btn btn-warning '+isHide+' " name="button" onclick="rename('+"'"+item+"'"+')"><i class="fa fa-edit"></i></button> ';
+        var strBtnD = '<button title="Delete" type="button" class="btn btn-danger '+isHide+' " name="button" onclick="FMdel('+"'"+strPath+"/"+item['fn']+"'"+')"><i class="fa fa-trash"></i></button> ';
+        var strBtnR = '<button title="Rename" type="button" class="btn btn-warning '+isHide+' " name="button" onclick="rename('+"'"+item['fn']+"'"+')"><i class="fa fa-edit"></i></button> ';
         // var strBTN = strBtnC + strBtnM + strBtnD;
         // var strBTN = strBtnC + strBtnD;
         var strBTN = strBtnR+strBtnD ;
-        var parts = getExtension(item);
+        var parts = getExtension(item['fn']);
         // console.log(parts);
         if(isImage(parts))
         {
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+path + item + '" target="_blank"><i class="fa fa-file-image-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</a><br>  <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
-              $('<td>').html('<a href="Myshelf/download/'+strPath +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
+              $('<td>').html('<a href="'+path + item['fn'] + '" target="_blank"><i class="fa fa-file-image-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</a><br>  <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="Myshelf/download/'+strPath +'/'+ item['fn'] + '"><i class="fa fa-download fa-fw"></i></a>'),
               $('<td>').text(OrigName[i][1]),
               $('<td>').text('Image '+ parts),
-              $('<td class="center">').text('-'),
+              $('<td class="center">').text((item['fz']/1000000).toFixed(2)+" "+" mb"),
               $('<td align="right" >').html(strBTN),
               ).appendTo('#dataTables-file');
         }else if(isDoc(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-word-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
-              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
+              $('<td>').html('<a href="'+ path + item['fn'] + '" target="_blank"><i class="fa fa-file-word-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item['fn'] + '"><i class="fa fa-download fa-fw"></i></a>'),
               $('<td>').text(OrigName[i][1]),
               $('<td>').text('Word, '+ parts),
-              $('<td class="center">').text('-'),
+              $('<td class="center">').text((item['fz']/1000000).toFixed(2)+" "+" mb"),
               $('<td align="right" >').html(strBTN),
               ).appendTo('#dataTables-file');
         }else if(isDocEx(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-excel-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
-              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
+              $('<td>').html('<a href="'+ path + item['fn'] + '" target="_blank"><i class="fa fa-file-excel-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item['fn'] + '"><i class="fa fa-download fa-fw"></i></a>'),
               $('<td>').text(OrigName[i][1]),
               $('<td>').text('Excel, '+ parts),
-              $('<td class="center">').text('-'),
+              $('<td class="center">').text((item['fz']/1000000).toFixed(2)+" "+" mb"),
               $('<td align="right" >').html(strBTN),
               ).appendTo('#dataTables-file');
         }else if(isDocPp(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-powerpoint-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
-              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
+              $('<td>').html('<a href="'+ path + item['fn'] + '" target="_blank"><i class="fa fa-file-powerpoint-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item['fn'] + '"><i class="fa fa-download fa-fw"></i></a>'),
               $('<td>').text(OrigName[i][1]),
               $('<td>').text('Powerpoint, '+ parts),
-              $('<td class="center">').text('-'),
+              $('<td class="center">').text((item['fz']/1000000).toFixed(2)+" "+" mb"),
               $('<td align="right" >').html(strBTN),
               ).appendTo('#dataTables-file');
         }else if(isZip(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-archive-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
-              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
+              $('<td>').html('<a href="'+ path + item['fn'] + '" target="_blank"><i class="fa fa-file-archive-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item['fn'] + '"><i class="fa fa-download fa-fw"></i></a>'),
               $('<td>').text(OrigName[i][1]),
               $('<td>').text('Archive, '+ parts),
-              $('<td class="center">').text('-'),
+              $('<td class="center">').text((item['fz']/1000000).toFixed(2)+" "+" mb"),
               $('<td align="right" >').html(strBTN),
               ).appendTo('#dataTables-file');
         }else if(isTxt(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="' +path + item + '" target="_blank"><i class="fa fa-file-text-o fa-fw"></i>'+ OrigName[i][0].split(".")[0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
-              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
+              $('<td>').html('<a href="' +path + item['fn'] + '" target="_blank"><i class="fa fa-file-text-o fa-fw"></i>'+ OrigName[i][0].split(".")[0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item['fn'] + '"><i class="fa fa-download fa-fw"></i></a>'),
               $('<td>').text(OrigName[i][1]),
               $('<td>').text('Text, '+ parts),
-              $('<td class="center">').text('-'),
+              $('<td class="center">').text((item['fz']/1000000).toFixed(2)+" "+" mb"),
               $('<td align="right" >').html(strBTN),
               ).appendTo('#dataTables-file');
         }else if(isPdf(parts)){
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="'+ path + item + '" target="_blank"><i class="fa fa-file-pdf-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</abbr></a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
-              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item + '"><i class="fa fa-download fa-fw"></i></a>'),
+              $('<td>').html('<a href="'+ path + item['fn'] + '" target="_blank"><i class="fa fa-file-pdf-o fa-fw"></i> '+ OrigName[i][0].split(".")[0]+'</abbr></a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="Myshelf/download/'+strPath  +'/'+ item['fn'] + '"><i class="fa fa-download fa-fw"></i></a>'),
               $('<td>').text(OrigName[i][1]),
               $('<td>').text('Portable Document Format, '+ parts),
-              $('<td class="center">').text('-'),
+              $('<td class="center">').text((item['fz']/1000000).toFixed(2)+" "+" mb"),
               $('<td align="right" >').html(strBTN),
               ).appendTo('#dataTables-file');
-        }else if(item != '..' && item != '.'){
+        }else if(item['fn'] != '..' && item['fn'] != '.'){
           // var strPath = '<?php echo str_replace('=','',base64_encode($basePath."/")) ;?>';
           var $tr = $('<tr>').append(
-              $('<td>').html('<a href="Myshelf/folder/'+ strPath+'/'+item+'"><i class="fa fa-folder-o fa-fw"></i>'+ OrigName[i][0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
+              $('<td>').html('<a href="Myshelf/folder/'+ strPath+'/'+item['fn']+'"><i class="fa fa-folder-o fa-fw"></i>'+ OrigName[i][0]+'</a><br> <p style="margin:0px;font-size:12px;">'+(OrigName[i][2] !== null ? OrigName[i][2]:'')+'</p>'),
               $('<td>').html(' '),
               $('<td>').text(OrigName[i][1]),
               $('<td>').text('Folder'),
-              $('<td class="center">').text('-'),
+              $('<td class="center">').text((item['fz']/1000000).toFixed(2)+" "+" mb"),
               $('<td align="right" >').html(strBTN),
               ).appendTo('#dataTables-file');
         }
-
       });
 
     ////////////////////////////////////////////////////////////////////////////////////////

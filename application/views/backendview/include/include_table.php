@@ -20,17 +20,23 @@
 <script type="text/javascript">
 
 var response = <?php echo json_encode($query); ?>;
+var data_ss = <?php echo $this->session->userdata('id') ?> ;
+
 $(function() {
   try {
     $.each(response, function(i, item) {
+      var hidebtn ='';
+      if (item.PID !=  data_ss) {
+        hidebtn = 'hide';
+      }
         var $tr = $('<tr>').append(
             $('<td align="center" >').text(item.NO),
+            $('<td>').html('<a href="news/newspage/'+item.NEWS_ID+'" target="_blank">'+item.N_TITLE +'</a><br><p style="font-size:12px; color:#b5b5b5;">ผู้เขียน : '+item.USERNAME+'</p>'),
             $('<td>').text(item.N_CATEGORY),
-            $('<td>').text(item.N_TITLE),
             $('<td>').text(item.N_START_DATE),
             $('<td>').text(item.N_END_DATE),
             // $('<td>').text(item.N_LAST_EDIT),
-            $('<td align="center" >').html('<button type="button" style="float:center;" class="btn btn-warning btn-sm"  onclick="editData('+item.NEWS_ID+')"><b class="fa fa-edit"></b></button> <button type="button" style="float:center;" class="btn btn-danger btn-sm" onclick=(delData('+item.NEWS_ID+'))><b class="fa fa-remove"></b></button>'),
+            $('<td align="center" >').html('<button type="button" style="float:center;" class="btn btn-warning btn-sm '+ hidebtn +'"  onclick="editData('+item.NEWS_ID+')"><b class="fa fa-edit '+ hidebtn +'"></b></button> <button type="button" style="float:center;" class="btn btn-danger btn-sm '+ hidebtn +'" onclick=(delData('+item.NEWS_ID+'))><b class="fa fa-remove"></b></button>'),
         ).appendTo('#dataTables-example');
     });
   } catch (e) {
@@ -66,7 +72,8 @@ function delData(btn)
             icon: "success",
             button: "ตกลง"
           }).then(function(){
-            window.location = "<?php echo base_url(). 'backend/'?>";
+            // window.location = "<?php //echo base_url(). 'backend/'?>";
+            window.location = "backend";
           });
         }
       });
@@ -74,11 +81,11 @@ function delData(btn)
 var itemFiles;
 function editData(id) {
   $('#news').attr('action', 'backend/savenews/'+id);
-  console.log($('#news').attr('action'));
+  // console.log($('#news').attr('action'));
   $('#form-box').removeClass('hide');
   $('#table_box').addClass('hide');
   var btnYN = document.getElementById('btn-yes-no');
-  btnYN.className = 'btn btn-danger btn-lg';
+  btnYN.className = 'btn btn-danger btn-md';
   btnYN.innerHTML = 'ยกเลิก';
 
   $.getJSON( "./backend/edit/"+id, function( jsonObj ) {
@@ -193,10 +200,16 @@ function editData(id) {
 <script>
     $(document).ready(function() {
         $("#dataTables-example").DataTable({
+          columnDefs: [{
+                          "targets": [5],
+                          "orderable": false
+                        }],
+          order: [[ 0, "desc" ]],
           rowReorder: {
               selector: 'td:nth-child(2)'
           },
           responsive: true,
+
         });
     });
 </script>

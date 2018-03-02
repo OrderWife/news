@@ -8,13 +8,30 @@ class Backend extends CI_Controller {
 				parent::__construct();
 				$this->authenclass->checkauthen();
 				$this->load->model('News_Model');
-				$this->load->library('session');
 
 		}
 
 	public function index()
 	{
 		$this->home();
+	}
+
+	public function test()
+	{
+		// header("Content-type:application/json");
+		header("Content-type: application/octet-stream");
+		// header("Content-type:text/plain");
+		// echo var_dump($q = $this->News_Model->selectNews());
+		$myblob = fopen("blobContent.txt", "rb") or die("Unable to open file!");
+		// echo fread($myblob, filesize("blobContent.txt"));
+		echo $conttent = file_get_contents("blobContent.txt");
+		// echo var_dump(pack("h", file_get_contents("blobContent.txt") ));
+		fclose($myblob);
+		  // $myblob = fopen("blobContent.txt", "w") or die("Unable to open file!");
+			// echo file_get_contents($myblob);
+			// echo file_get_contents("blobContent.txt");
+		// echo $q['N_CONTENT'].'<br>';
+
 	}
 
 	public function home()
@@ -31,26 +48,38 @@ class Backend extends CI_Controller {
 
 	public function createnews()
 		{
-				$imgname = 'null';
-				if(!$_FILES['imgUp']['size'] == 0 && $_FILES['imgUp']['error'] == 0){
-					//echo "<br>imgUp have file.<br>";
-					$imgname  = $this->upload_img();//$_FILES['imgUp']
-				}else {
-					//echo "<br>imgUp empty.<br>";
-				}
+
+			$imgname = 'null';
+			if(!$_FILES['imgUp']['size'] == 0 && $_FILES['imgUp']['error'] == 0){
+				//echo "<br>imgUp have file.<br>";
+				$imgname  = $this->upload_img();//$_FILES['imgUp']
+			}else {
+				//echo "<br>imgUp empty.<br>";
+			}
 
 				$dataofnews = array(
+					'newspage'			=> $this->createNewsId(),
 					'PID'           => $this->session->userdata('id'),
 					'N_TITLE'       => $this->input->post('title'),
 					'N_CATEGORY'    => $this->input->post('category'),
 					'N_TAG'    			=> $this->input->post('tagNews'),
 					'N_IMG'         => $imgname,
-					'N_CONTENT'     => $this->input->post('content'),
 					'N_START_DATE'  => $this->functodateOra($this->input->post('startdate')),
 					'N_END_DATE'    => $this->functodateOra($this->input->post('enddate')),
+					'N_CONTENT'     => $this->input->post('content'),
+					'N_STATUS'			=> 1,
 				);
 
 				$idnews = $this->News_Model->insertnews($dataofnews);
+				if (!$idnews) {
+					echo "Error!";
+					if($imgname != 'null'){
+						@unlink ('./upload/'.$imgname);
+					}
+					redirect('./backend/');
+					return;
+				}
+				// return;
 				$this->lastNewsId = $idnews-1;
 
 				if(!$_FILES['fileUp']['size'][0] == 0 ){
@@ -75,6 +104,7 @@ public function savenews($news_ID)
 	}
 	$dataofedit = array(
 		// 'PID'           => $this->session->userdata('id'),
+		// 'news_ID'				=> $news_ID,
 		'N_TITLE'       => $this->input->post('title'),
 		'N_CATEGORY'    => $this->input->post('category'),
 		'N_TAG'    			=> $this->input->post('tagNews'),
@@ -234,6 +264,28 @@ public function savenews($news_ID)
 				$data = $this->News_Model->getCate();
 				echo json_encode($data);
 			}
+
+			public function createNewsId() {
+
+			    while (1) {
+			       $word = $this->getRandomWord();
+			       if (!$this->idExists($word)) { // idExists returns true if the id is already used
+							 		 // echo $word;
+								 return $word;
+				    }
+				}
+			}
+
+			function getRandomWord($len = 24) {
+				$word = array_merge(range('a', 'z'), range('A', 'Z'), range('0', '9'));
+				shuffle($word);
+				return substr(implode($word), 0, $len);
+			}
+
+		  function idExists($word)
+		  {
+		  		return $this->News_Model->getNewspage($word);
+		  }
 
 
 		// public function upload_files($formfiles){
