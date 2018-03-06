@@ -41,10 +41,10 @@
                   <tr>
                       <th>ชื่อไฟล์</th>
                       <th style="width: 5px;"></th>
-                      <th>อัพโหลดวันที่</th>
-                      <th>ชนิด</th>
+                      <th style="width: 15%;">อัพโหลดวันที่</th>
+                      <th style="width: 15%;">ชนิด</th>
                       <th style="width: 5px;">ขนาด</th>
-                      <th style="width: 80px;"></th>
+                      <th style="width: 15%;"></th>
                   </tr>
               </thead>
               <tbody>
@@ -68,7 +68,7 @@
 <script type="text/javascript">
   var response = <?php echo $files; ?>;
   var strPath = '<?php echo str_replace('=','',base64_encode($basePath)) ;?>';
-  var path = "<?php echo str_replace('news/','',$basePath); ?>";
+  // var path = "<?php //echo str_replace('news/','',$basePath); ?>";
   var upPath = '<?php echo $upPath; ?>';
   var OrigName = <?php echo $filesOrig; ?>;
   var pid = '<?php echo $id;?>';

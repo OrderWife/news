@@ -68,18 +68,23 @@
     cursor: pointer;
 }
 </style>
+<link href="<?php echo base_url();?>assets/plugins/bootstrap/tag/dist/bootstrap-tagsinput.css" rel="stylesheet">
 <link href="<?php echo base_url();?>assets/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
 <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css"/> -->
 <link href="<?php echo base_url();?>assets/bootstrap-fileinput/themes/explorer-fa/theme.css" media="all" rel="stylesheet" type="text/css"/>
 <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 <script src="<?php echo base_url();?>assets/bootstrap-fileinput/js/plugins/sortable.js" type="text/javascript"></script>
 <script src="<?php echo base_url();?>assets/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
 <script src="<?php echo base_url();?>assets/bootstrap-fileinput/js/locales/fr.js" type="text/javascript"></script>
 <script src="<?php echo base_url();?>assets/bootstrap-fileinput/js/locales/es.js" type="text/javascript"></script>
 <script src="<?php echo base_url();?>assets/bootstrap-fileinput/themes/explorer-fa/theme.js" type="text/javascript"></script>
 <script src="<?php echo base_url();?>assets/bootstrap-fileinput/themes/fa/theme.js" type="text/javascript"></script>
-
-
+<script src="<?php echo base_url();?>assets/plugins/bootstrap/tag/dist/bootstrap-tagsinput.min.js"></script>
+<script src="<?php echo base_url();?>assets/plugins/bootstrap/tag/dist/bootstrap-tagsinput-angular.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <div id="UploadModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -146,13 +151,13 @@
       <div class="modal-body">
         <div class="">
           <br>
-          <form class="" action="myshelf/rename" method="post">
+          <form id="renameForm" class="" action="myshelf/rename" method="post">
                 <label>ชื่อใหม่</label>
-                <input required id="title" title='ชื่อโฟลเดอร์ใหม่' class="form-control" type="text" name="newName" placeholder="กรุณากรอกชื่อโฟลเดอร์">
+                <input required id="titlename" title='ชื่อโฟลเดอร์ใหม่' class="form-control" type="text" name="newName" placeholder="กรุณากรอกชื่อโฟลเดอร์">
                 <br>
                 <!-- <label>ชื่ออ้างอิง</label> -->
                 <input readonly id="refname" title='ชื่ออ้างอิง' class="hide form-control" type="text" name="refName" value="">
-                <br>
+                <!-- <br> -->
                 <label>คำอธิบายไฟล์</label>
                 <input class="form-control" type="text" name="describe" placeholder="คำอธิบายไฟล์">
                 <br>
@@ -215,6 +220,56 @@
   </div>
 </div>
 
+<div id="ShareModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span id="shareX" class="close">&times;</span>
+        <h3>แชร์ ไฟล์/โฟล์เดอร์</h3>
+      </div>
+      <div class="modal-body">
+        <div class="">
+          <br>
+          <form id="shareForm" class="" action="myshelf/share" method="post">
+                <!-- <label>ชื่อไฟล์</label> -->
+                <!-- <input disabled required id="title" title='ชื่อโฟล์' class="form-control" type="text" name="title" placeholder="ชื่อไฟล์ใหม่"> -->
+                <input readonly id="refnameshare" title='ชื่ออ้างอิง' class="hide form-control" type="text" name="refnameshare" value="">
+
+                <br>
+                <div class="form-group">
+                <label>เลือกรูปแบบการแชร์</label> <br>
+                  <label class="radio-inline">
+                      <input type="radio" name="RadioGroupShare" id="m" value="m" checked>เฉพาะฉันที่สามารถเห็นได้
+                  </label>
+                  <label class="radio-inline">
+                      <input type="radio" name="RadioGroupShare" id="s" value="s">บางคนสามารถเห็นได้
+                  </label>
+                  <label class="radio-inline">
+                      <input type="radio" name="RadioGroupShare" id="g" value="g" >ทุกคนในกลุ่มงานสามารถเห็นได้
+                  </label>
+                </div>
+                <div id="findUser" class="hide">
+                  <label for="">เลือกบุคคลที่ท่านต้องการแชร์ </label>
+                  <div class="s2-example">
+                    <p>
+                      <select disabled required name="usershare[]" id="tag_user" class="js-example-basic-multiple form-control" multiple="multiple" style="width: 100%">
+                      </select>
+                    </p>
+                  </div>
+
+                </div>
+                <!-- data-role="tagsinput" -->
+                <br>
+                <button style="float:right" type="submit" class="btn btn-info" name="button">ตกลง</button>
+                <br><br>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <h4>[Group Name]</h4>
+      </div>
+  </div>
+</div>
+
 
 <script>
 // Get the modal
@@ -223,6 +278,7 @@ var CreateFolderModal = document.getElementById('CreateFolderModal');
 var CopyModal = document.getElementById('CopyModal');
 var MoveModal = document.getElementById('MoveModal');
 var RenameModal = document.getElementById('RenameModal');
+var ShareModal = document.getElementById('ShareModal');
 
 // Get the button that opens the modal
 var uploadBtn = document.getElementById("uploadBtn");
@@ -235,6 +291,8 @@ var folderX = document.getElementById("folderX");
 var CopyX = document.getElementById("CopyX");
 var moveX = document.getElementById("moveX");
 var renameX = document.getElementById("renameX");
+var shareX = document.getElementById("shareX");
+
 
 // When the user clicks the button, open the modal
 uploadBtn.onclick = function() {
@@ -249,15 +307,24 @@ function copy() {
   // console.log('click');
    CopyModal.style.display = "block";
 }
-function rename(refName) {
+function rename(refName,basename) {
   // console.log('click');
    RenameModal.style.display = "block";
+   // $('#renameForm').reset();
    $('#refname').val(refName);
-   console.log($('#refname').val());
+   $('#titlename').val(basename);
+   // console.log($('#refname').val());
 }
 function move() {
   // console.log('click');
    MoveModal.style.display = "block";
+}
+
+function share(refName) {
+  // console.log('click');
+   ShareModal.style.display = "block";
+   // $('#shareForm').reset();
+   $('#refnameshare').val(refName);
 }
 
 // When the user clicks on <span> (x), close the modal
@@ -278,6 +345,10 @@ moveX.onclick = function() {
     MoveModal.style.display = "none";
 }
 
+shareX.onclick = function() {
+    MoveModal.style.display = "none";
+}
+
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
     if (event.target == UploadModal) {
@@ -290,6 +361,8 @@ window.onclick = function(event) {
         MoveModal.style.display = "none";
     }else if (event.target == RenameModal) {
         RenameModal.style.display = "none";
+    }else if (event.target == ShareModal) {
+        ShareModal.style.display = "none";
     }
 }
 
@@ -302,4 +375,37 @@ window.onclick = function(event) {
 //             overwriteInitial: false,
 //             initialPreviewAsData: false,
 //         });
+$('#m').change(function() {
+      if ($('#m').prop("checked")) {
+            // alert("M checked");
+            $('#findUser').addClass('hide');
+            $('#tag_user').prop('disabled', true);
+      }
+});
+$('#s').change(function() {
+      if ($('#s').prop("checked")) {
+            // alert("S checked");
+            $('#findUser').removeClass('hide');
+            $('#tag_user').prop('disabled', false);
+      }
+});
+$('#g').change(function() {
+      if ($('#g').prop("checked")) {
+            // alert("G checked");
+            $('#findUser').addClass('hide');
+            $('#tag_user').prop('disabled', true);
+      }
+});
+
+$('#tag_user').select2({
+    placeholder: 'เลือกผู้ใช้ที่ท่านต้องการแชร์',
+});
+
+var data = <?php echo $juser; ?>;
+$.each(data,function(index, el) {
+  // console.log(el);
+  var newOption = new Option(el.NAME, el.ID, false, false);
+  $('#tag_user').append(newOption).trigger('change');
+});
+
 </script>

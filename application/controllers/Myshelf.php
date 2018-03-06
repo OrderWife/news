@@ -27,17 +27,18 @@ class Myshelf extends CI_Controller {
   public function home()
   {
     $data = array(
-			'page' 			=> 'shelf',
+			'page' 				=> 'shelf',
 			// 'files' 		=> json_encode(@scandir($this->basePath)),
 			'files' 		  => $this->fileandsize($this->basePath),
 			'filesOrig'		=> json_encode($this->getOrigName(@scandir($this->basePath))),
 			// 'picePath'	=> explode('/',$this->basePath),
-			'basePath'	=> $this->basePath,
-			'upPath'		=> 'f',
-			'id'				=> $this->session->userdata('id'),
-			'user' 			=> $this->session->userdata('user'),
-			'gid' 			=> $this->session->userdata('gid'),
+			'basePath'		=> $this->basePath,
+			'upPath'			=> 'f',
+			'id'					=> $this->session->userdata('id'),
+			'user' 				=> $this->session->userdata('user'),
+			'gid' 				=> $this->session->userdata('gid'),
 			'gname' 			=> $this->session->userdata('gname'),
+			'juser'				=> json_encode($this->Filemanage_Model->getUser($this->session->userdata('id'))),
 		 );
     $this->load->view('backendhome',$data);
   }
@@ -48,6 +49,9 @@ class Myshelf extends CI_Controller {
 			if (!isset($taketpath)) {
 				redirect('myshelf/');
 			}
+
+			$this->checktaket($taketpath);//Check permission.
+
 			$this->basePath = base64_decode($path).'/'. $taketpath;
 			// $this->basePath = str_replace('-','/',);
 			$this->basePath = $this->checkSpace($this->basePath);
@@ -64,6 +68,7 @@ class Myshelf extends CI_Controller {
 				'user' 			=> $this->session->userdata('user'),
 				'gid' 			=> $this->session->userdata('gid'),
 				'gname' 			=> $this->session->userdata('gname'),
+				'juser'				=> json_encode($this->Filemanage_Model->getUser($this->session->userdata('id'))),
 			 );
 	    $this->load->view('backendhome',$data);
 		} catch (Exception $e) {
@@ -77,10 +82,12 @@ class Myshelf extends CI_Controller {
   {
 		try {
 			$this->basePath = base64_decode($path);
-			// $this->basePath = str_replace('-','/',);
 			$this->basePath = $this->checkSpace($this->basePath);
+			$this->basePath = str_replace('//','/',$this->basePath);
 			// echo 'real : '.realpath($this->basePath);
 			// echo "path : ". realpath($this->root);
+			$this->checktaket(basename($this->basePath));//Check permission.
+			// return;
 			$str = realpath($this->root);
 			switch (realpath($this->basePath)) {
 				case realpath($this->root):
@@ -104,31 +111,13 @@ class Myshelf extends CI_Controller {
 				'user' 			=> $this->session->userdata('user'),
 				'gid' 			=> $this->session->userdata('gid'),
 				'gname' 			=> $this->session->userdata('gname'),
+				'juser'				=> json_encode($this->Filemanage_Model->getUser($this->session->userdata('id'))),
 			 );
 	    $this->load->view('backendhome',$data);
 		} catch (Exception $e) {
 			redirect('myshelf');
 		}
-
-
   }
-
-
-
-	function getOrigName($data)
-	{
-		$OrigName = array();
-		foreach ($data as $value => $item) {
-			if($this->getOrigFileName($item)){
-				$OrigName[$value] = $this->getOrigFileName($item);
-			}else{
-				$OrigName[$value] = NULL;
-			}
-
-		}
-		return $OrigName;
-	}
-
 
 	public function createFolder($basePath)
 	{
@@ -167,16 +156,20 @@ class Myshelf extends CI_Controller {
 
 	public function upload($basePath)
 	{
-
 		$basePath = base64_decode($basePath);
+		$basePath = str_replace('//','/',$basePath);
 		$path = realpath($basePath);
 		if (substr($path, strlen($path) - 1, 1) != '/') {
         $path .= '/';
     }
+		$rpath = substr($path, strlen($path) - 33, 32);
 		// echo 'Upload :'.$path;
+		//
 		if($this->upload_file($path)){
-			echo "Success";
-			redirect('myshelf/folder/'.realpath('=','',base64_encode($basePath)));
+			echo "Success<br>";
+			// echo $rpath."\n".$basePath."\n";
+			// echo 'myshelf/folder/'.str_replace('=','',base64_encode(dirname($basePath))).'/'.$rpath;
+			redirect('myshelf/folder/'.str_replace('=','',base64_encode(dirname($basePath))).'/'.$rpath); //
 		}else{
 			echo '<script type="text/javascript">
 									alert("ไม่อัพโหลดไฟล์ได้ ขนาดไฟล์ของท่านอาจใหญ่เกินไปหรือชื่อไฟล์ของท่านซ้ำในระบบ.");
@@ -207,11 +200,23 @@ class Myshelf extends CI_Controller {
 		 }else{
 			 echo "error";
 		 }
-
-		 redirect('myshelf/');
+		 // echo $_SERVER['HTTP_REFERER'];
+		 redirect($_SERVER['HTTP_REFERER']);
 
 	}
+	public function share()
+	{
+		// header("Content-Type: text/plain");
+		$taget = $this->input->post('RadioGroupShare');
+		if ($taget == 's') {
+			// echo $taget;
+			echo $taget = json_encode($this->input->post('usershare'));
+		}else{
+			echo $taget;
+		}
+		echo $ref = $this->input->post('refnameshare');
 
+	}
 	public function copyFile()
 	{
 		echo "copyFile";
@@ -242,7 +247,7 @@ class Myshelf extends CI_Controller {
 		$CI->load->model('Filemanage_Model');
     if (!is_dir($dirPath)) {
 			if ($CI->Filemanage_Model->deleteFile(str_replace(str_split("\/"),'',str_replace($up,'',$dirPath)))) {
-				 @unlink($dirPath);
+				 // @unlink($dirPath);
 			}
 			// echo str_replace(str_split("\/"),'',str_replace($up,'',$dirPath));
 			return;
@@ -258,19 +263,20 @@ class Myshelf extends CI_Controller {
         } else {
 					// echo "file : ".str_replace(str_split("\/"),'',str_replace($dirPath,'',$file))."<br>";
 						if ($CI->Filemanage_Model->deleteFile(str_replace(str_split("\/"),'',str_replace($dirPath,'',$file)))) {
-							@unlink($file);
+							// @unlink($file);
 						}
         }
 
     }
 		// echo 'FOLDER : '.str_replace(str_split("\/"),'',str_replace($up,'',$dirPath)).'<br>';
     if ($CI->Filemanage_Model->deleteFile(str_replace(str_split("\/"),'',str_replace($up,'',$dirPath)))) {
-			@rmdir($dirPath);
+			// @rmdir($dirPath);
 		}
 }
 
 	public function download($path,$item)
 	{
+		$this->checktaket($item);//Check permission.
 		// echo "Download : ". base64_decode($path).'/'.$item;
 		$file = base64_decode($path).'/'.$item;
 		force_download(realpath($file),NULL);
@@ -372,26 +378,30 @@ public function createUniqueId() {
 		return $this->Filemanage_Model->getFilenameOrig($word);
 	}
 
+	function getOrigName($data)
+	{
+		$OrigName = array();
+		foreach ($data as $value => $item) {
+			if($this->getOrigFileName($item)){
+				$OrigName[$value] = $this->getOrigFileName($item);
+			}else{
+				$OrigName[$value] = NULL;
+			}
+
+		}
+		return $OrigName;
+	}
+
 	function getOrigFileName($name)
 	{
 		return $this->Filemanage_Model->getnameOrig($name);
 	}
 
-	// public function testJson()
+	// public function getJson()
 	// {
-	// 	$json = array(
-	// 			array(
-	// 				'fn' => 'aaa.txt',
-	// 				'fz' => 2,
-	// 			),
-	// 			array(
-	// 				'fn' => 'ggg.png',
-	// 				'fz' => 7,
-	// 			),
-	// 		);
-	//
-	// 		header('Content-Type: application/json');
-	// 		echo json_encode($json);
+	// 	$json = $this->Filemanage_Model->getUser();
+	// 	header('Content-Type: application/json');
+	// 	echo json_encode($json);
 	// }
 
 	function fileandsize($path)//$path
@@ -410,8 +420,57 @@ public function createUniqueId() {
 		return json_encode($file);
 	}
 
+	public function viewimg($path,$taket)
+	{
+		$this->checktaket($taket);//Check permission.
 
+		$filename = basename($taket);
+		$file_extension = strtolower(substr(strrchr($filename,"."),1));
 
+		switch( $file_extension ) {
+		    case "gif": $ctype="image/gif"; break;
+		    case "png": $ctype="image/png"; break;
+		    case "jpeg":
+		    case "jpg": $ctype="image/jpeg"; break;
+		    default: redirect('myshelf/');
+		}
+		// echo $ctype ."\n";
+		$path = base64_decode($path);
+		$real = realpath($path);
+	  $real = $real . "/" .$taket;
+		// echo "\n".$taket;
+		header('Content-type: ' . $ctype);
+		echo file_get_contents($real);
+	}
+
+	function checktaket($taket) //call this function in construct
+	{
+		$pid = $this->session->userdata('id');
+		$gid = $this->session->userdata('gid');
+		$yesno = $this->Filemanage_Model->checkcurrenttaket($taket,$pid,$gid);
+		// echo $yesno;
+		if (!$yesno) {
+				// !echo 'Ready GO!';
+				redirect('myshelf/');
+				echo 'Not yet!';
+				return;
+				break;
+		}
+	}
+
+	public function test()
+	{
+		Header('Content-type: application/json');
+		echo json_encode (scandir('C:/xampp/htdocs/news/fm_root/root_2/iIxQ8gEbJoTD2VqMw7l5KuOmS0CNkhpr/'));
+	}
+
+	public function getShare()
+	{
+		$test = $this->Filemanage_Model->checkShare();
+		Header('Content-type: application/json');
+		echo json_encode($test);
+		// json_encode (scandir('C:/xampp/htdocs/news/fm_root/root_2/iIxQ8gEbJoTD2VqMw7l5KuOmS0CNkhpr/'));
+	}
 
 
 }
