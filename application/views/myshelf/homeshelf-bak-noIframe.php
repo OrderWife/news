@@ -1,7 +1,7 @@
 <?php $this->load->view('backendview/include/include_tableFile');?>
-<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
-<style href="//cdn.datatables.net/rowreorder/1.2.3/css/rowReorder.dataTables.min.css" media="screen"></style>
-<style href="//cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" media="screen"></style>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<style href="https://cdn.datatables.net/rowreorder/1.2.3/css/rowReorder.dataTables.min.css" media="screen"></style>
+<style href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" media="screen"></style>
 <base href="<?php echo base_url();?>" > <!--target="_blank"-->
 <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script> -->
 <h3 class="page-header">จัดการเอกสาร</h3>
@@ -72,6 +72,7 @@
   var upPath = '<?php echo $upPath; ?>';
   var OrigName = <?php echo $filesOrig; ?>;
   var pid = '<?php echo $id;?>';
+  var getShare = <?php if(isset($getShare)){echo $getShare;}else{echo json_encode(array());}?>;
   function FMdel(ggg) {
           // console.log(ggg);
              var link = "<?php echo base_url().'index.php/myshelf/deleteFile/';?>"+ggg;
@@ -101,7 +102,15 @@
           };
 
 </script>
-<script src="//cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js" type="text/javascript"></script>
-<script src="//cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js" type="text/javascript"></script>
 <script src="../assets/jsshelf/script-shelf.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+createViewFile(response);
+// console.log(getShare);
+createShareFile(getShare,response);
+
+</script>
 <?php $this->load->view('myshelf/include/modal.php');  ?>

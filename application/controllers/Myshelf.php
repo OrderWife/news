@@ -14,8 +14,8 @@ class Myshelf extends CI_Controller {
 				$this->load->helper('download');
 
 				$this->basePath = '../news/fm_root/' . $this->Filemanage_Model->getShelf($this->session->userdata('gid'));
+				// $this->basePath = '../news/fm_root/';
 				$this->root = $this->basePath;
-
 	}
 
 
@@ -39,6 +39,7 @@ class Myshelf extends CI_Controller {
 			'gid' 				=> $this->session->userdata('gid'),
 			'gname' 			=> $this->session->userdata('gname'),
 			'juser'				=> json_encode($this->Filemanage_Model->getUser($this->session->userdata('id'))),
+			'getShare'		=> $this->getShare($this->session->userdata('id')),
 		 );
     $this->load->view('backendhome',$data);
   }
@@ -134,7 +135,7 @@ class Myshelf extends CI_Controller {
 			$data = array(
 						 'FILE_NAME' 					=> $realName,
 						 'FILE_NAME_ORIG' 		=> $foldername,
-						 'PATH' 							=> realpath(base64_decode($basePath)),
+						 'PATH' 							=> str_replace('\\','/',realpath(base64_decode($basePath))),
 						 'PID' 								=> $this->session->userdata('id'),
 						 'EMPLOYEE_GROUPID' 	=> $this->session->userdata('gid'),
 						 'DESCRIBE' 					=> $this->input->post('describe'),
@@ -183,7 +184,17 @@ class Myshelf extends CI_Controller {
 	{
 		 $newName = $this->input->post('newName');
 		 $refName = $this->input->post('refName');
+		 $basepath = $this->input->post('basePath');
 		 $describe = $this->input->post('describe');
+		 // echo $basepath. " ".$refName;
+		 $bools = $this->Filemanage_Model->getFilenameExist($newName,str_replace('\\','/',realpath(base64_decode($basepath))));
+		 if (!$bools) {
+				 echo '<script type="text/javascript">
+										 alert("ไม่สามารถสร้างไฟล์เดอร์ได้ เนื่องจากชื่อซ้ำกัน.");
+									 </script>';
+				 // return redirect('myshelf/','refresh');
+				  redirect($_SERVER['HTTP_REFERER'],'refresh');
+		 }
 		 if (isset($describe) && !empty($describe)) {
 			 $data = array(
 				 'FILE_NAME_ORIG' => $newName ,
@@ -210,11 +221,25 @@ class Myshelf extends CI_Controller {
 		$taget = $this->input->post('RadioGroupShare');
 		if ($taget == 's') {
 			// echo $taget;
-			echo $taget = json_encode($this->input->post('usershare'));
+			 $str ='';
+			 $taget = $this->input->post('usershare');
+			 foreach ($taget as $key => $user) {
+			 	if (empty($str)) {
+			 		// echo "Hello";
+					$str = $user;
+			 	}else {
+			 		$str .= ",".$user;
+			 	}
+			 }
+			 $arrData = array('F_VISIT' => $str, );
 		}else{
-			echo $taget;
+			 $arrData = array('F_VISIT' => $taget, );
 		}
-		echo $ref = $this->input->post('refnameshare');
+		 $ref = $this->input->post('refnameshare');
+		 // echo $str;
+		 $this->Filemanage_Model->updateFvisit($arrData,$ref);
+		 redirect($_SERVER['HTTP_REFERER']);
+		 // echo json_encode($arrData) ;
 
 	}
 	public function copyFile()
@@ -237,7 +262,9 @@ class Myshelf extends CI_Controller {
 	 	$up = realpath($dirPath);
 	 	$dirPath = realpath(base64_decode($path).'/'.$taket);
 		$this->deleteDir($dirPath,$up);
-		redirect('myshelf/');
+
+		redirect($_SERVER['HTTP_REFERER']);
+		// redirect('myshelf/');
 		// echo "<br>DeleteFile success!";
 
 	}
@@ -464,12 +491,32 @@ public function createUniqueId() {
 		echo json_encode (scandir('C:/xampp/htdocs/news/fm_root/root_2/iIxQ8gEbJoTD2VqMw7l5KuOmS0CNkhpr/'));
 	}
 
-	public function getShare()
+	public function getShare($pid)
 	{
-		$test = $this->Filemanage_Model->checkShare();
-		Header('Content-type: application/json');
-		echo json_encode($test);
-		// json_encode (scandir('C:/xampp/htdocs/news/fm_root/root_2/iIxQ8gEbJoTD2VqMw7l5KuOmS0CNkhpr/'));
+		// header('Content-Type: application/json');
+		// header('Content-Type: text/plain ');
+		$test = $this->Filemanage_Model->checkShare($pid);
+		$sharefile = array();
+		foreach ($test as $key => $obj) {
+			$sharefile[$key]['fn']=$obj->FILE_NAME;
+			if (is_dir($obj->PATH.'/'.$obj->FILE_NAME)) {
+				$sharefile[$key]['fz']="-";
+			}else{
+				$sharefile[$key]['fz']=filesize($obj->PATH.'/'.$obj->FILE_NAME);
+			}
+			$sharefile[$key]['fn_o']=$obj->FILE_NAME_ORIG;
+			$sharefile[$key]['path']= str_replace('=','',base64_encode($obj->PATH));
+			$sharefile[$key]['upload_date']=$obj->UPLOAD_DATE;
+			$sharefile[$key]['describe']=$obj->DESCRIBE;
+			$sharefile[$key]['owner']=$obj->PID;
+			$sharefile[$key]['ower_n']=$this->Filemanage_Model->getOwner($obj->PID);
+			$sharefile[$key]['group']=$this->Filemanage_Model->getshotGroup($obj->EMPLOYEE_GROUPID);
+			$sharefile[$key]['visit']=$obj->F_VISIT;
+		}
+		// $row->FILE_NAME_ORIG , $row->UPLOAD_DATE, $row->DESCRIBE, $row->PID, $row->F_VISIT
+		  $json = json_encode($sharefile);
+			return $json;
+
 	}
 
 

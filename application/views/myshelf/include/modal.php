@@ -102,7 +102,7 @@
             </div> -->
             <br>
             <label>คำอธิบาย</label>
-            <input class="form-control" type="text" name="describe" placeholder="คำอธิบายไฟล์">
+            <input class="form-control"  maxlength="4000" type="text" name="describe" placeholder="คำอธิบายไฟล์">
             <br>
             <button style="float:right" type="submit" class="btn btn-success" name="button">อัพโหลดไฟล์</button>
             <br><br>
@@ -126,10 +126,10 @@
           <br>
           <form class="" action="myshelf/createFolder/<?php echo str_replace('=','',base64_encode($basePath).'/') ;?>" method="post">
                 <label>ชื่อโฟลเดอร์</label>
-                <input required id="title" title='ชื่อโฟลเดอร์' class="form-control" type="text" name="folderName" placeholder="กรุณากรอกชื่อโฟลเดอร์">
+                <input required id="title" title='ชื่อโฟลเดอร์' maxlength="4000" class="form-control" type="text" name="folderName" placeholder="กรุณากรอกชื่อโฟลเดอร์">
                 <br>
                 <label>คำอธิบายไฟล์</label>
-                <input class="form-control" type="text" name="describe" placeholder="คำอธิบายไฟล์">
+                <input class="form-control" type="text"  maxlength="4000" name="describe" placeholder="คำอธิบายไฟล์">
                 <br>
                 <button style="float:right" type="submit" class="btn btn-success" name="button">สร้างโฟลเดอร์ใหม่</button>
                 <br><br>
@@ -153,13 +153,14 @@
           <br>
           <form id="renameForm" class="" action="myshelf/rename" method="post">
                 <label>ชื่อใหม่</label>
-                <input required id="titlename" title='ชื่อโฟลเดอร์ใหม่' class="form-control" type="text" name="newName" placeholder="กรุณากรอกชื่อโฟลเดอร์">
+                <input required id="titlename" title='ชื่อโฟลเดอร์ใหม่' class="form-control" maxlength="4000" type="text" name="newName" placeholder="กรุณากรอกชื่อโฟลเดอร์">
                 <br>
                 <!-- <label>ชื่ออ้างอิง</label> -->
-                <input readonly id="refname" title='ชื่ออ้างอิง' class="hide form-control" type="text" name="refName" value="">
+                <input readonly id="refname" title='ชื่ออ้างอิง' class="hide form-control" maxlength="4000" type="text" name="refName" value="">
+                <input readonly id="basePath" title='ตำแหน่งไฟล์' class="hide form-control" maxlength="4000" type="text" name="basePath" value="">
                 <!-- <br> -->
                 <label>คำอธิบายไฟล์</label>
-                <input class="form-control" type="text" name="describe" placeholder="คำอธิบายไฟล์">
+                <input class="form-control" type="text" name="describe" maxlength="4000" placeholder="คำอธิบายไฟล์">
                 <br>
                 <button style="float:right" type="submit" class="btn btn-success" name="button">ตกลง</button>
                 <br><br>
@@ -307,11 +308,12 @@ function copy() {
   // console.log('click');
    CopyModal.style.display = "block";
 }
-function rename(refName,basename) {
+function rename(refName,basename,basepath) {
   // console.log('click');
    RenameModal.style.display = "block";
    // $('#renameForm').reset();
    $('#refname').val(refName);
+   $('#basePath').val(basepath);
    $('#titlename').val(basename);
    // console.log($('#refname').val());
 }

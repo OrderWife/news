@@ -8,6 +8,22 @@ class Filemanage_Model extends CI_Model {
         $this->load->database();
     }
 
+  public function getshotGroup($gid)
+  {
+    $query = $this->db->get_where('HR_EMPLOYEE_GROUPID',array('EMPLOYEE_GROUPID' => $gid, ),1);
+    foreach ($query->result() as $row) {
+      return $row->GROUPNAME_SHORT;
+    }
+  }
+
+  public function getOwner($pid)
+  {
+    $query = $this->db->get_where('HR_PERSON',array('PID' => $pid, ),1);
+    foreach ($query->result() as $row) {
+      return $row->USERNAME;
+    }
+  }
+
   public function getShelf($gid)
   {
     $query = $this->db->get_where('TBL_FM_GROUP_PATH',array('EMPLOYEE_GROUPID' => $gid, ),1);
@@ -54,12 +70,29 @@ class Filemanage_Model extends CI_Model {
     }
   }
 
+  public function getFilenameExist($fname,$basepath)
+  {
+    $query = $this->db->get_where('TBL_FM_FILE',array('FILE_NAME_ORIG' => $fname,'PATH' => $basepath, 'F_STATUS' => 1),1);
+    $query = $query->result_array();
+    // echo json_encode($query);
+      if (empty($query)) {
+        // echo "True";
+        return true;
+      }else{
+        // echo "False";
+        return false;
+      }
+      // echo json_encode($query);
+  }
+
   public function getnameOrig($value)
   {
     $query = $this->db->get_where('TBL_FM_FILE',array('FILE_NAME' => $value, 'F_STATUS' => 1),1);
     foreach ($query->result() as $row) {
       if (isset($row->FILE_NAME)) {
-        return array($row->FILE_NAME_ORIG , $row->UPLOAD_DATE, $row->DESCRIBE, $row->PID, $row->F_VISIT);
+        $Owner = $this->getOwner($row->PID);
+        $S_Group = $this->getshotGroup($row->EMPLOYEE_GROUPID);
+        return array($row->FILE_NAME_ORIG , $row->UPLOAD_DATE, $row->DESCRIBE, $row->PID, $row->F_VISIT, $Owner, $S_Group);
         // return $row->FILE_NAME_ORIG ;
       }else{
         // return false;
@@ -87,10 +120,15 @@ public function getUser($user)
   return $userData;
 }
 
-public function checkShare()
+public function checkShare($pid)
 {
-  $query = $this->db->query("SELECT * FROM TBL_FM_FILE  WHERE ( F_VISIT LIKE '1' OR  F_VISIT LIKE '%,1,%' OR F_VISIT LIKE '1,%' OR F_VISIT LIKE '%,1')");
+  $query = $this->db->query("SELECT * FROM TBL_FM_FILE  WHERE ( F_VISIT LIKE '".$pid."' OR  F_VISIT LIKE '%,".$pid.",%' OR F_VISIT LIKE '".$pid.",%' OR F_VISIT LIKE '%,".$pid."') ORDER BY PATH ASC");
   return $query->result();
+}
+
+public function updateFvisit($datavisit,$fRef)
+{
+  $this->db->update('TBL_FM_FILE', $datavisit, array('FILE_NAME' => $fRef));
 }
 
 public function checkcurrenttaket($taket,$pid,$gid)
