@@ -449,8 +449,8 @@ public function createUniqueId() {
 
 	public function viewimg($path,$taket)
 	{
-		$this->checktaket($taket);//Check permission.
-
+		 $this->checktaket($taket);//Check permission.
+// return;
 		$filename = basename($taket);
 		$file_extension = strtolower(substr(strrchr($filename,"."),1));
 
@@ -478,18 +478,19 @@ public function createUniqueId() {
 		// echo $yesno;
 		if (!$yesno) {
 				// !echo 'Ready GO!';
-				redirect('myshelf/');
-				echo 'Not yet!';
+				redirect('myshelf/', 'refresh');
+				// echo 'Not yet!';
 				return;
 				break;
 		}
+		return $pid;
 	}
 
-	public function test()
-	{
-		Header('Content-type: application/json');
-		echo json_encode (scandir('C:/xampp/htdocs/news/fm_root/root_2/iIxQ8gEbJoTD2VqMw7l5KuOmS0CNkhpr/'));
-	}
+	// public function test()
+	// {
+	// 	Header('Content-type: application/json');
+	// 	echo json_encode (scandir('C:/xampp/htdocs/news/fm_root/root_2/iIxQ8gEbJoTD2VqMw7l5KuOmS0CNkhpr/'));
+	// }
 
 	public function getShare($pid)
 	{

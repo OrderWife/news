@@ -21,6 +21,9 @@ class Login_Model extends CI_Model {
       $data['EMPLOYEE_GROUPID'] = $row->EMPLOYEE_GROUPID;
       $gid = $row->EMPLOYEE_GROUPID;
     }
+    if (!isset($gid)) {
+      return;
+    }
     $group = $this->db->get_where('HR_EMPLOYEE_GROUPID', array('EMPLOYEE_GROUPID' =>$gid , ));
     $group = $group->result();
     foreach ($group as $row) {
