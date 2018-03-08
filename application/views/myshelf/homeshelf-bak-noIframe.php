@@ -1,5 +1,5 @@
-<?php $this->load->view('backendview/include/include_tableFile');?>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<?php $this->load->view('backendview/include/include_tableFile');?>
 <style href="https://cdn.datatables.net/rowreorder/1.2.3/css/rowReorder.dataTables.min.css" media="screen"></style>
 <style href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" media="screen"></style>
 <base href="<?php echo base_url();?>" > <!--target="_blank"-->

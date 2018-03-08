@@ -17,10 +17,17 @@
 <link rel="stylesheet" type="text/css" href="assets/newsfeed-assets/assets/css/theme.css">
 <link rel="stylesheet" type="text/css" href="assets/newsfeed-assets/assets/css/style.css">
 <link rel="stylesheet" type="text/css" href="assets/css/customStyle.css">
+<!-- Custom Fonts -->
+<link href="assets/startmin-master/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <!--[if lt IE 9]>
 <script src="assets/newsfeed-assets/assets/js/html5shiv.min.js"></script>
 <script src="assets/newsfeed-assets/assets/js/respond.min.js"></script>
 <![endif]-->
+<style media="screen">
+  h4{
+    line-height: 1.3;
+  }
+</style>
 </head>
 <body>
 <div id="preloader">
@@ -33,7 +40,7 @@
       <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="header_top">
           <div class="header_top_left">
-            <h1> <a href="index.php/news" target="_self"><font color="#FFF"> NHSO</font></a> </h1>
+            <h1><a href="index.php/news" target="_self"><font color="#FFF">NHSO.<small><font color="#FFF">bkk</font></small></font></a></h1>
           </div>
           <div class="header_top_right">
             <p><?php echo $dateThai; ?></p>
@@ -106,7 +113,7 @@
 
               </ul>
               <ul>
-                <li><a href="#"><p align="right"><font color="blue">ประกาศ/ข่าว ทั้งหมด</font></p></a></li>
+                <li><a href="index.php/news/newslist"><p align="right"><font color="blue">ประกาศ/ข่าว ทั้งหมด</font></p></a></li>
               </ul>
               <!-- <div id="next-button"><i class="fa  fa-chevron-down"></i></div> -->
             </div>
@@ -188,7 +195,7 @@ if (files.length == 0) {
   }else{
   $.each(files, function(index, item) {
               $('<li>').append(
-                 $('<span>').html('<p><a href="#" style="font-size:14px;"><i class="fa fa-download" style="font-size:20px;"></i> '+"  "+item.N_ORIGNAME+'</a><p>')
+                 $('<span>').html('<p><a href="index.php/news/download/'+item.N_FILE+'/'+item.N_ORIGNAME+'" style="font-size:14px;"><i class="fa fa-download" style="font-size:20px;"></i> '+"  "+item.N_ORIGNAME+'</a><p>')
               ).appendTo('#download');
               // <li><a href="#">Blog</a></li>
   });
@@ -206,7 +213,7 @@ $.each(Objnews, function(i, news) {
     var $liNews = $('<li>').append(
       // $('<div class="media">').html('<a href="href="index.php/news/newspage/'+news.NEWS_ID+'" class="media-left"> <img alt="" src="upload/'+img+'"> </a>'
       // +'<div class="media-body"><a href="index.php/news/newspage/'+news.NEWS_ID+'" class="catg_title"><p class="dot">'+news.N_TITLE+'</p></a></div>'
-      $('<div class="media wow fadeInDown">').html('<a href="href="index.php/news/newspage/'+news.NEWS_ID+'" class="media-left"> <img alt="" src="upload/'+img+'"> </a>'
+      $('<div class="media wow fadeInDown">').html('<a href="index.php/news/newspage/'+news.NEWS_ID+'" class="media-left"> <img alt="" src="upload/'+img+'"> </a>'
       +'<div class="media-body"><a href="index.php/news/newspage/'+news.NEWS_ID+'" class="catg_title"><p class="dot">'+news.N_TITLE+'</p></a></div>'
       )).appendTo('#newslist');
   }

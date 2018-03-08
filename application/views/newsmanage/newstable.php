@@ -6,10 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <base href="<?php echo base_url();?>">
-<!-- Bootstrap Core CSS -->
-<link href="assets/startmin-master/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- <link rel="stylesheet" type="text/css" href="assets/newsfeed-assets/assets/css/bootstrap.min.css"> -->
+<link rel="stylesheet" type="text/css" href="assets/newsfeed-assets/assets/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="assets/newsfeed-assets/assets/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="assets/newsfeed-assets/assets/css/animate.css">
 <link rel="stylesheet" type="text/css" href="assets/newsfeed-assets/assets/css/font.css">
@@ -21,6 +18,38 @@
 <!-- Custom Fonts -->
 <link href="assets/startmin-master/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="assets/css/customStyle.css">
+<!-- DataTables CSS -->
+<link href="<?php echo base_url();?>assets/startmin-master/css/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+
+<!-- DataTables Responsive CSS -->
+<link href="<?php echo base_url();?>assets/startmin-master/css/dataTables/dataTables.responsive.css" rel="stylesheet">
+
+<!-- jQuery -->
+<script src="<?php echo base_url();?>assets/startmin-master/js/jquery.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="<?php echo base_url();?>assets/startmin-master/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<!-- DataTables JavaScript -->
+<script src="<?php echo base_url();?>assets/startmin-master/js/dataTables/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="<?php echo base_url();?>assets/startmin-master/js/dataTables/dataTables.bootstrap.min.js"></script>
+<!-- <script src="assets/newsfeed-assets/assets/js/jquery.min.js"></script> -->
+<script src="assets/newsfeed-assets/assets/js/wow.min.js"></script>
+<script src="assets/newsfeed-assets/assets/js/bootstrap.min.js"></script>
+<script src="assets/newsfeed-assets/assets/js/slick.min.js"></script>
+<script src="assets/newsfeed-assets/assets/js/jquery.li-scroller.1.0.js"></script>
+<script src="assets/newsfeed-assets/assets/js/jquery.newsTicker.min.js"></script>
+<script src="assets/newsfeed-assets/assets/js/jquery.fancybox.pack.js"></script>
+<script src="assets/newsfeed-assets/assets/js/custom.js"></script>
+
+<style href="https://cdn.datatables.net/rowreorder/1.2.3/css/rowReorder.dataTables.min.css" media="screen"></style>
+
+<style href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" media="screen"></style>
+
+
+
+<script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js" type="text/javascript"></script>
+
 
 <!--[if lt IE 9]>
 <script src="assets/newsfeed-assets/assets/js/html5shiv.min.js"></script>
@@ -197,29 +226,27 @@
   </section>
   <section id="sliderSection">
     <div class="row">
-      <div class="col-lg-8 col-md-8 col-sm-8">
-        <div class="slick_slider" id="newsSlider">
-
-        </div>
+      <div class="col-lg-12 col-md-6 col-sm-6">
+        <!-- <div class="slick_slider" id="newsSlider"> -->
+          <table class="table" id="dataTables" >
+            <thead>
+                <tr role="row">
+                  <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" aria-sort="ascending" style="width: 10px;">ลำดับ</th>
+                  <th class="" tabindex="0" aria-controls="dataTables-example" style="width: 200px;">หัวข้อข่าว</th>
+                  <th class="" tabindex="0" aria-controls="dataTables-example" style="width: 50px;">หมวดหมู่</th>
+                  <th class="" tabindex="0" aria-controls="dataTables-example" style="width: 50px;">วันเริ่มต้น</th>
+                  <th class="" tabindex="0" aria-controls="dataTables-example" style="width: 50px;">วันสิ้นสุด</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <!-- </div> -->
       </div>
-      <div class="col-lg-4 col-md-4 col-sm-4">
-        <div class="single_sidebar">
-          <h2><span style="background-color:#1866b5">กระดานข่าว</span></h2>
-          <div class="latest_post_container">
-            <!-- <div id="prev-button"><i class="fa fa-chevron-up"></i></div>  -->
-            <ul class="spost_nav" id="newslist"> <!-- class = latest_postnav -->
 
-            </ul>
-            <ul>
-              <li><a href="index.php/news/newslist"><p align="right"><font color="blue">ประกาศ/ข่าว ทั้งหมด</font></p></a></li>
-            </ul>
-            <!-- <div id="next-button"><i class="fa  fa-chevron-down"></i></div> -->
-          </div>
-        </div>
-      </div>
     </div>
   </section>
-  <footer id="footer" name="contact">
+  <footer id="footer">
     <div class="footer_bottom">
       <div class="col-lg-12 col-md-12 col-sm-12">
         <!-- <div class="wow fadeInRightBig"> -->
@@ -234,60 +261,44 @@
     </div>
   </footer>
 </div>
-<script src="assets/newsfeed-assets/assets/js/jquery.min.js"></script>
-<script src="assets/newsfeed-assets/assets/js/wow.min.js"></script>
-<script src="assets/newsfeed-assets/assets/js/bootstrap.min.js"></script>
-<script src="assets/newsfeed-assets/assets/js/slick.min.js"></script>
-<script src="assets/newsfeed-assets/assets/js/jquery.li-scroller.1.0.js"></script>
-<script src="assets/newsfeed-assets/assets/js/jquery.newsTicker.min.js"></script>
-<script src="assets/newsfeed-assets/assets/js/jquery.fancybox.pack.js"></script>
-<script src="assets/newsfeed-assets/assets/js/custom.js"></script>
-<script src="assets/jsdotdotdot/jquery.dotdotdot.js"></script>
 
-<script type="text/javascript">
-var Objnews = <?php echo json_encode($query); ?>;
-$.each(Objnews, function(i, news) {
-  console.log(news.N_IMG);
-  if(news.N_IMG == 'null'){
-    var img = 'No_image.png';
-  }else{
-    var img = news.N_IMG;
-  }
-  if (i < 9){
-      var $li = $('<li>').append(
-        $('<a href="index.php/news/newspage/'+news.NEWS_ID+'">').html('<img src="upload/if_256_colors_131813.png" alt="">' + news.N_TITLE)
-        // $('<a href="href="index.php/news/newspage/'+news.NEWS_ID+'">').html('<i class="fa fa-bullhorn" style="font-size:20px;"/>' + news.N_TITLE)
-      ).appendTo('#ticker01');
-  }
-  if (i < 4) {
-    var $news = $('<div class="single_iteam">').append(
-          $('<a href="index.php/news/newspage/'+news.NEWS_ID+'">').html('<img src="upload/'+img+'" alt="">'),
-          $('<div class="slider_article">').html('<h2><a class="slider_tittle" href="index.php/news/newspage/'+news.NEWS_ID+'">'+news.N_TITLE+'</a></h2>'),
-          // $('<td>').html(item.N_CATEGORY)
-          ).appendTo('#newsSlider');
-  }
-  if (i < 4) {
-    var $liNews = $('<li>').append(
-      // $('<div class="media">').html('<a href="href="index.php/news/newspage/'+news.NEWS_ID+'" class="media-left"> <img alt="" src="upload/'+img+'"> </a>'
-      // +'<div class="media-body"><a href="index.php/news/newspage/'+news.NEWS_ID+'" class="catg_title"><p class="dot">'+news.N_TITLE+'</p></a></div>'
-      $('<div class="media wow fadeInDown">').html('<a href="index.php/news/newspage/'+news.NEWS_ID+'" class="media-left"> <img alt="" src="upload/'+img+'"> </a>'
-      +'<div class="media-body"><a href="index.php/news/newspage/'+news.NEWS_ID+'" class="catg_title"><p class="dot">'+news.N_TITLE+'</p></a></div>'
-      )).appendTo('#newslist');
-  }
+<script>
+var response = <?php echo json_encode($jsonnewslist);?>;
+    // try {
+      $.each(response, function(i, item) {
+          var $tr = $('<tr>').append(
+              $('<td align="center" >').text(item.NO),
+              // $('<td>').html('<a href="news/newspage/'+item.NEWS_ID+'" target="_blank">'+item.N_TITLE +'</a><br><p style="font-size:12px; color:#b5b5b5;">ผู้เขียน : '+item.USERNAME+'</p>'),
+              $('<td>').html('<a href="index.php/news/newspage/'+item.NEWS_ID+'" target="_blank">'+item.N_TITLE +'</a>'),
+              $('<td>').text(item.N_CATEGORY),
+              $('<td>').text(item.N_START_DATE),
+              $('<td>').text(item.N_END_DATE),
+          ).appendTo('#dataTables');
 
-  $(function(){
-    $('a > p.dot').dotdotdot({
-        ellipsis: '...', /* The HTML to add as ellipsis. */
-        wrap : 'children', /* How to cut off the text/html: 'word'/'letter'/'children' */
-        watch : true, /* Whether to update the ellipsis: true/'window' */
-        // tolerance: 3,  /* Deviation for the measured wrapper height. */
-        // height: 5,
+          if (i < 9){
+              var $li = $('<li>').append(
+                $('<a href="index.php/news/newspage/'+item.NEWS_ID+'">').html('<img src="upload/if_256_colors_131813.png" alt="">' + item.N_TITLE)
+                // $('<a href="href="index.php/news/newspage/'+news.NEWS_ID+'">').html('<i class="fa fa-bullhorn" style="font-size:20px;"/>' + news.N_TITLE)
+              ).appendTo('#ticker01');
+          }
+      });
+    // } catch (e) {
+    //   console.log(e);
+    //   return;
+    // }
+    // });
+
+    $(document).ready(function() {
+        $("#dataTables").DataTable({
+          order: [[ 0, "desc" ]],
+          rowReorder: {
+              selector: 'td:nth-child(1)'
+          },
+          responsive: true,
+        });
+
+        console.log($("#dataTables_filter"));
     });
-});
-
-
-});
 </script>
-
 </body>
 </html>

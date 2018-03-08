@@ -7,22 +7,13 @@ class News extends CI_Controller {
 	{
 				parent::__construct();
 				$this->load->model('News_Model');
+        $this->load->helper('download');
 		}
 
 	public function index()
 	{
 		$this->news();
 	}
-
-  // public function read($newsNO)
-  // {
-  //
-  //   $this->load->view('newsmanage/new_info',
-  //                 array(
-  //                     'newsDetail' => json_encode($this->News_Model->selectNews($newsNO)),
-  //                     'filename'   => json_encode($this->News_Model->getFile($newsNO)),
-  //                    ));
-  // }
 
   public function news()
   {
@@ -41,6 +32,21 @@ class News extends CI_Controller {
                        ));
     // $this->load->view('newsmanage/newspage');
   }
+
+  public function newslist()
+  {
+    $data = array('jsonnewslist' => $this->News_Model->selectNews(NULL,6), );
+    $this->load->view('newsmanage/newstable',$data);
+  }
+
+  public function download($item,$realname)
+	{
+
+		$file ='./upload/'.$item;
+    // echo realpath($file);
+		force_download($realname,file_get_contents(realpath($file)),NULL);
+		// redirect('myshelf/');
+	}
 
   public function dateThai()
   {
