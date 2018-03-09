@@ -2,10 +2,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>NewsFeed | Pages | Single Page</title>
+<title>สปสช. รายระเอียดข่าว</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="favicon.ico" />
 <base href="<?php echo base_url();?>" target="_blank">
 <link rel="stylesheet" type="text/css" href="assets/newsfeed-assets/assets/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="assets/newsfeed-assets/assets/css/font-awesome.min.css">
@@ -129,18 +130,6 @@
               </div>
             </div>
           </div>
-          <div class="single_sidebar wow fadeInDown">
-          <!-- <div class="single_sidebar wow fadeInDown " id="hideDownload">
-            <h2><span>เอกสารแนบ</span></h2>
-            <ul>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#">Rss Feed</a></li>
-              <li><a href="#">Login</a></li>
-              <li><a href="#">Life &amp; Style</a></li>
-            </ul>
-          </div> -->
-        </aside>
-      </div>
     </div>
   </section>
   <footer id="footer">
@@ -158,6 +147,11 @@
     </div>
   </footer>
 </div>
+<script type="text/javascript">
+  var data = <?php echo $newsDetail; ?>;
+  var files = <?php echo $filename; ?>;
+  var Objnews = <?php echo $Objnews; ?>;
+</script>
 <script src="assets/newsfeed-assets/assets/js/jquery.min.js"></script>
 <script src="assets/newsfeed-assets/assets/js/wow.min.js"></script>
 <script src="assets/newsfeed-assets/assets/js/bootstrap.min.js"></script>
@@ -167,68 +161,6 @@
 <script src="assets/newsfeed-assets/assets/js/jquery.fancybox.pack.js"></script>
 <script src="assets/newsfeed-assets/assets/js/custom.js"></script>
 <script src="assets/jsdotdotdot/jquery.dotdotdot.js"></script>
-
-<script type="text/javascript">
-  var data = <?php echo $newsDetail; ?>;
-  var files = <?php echo $filename; ?>;
-  var Objnews = <?php echo $Objnews; ?>;
-  $.each(data, function(index, el) {
-              $('<span>').text(el.N_TITLE).appendTo('#title');
-              $('<div>').html(el.N_CONTENT).appendTo('#contentNews');
-              $('#admin').append(el.USERNAME);
-              $('#start_date').append(el.N_START_DATE);
-              var tag = el.N_TAG;
-              if (tag != null) {
-                tag = tag.split(',');
-                $.each(tag, function(index, tagsplit) {
-                  $('#tag').append(
-                    $('<li class="cat-item">').html('<a href="#">'+tagsplit+'</a>'),
-                  );
-                });
-              }else{
-                $('#taghide').addClass('hide');
-              }
-
-  });
-if (files.length == 0) {
-  $('#hideDownload').addClass('hide');
-  }else{
-  $.each(files, function(index, item) {
-              $('<li>').append(
-                 $('<span>').html('<p><a href="news/download/'+item.N_FILE+'/'+item.N_ORIGNAME+'" style="font-size:14px;"><i class="fa fa-download" style="font-size:20px;"></i> '+"  "+item.N_ORIGNAME+'</a><p>')
-              ).appendTo('#download');
-              // <li><a href="#">Blog</a></li>
-  });
-}
-
-$.each(Objnews, function(i, news) {
-  // console.log(news.N_IMG);
-  if(news.N_IMG == 'null'){
-    var img = 'No_image.png';
-  }else{
-    var img = news.N_IMG;
-  }
-  if (i < 4) {
-    // console.log(news);
-    var $liNews = $('<li>').append(
-      // $('<div class="media">').html('<a href="href="news/newspage/'+news.NEWS_ID+'" class="media-left"> <img alt="" src="upload/'+img+'"> </a>'
-      // +'<div class="media-body"><a href="news/newspage/'+news.NEWS_ID+'" class="catg_title"><p class="dot">'+news.N_TITLE+'</p></a></div>'
-      $('<div class="media wow fadeInDown">').html('<a href="news/newspage/'+news.NEWS_ID+'" class="media-left"> <img alt="" src="upload/'+img+'"> </a>'
-      +'<div class="media-body"><a href="news/newspage/'+news.NEWS_ID+'" class="catg_title"><p class="dot">'+news.N_TITLE+'</p></a></div>'
-      )).appendTo('#newslist');
-  }
-});
-
-$(function(){
-  $('a > p.dot').dotdotdot({
-      ellipsis: '...', /* The HTML to add as ellipsis. */
-      wrap : 'children', /* How to cut off the text/html: 'word'/'letter'/'children' */
-      watch : true, /* Whether to update the ellipsis: true/'window' */
-      // tolerance: 3,  /* Deviation for the measured wrapper height. */
-      // height: 5,
-  });
-});
-
-</script>
+<script src="assets/jsnewsmanage/script-newspage.js"></script>
 </body>
 </html>

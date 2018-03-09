@@ -264,7 +264,7 @@
 
 <script>
 var response = <?php echo json_encode($jsonnewslist);?>;
-    // try {
+
       $.each(response, function(i, item) {
           var $tr = $('<tr>').append(
               $('<td align="center" >').text(item.NO),
@@ -282,11 +282,6 @@ var response = <?php echo json_encode($jsonnewslist);?>;
               ).appendTo('#ticker01');
           }
       });
-    // } catch (e) {
-    //   console.log(e);
-    //   return;
-    // }
-    // });
 
     $(document).ready(function() {
         $("#dataTables").DataTable({

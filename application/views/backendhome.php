@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="shortcut icon" href="favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
@@ -15,7 +16,7 @@
             <!-- Navigation -->
             <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="backend/"><b>NHSO</b> Dashboard</a>
+                    <a style="font-size:24px" class="navbar-brand" href="backend/"><b>NHSO</b> Backend</a>
                 </div>
                 <ul class="nav navbar-right navbar-top-links"> <!-- User bar -->
                     <li class="dropdown ">
@@ -71,19 +72,11 @@
                     <div class="row">
                         <div class="col-md-12">
                             <?php
-                            //$this->load->view('newsmanage\newsmanage');
                             if($page == 'news'){
                               $this->load->view('newsmanage\newsmanage');
-                              //echo "News";
                             }
-                            // else if($page == 'shelf-disagree'){
-                            //   // echo "MyShelf";
-                            //   $this->load->view('myshelf\homeshelf',array('root' => $root,));
-                            // }
                             else if($page == 'shelf'){
-                              // echo "MyShelf";
                               $this->load->view('myshelf/homeshelf-bak-noIframe');
-
                             }
                             ?>
                             <!--/.data table-->
