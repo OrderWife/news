@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-        <base href="<?php echo base_url();?>index.php/" target=""> <!--_blank-->
+        <base href="<?php echo base_url();?>" target=""> <!--_blank-->
         <?php $this->load->view('backendview/include/include_v'); ?>
         <title>NHSO BACKEND</title>
     </head>

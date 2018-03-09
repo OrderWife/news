@@ -78,7 +78,7 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav main_nav">
-          <li class="active"><a href="index.php/news" style="background-color:#1866b5;"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
+          <li class="active"><a href="news" style="background-color:#1866b5;"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
           <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ข้อมูลองค์กร <i class="fa fa-angle-down fa-md"></i></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="https://bkk.nhso.go.th/main/history.php"><span>ประวัติความเป็นมา</span></a></li>
@@ -178,7 +178,7 @@
               <li><a href="http://welcgd.cgd.go.th/wel/login.jsp"><span>กรมบัญชีกลาง</span></a></li>
             </ul>
           </li>
-          <li><a href="index.php/news/newslist">ข่าวประชาสัมพันธ์</a></li>
+          <li><a href="news/newslist">ข่าวประชาสัมพันธ์</a></li>
           <li><a href="https://bkk.nhso.go.th/main/contact.php">ติดต่อเรา</a></li>
         </ul>
       </div>
@@ -211,7 +211,7 @@
 
             </ul>
             <ul>
-              <li><a href="index.php/news/newslist"><p align="right"><font color="blue">ประกาศ/ข่าว ทั้งหมด</font></p></a></li>
+              <li><a href="news/newslist"><p align="right"><font color="blue">ประกาศ/ข่าว ทั้งหมด</font></p></a></li>
             </ul>
             <!-- <div id="next-button"><i class="fa  fa-chevron-down"></i></div> -->
           </div>
@@ -255,23 +255,23 @@ $.each(Objnews, function(i, news) {
   }
   if (i < 9){
       var $li = $('<li>').append(
-        $('<a href="index.php/news/newspage/'+news.NEWS_ID+'">').html('<img src="upload/if_256_colors_131813.png" alt="">' + news.N_TITLE)
-        // $('<a href="href="index.php/news/newspage/'+news.NEWS_ID+'">').html('<i class="fa fa-bullhorn" style="font-size:20px;"/>' + news.N_TITLE)
+        $('<a href="news/newspage/'+news.NEWS_ID+'">').html('<img src="upload/if_256_colors_131813.png" alt="">' + news.N_TITLE)
+        // $('<a href="href="news/newspage/'+news.NEWS_ID+'">').html('<i class="fa fa-bullhorn" style="font-size:20px;"/>' + news.N_TITLE)
       ).appendTo('#ticker01');
   }
   if (i < 4) {
     var $news = $('<div class="single_iteam">').append(
-          $('<a href="index.php/news/newspage/'+news.NEWS_ID+'">').html('<img src="upload/'+img+'" alt="">'),
-          $('<div class="slider_article">').html('<h2><a class="slider_tittle" href="index.php/news/newspage/'+news.NEWS_ID+'">'+news.N_TITLE+'</a></h2>'),
+          $('<a href="news/newspage/'+news.NEWS_ID+'">').html('<img src="upload/'+img+'" alt="">'),
+          $('<div class="slider_article">').html('<h2><a class="slider_tittle" href="news/newspage/'+news.NEWS_ID+'">'+news.N_TITLE+'</a></h2>'),
           // $('<td>').html(item.N_CATEGORY)
           ).appendTo('#newsSlider');
   }
   if (i < 4) {
     var $liNews = $('<li>').append(
-      // $('<div class="media">').html('<a href="href="index.php/news/newspage/'+news.NEWS_ID+'" class="media-left"> <img alt="" src="upload/'+img+'"> </a>'
-      // +'<div class="media-body"><a href="index.php/news/newspage/'+news.NEWS_ID+'" class="catg_title"><p class="dot">'+news.N_TITLE+'</p></a></div>'
-      $('<div class="media wow fadeInDown">').html('<a href="index.php/news/newspage/'+news.NEWS_ID+'" class="media-left"> <img alt="" src="upload/'+img+'"> </a>'
-      +'<div class="media-body"><a href="index.php/news/newspage/'+news.NEWS_ID+'" class="catg_title"><p class="dot">'+news.N_TITLE+'</p></a></div>'
+      // $('<div class="media">').html('<a href="href="news/newspage/'+news.NEWS_ID+'" class="media-left"> <img alt="" src="upload/'+img+'"> </a>'
+      // +'<div class="media-body"><a href="news/newspage/'+news.NEWS_ID+'" class="catg_title"><p class="dot">'+news.N_TITLE+'</p></a></div>'
+      $('<div class="media wow fadeInDown">').html('<a href="news/newspage/'+news.NEWS_ID+'" class="media-left"> <img alt="" src="upload/'+img+'"> </a>'
+      +'<div class="media-body"><a href="news/newspage/'+news.NEWS_ID+'" class="catg_title"><p class="dot">'+news.N_TITLE+'</p></a></div>'
       )).appendTo('#newslist');
   }
 

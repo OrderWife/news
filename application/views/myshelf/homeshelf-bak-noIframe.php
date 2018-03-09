@@ -75,7 +75,7 @@
   var getShare = <?php if(isset($getShare)){echo $getShare;}else{echo json_encode(array());}?>;
   function FMdel(ggg) {
           // console.log(ggg);
-             var link = "<?php echo base_url().'index.php/myshelf/deleteFile/';?>"+ggg;
+             var link = "<?php echo base_url().'myshelf/deleteFile/';?>"+ggg;
                 swal({
                   title: "ลบไฟล์!",
                   text: "คุณต้องการลบไฟล์นี้ใช่หรือไม่ ?",
@@ -90,7 +90,7 @@
                     swal("Poof! ลบไฟล์เรียบร้อยแล้ว!", {
                       icon: "success",
                     }).then(function(){
-                        // window.location = "<?php //echo base_url(). 'index.php/myshelf/deleteFile/'?>"+a;
+                        // window.location = "<?php //echo base_url(). 'myshelf/deleteFile/'?>"+a;
                         window.location = link;
                       });
                     }
@@ -104,7 +104,7 @@
 </script>
 <script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js" type="text/javascript"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js" type="text/javascript"></script>
-<script src="../assets/jsshelf/script-shelf.js" type="text/javascript"></script>
+<script src="./assets/jsshelf/script-shelf.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 

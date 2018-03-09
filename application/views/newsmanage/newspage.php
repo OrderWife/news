@@ -40,7 +40,7 @@
       <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="header_top">
           <div class="header_top_left">
-            <h1><a href="index.php/news" target="_self"><font color="#FFF">NHSO.<small><font color="#FFF">bkk</font></small></font></a></h1>
+            <h1><a href="news" target="_self"><font color="#FFF">NHSO.<small><font color="#FFF">bkk</font></small></font></a></h1>
           </div>
           <div class="header_top_right">
             <p><?php echo $dateThai; ?></p>
@@ -113,7 +113,7 @@
 
               </ul>
               <ul>
-                <li><a href="index.php/news/newslist"><p align="right"><font color="blue">ประกาศ/ข่าว ทั้งหมด</font></p></a></li>
+                <li><a href="news/newslist"><p align="right"><font color="blue">ประกาศ/ข่าว ทั้งหมด</font></p></a></li>
               </ul>
               <!-- <div id="next-button"><i class="fa  fa-chevron-down"></i></div> -->
             </div>
@@ -195,7 +195,7 @@ if (files.length == 0) {
   }else{
   $.each(files, function(index, item) {
               $('<li>').append(
-                 $('<span>').html('<p><a href="index.php/news/download/'+item.N_FILE+'/'+item.N_ORIGNAME+'" style="font-size:14px;"><i class="fa fa-download" style="font-size:20px;"></i> '+"  "+item.N_ORIGNAME+'</a><p>')
+                 $('<span>').html('<p><a href="news/download/'+item.N_FILE+'/'+item.N_ORIGNAME+'" style="font-size:14px;"><i class="fa fa-download" style="font-size:20px;"></i> '+"  "+item.N_ORIGNAME+'</a><p>')
               ).appendTo('#download');
               // <li><a href="#">Blog</a></li>
   });
@@ -211,10 +211,10 @@ $.each(Objnews, function(i, news) {
   if (i < 4) {
     // console.log(news);
     var $liNews = $('<li>').append(
-      // $('<div class="media">').html('<a href="href="index.php/news/newspage/'+news.NEWS_ID+'" class="media-left"> <img alt="" src="upload/'+img+'"> </a>'
-      // +'<div class="media-body"><a href="index.php/news/newspage/'+news.NEWS_ID+'" class="catg_title"><p class="dot">'+news.N_TITLE+'</p></a></div>'
-      $('<div class="media wow fadeInDown">').html('<a href="index.php/news/newspage/'+news.NEWS_ID+'" class="media-left"> <img alt="" src="upload/'+img+'"> </a>'
-      +'<div class="media-body"><a href="index.php/news/newspage/'+news.NEWS_ID+'" class="catg_title"><p class="dot">'+news.N_TITLE+'</p></a></div>'
+      // $('<div class="media">').html('<a href="href="news/newspage/'+news.NEWS_ID+'" class="media-left"> <img alt="" src="upload/'+img+'"> </a>'
+      // +'<div class="media-body"><a href="news/newspage/'+news.NEWS_ID+'" class="catg_title"><p class="dot">'+news.N_TITLE+'</p></a></div>'
+      $('<div class="media wow fadeInDown">').html('<a href="news/newspage/'+news.NEWS_ID+'" class="media-left"> <img alt="" src="upload/'+img+'"> </a>'
+      +'<div class="media-body"><a href="news/newspage/'+news.NEWS_ID+'" class="catg_title"><p class="dot">'+news.N_TITLE+'</p></a></div>'
       )).appendTo('#newslist');
   }
 });

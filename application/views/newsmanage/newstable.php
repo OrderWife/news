@@ -107,7 +107,7 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav main_nav">
-          <li class="active"><a href="index.php/news" style="background-color:#1866b5;"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
+          <li class="active"><a href="news" style="background-color:#1866b5;"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
           <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ข้อมูลองค์กร <i class="fa fa-angle-down fa-md"></i></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="https://bkk.nhso.go.th/main/history.php"><span>ประวัติความเป็นมา</span></a></li>
@@ -207,7 +207,7 @@
               <li><a href="http://welcgd.cgd.go.th/wel/login.jsp"><span>กรมบัญชีกลาง</span></a></li>
             </ul>
           </li>
-          <li><a href="index.php/news/newslist">ข่าวประชาสัมพันธ์</a></li>
+          <li><a href="news/newslist">ข่าวประชาสัมพันธ์</a></li>
           <li><a href="https://bkk.nhso.go.th/main/contact.php">ติดต่อเรา</a></li>
         </ul>
       </div>
@@ -269,7 +269,7 @@ var response = <?php echo json_encode($jsonnewslist);?>;
           var $tr = $('<tr>').append(
               $('<td align="center" >').text(item.NO),
               // $('<td>').html('<a href="news/newspage/'+item.NEWS_ID+'" target="_blank">'+item.N_TITLE +'</a><br><p style="font-size:12px; color:#b5b5b5;">ผู้เขียน : '+item.USERNAME+'</p>'),
-              $('<td>').html('<a href="index.php/news/newspage/'+item.NEWS_ID+'" target="_blank">'+item.N_TITLE +'</a>'),
+              $('<td>').html('<a href="news/newspage/'+item.NEWS_ID+'" target="_blank">'+item.N_TITLE +'</a>'),
               $('<td>').text(item.N_CATEGORY),
               $('<td>').text(item.N_START_DATE),
               $('<td>').text(item.N_END_DATE),
@@ -277,8 +277,8 @@ var response = <?php echo json_encode($jsonnewslist);?>;
 
           if (i < 9){
               var $li = $('<li>').append(
-                $('<a href="index.php/news/newspage/'+item.NEWS_ID+'">').html('<img src="upload/if_256_colors_131813.png" alt="">' + item.N_TITLE)
-                // $('<a href="href="index.php/news/newspage/'+news.NEWS_ID+'">').html('<i class="fa fa-bullhorn" style="font-size:20px;"/>' + news.N_TITLE)
+                $('<a href="news/newspage/'+item.NEWS_ID+'">').html('<img src="upload/if_256_colors_131813.png" alt="">' + item.N_TITLE)
+                // $('<a href="href="news/newspage/'+news.NEWS_ID+'">').html('<i class="fa fa-bullhorn" style="font-size:20px;"/>' + news.N_TITLE)
               ).appendTo('#ticker01');
           }
       });

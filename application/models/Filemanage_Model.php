@@ -20,7 +20,7 @@ class Filemanage_Model extends CI_Model {
   {
     $query = $this->db->get_where('HR_PERSON',array('PID' => $pid, ),1);
     foreach ($query->result() as $row) {
-      return $row->USERNAME;
+      return $row->F_NAME . " " .$row->L_NAME;
     }
   }
 
@@ -122,7 +122,7 @@ public function getUser($user)
 
 public function checkShare($pid)
 {
-  $query = $this->db->query("SELECT * FROM TBL_FM_FILE  WHERE ( F_VISIT LIKE '".$pid."' OR  F_VISIT LIKE '%,".$pid.",%' OR F_VISIT LIKE '".$pid.",%' OR F_VISIT LIKE '%,".$pid."') ORDER BY PATH ASC");
+  $query = $this->db->query("SELECT * FROM TBL_FM_FILE  WHERE F_STATUS = 1 AND ( F_VISIT LIKE '".$pid."' OR  F_VISIT LIKE '%,".$pid.",%' OR F_VISIT LIKE '".$pid.",%' OR F_VISIT LIKE '%,".$pid."') ORDER BY PATH ASC");
   return $query->result();
 }
 

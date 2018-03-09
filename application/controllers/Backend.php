@@ -217,7 +217,7 @@ public function savenews($news_ID)
 	}
 
 	public function delfileimg($filename){
-		$data = array( 'N_FILE' => $filename);
+		$data = array('N_FILE' => $filename);
 		$this->News_Model->delfile($data);
 			//@unlink('./upload/'.$filename) or die ('No such file or directory');
 		echo json_encode(array());

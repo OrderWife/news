@@ -13,8 +13,8 @@ class Myshelf extends CI_Controller {
 				$this->load->model('Filemanage_Model');
 				$this->load->helper('download');
 
-				$this->basePath = '../news/fm_root/' . $this->Filemanage_Model->getShelf($this->session->userdata('gid'));
-				// $this->basePath = '../news/fm_root/';
+				$this->basePath = '../bkknhso/fm_root/' . $this->Filemanage_Model->getShelf($this->session->userdata('gid'));
+				// $this->basePath = '../bkknhso/fm_root/';
 				$this->root = $this->basePath;
 	}
 
@@ -95,7 +95,7 @@ class Myshelf extends CI_Controller {
 				case dirname(realpath($this->root)):
 				case dirname(dirname(realpath($this->root))):
 				case dirname(dirname(dirname(realpath($this->root)))):
-					redirect('myshelf');
+					redirect('myshelf/');
 					break;
 			}
 
@@ -116,7 +116,7 @@ class Myshelf extends CI_Controller {
 			 );
 	    $this->load->view('backendhome',$data);
 		} catch (Exception $e) {
-			redirect('myshelf');
+			redirect('myshelf/');
 		}
   }
 
@@ -489,7 +489,7 @@ public function createUniqueId() {
 	// public function test()
 	// {
 	// 	Header('Content-type: application/json');
-	// 	echo json_encode (scandir('C:/xampp/htdocs/news/fm_root/root_2/iIxQ8gEbJoTD2VqMw7l5KuOmS0CNkhpr/'));
+	// 	echo json_encode (scandir('C:/xampp/htdocs/bkknhso/fm_root/root_2/iIxQ8gEbJoTD2VqMw7l5KuOmS0CNkhpr/'));
 	// }
 
 	public function getShare($pid)
@@ -498,21 +498,42 @@ public function createUniqueId() {
 		// header('Content-Type: text/plain ');
 		$test = $this->Filemanage_Model->checkShare($pid);
 		$sharefile = array();
+		$fdof = true; //แชร์โฟล์เดอร์ที่ไฟล์ด้านในถูกแชร์มาแล้วจะไม่ทำการแสดงไฟล์ที่ถูกแชร์ออกมาหน้าแรก งงไหม? ตอบ งง.
 		foreach ($test as $key => $obj) {
-			$sharefile[$key]['fn']=$obj->FILE_NAME;
-			if (is_dir($obj->PATH.'/'.$obj->FILE_NAME)) {
-				$sharefile[$key]['fz']="-";
-			}else{
-				$sharefile[$key]['fz']=filesize($obj->PATH.'/'.$obj->FILE_NAME);
+
+			if (substr($obj->PATH, strlen($obj->PATH) - 1, 1) != '/') {
+					$obj->PATH .= '/';
 			}
-			$sharefile[$key]['fn_o']=$obj->FILE_NAME_ORIG;
-			$sharefile[$key]['path']= str_replace('=','',base64_encode($obj->PATH));
-			$sharefile[$key]['upload_date']=$obj->UPLOAD_DATE;
-			$sharefile[$key]['describe']=$obj->DESCRIBE;
-			$sharefile[$key]['owner']=$obj->PID;
-			$sharefile[$key]['ower_n']=$this->Filemanage_Model->getOwner($obj->PID);
-			$sharefile[$key]['group']=$this->Filemanage_Model->getshotGroup($obj->EMPLOYEE_GROUPID);
-			$sharefile[$key]['visit']=$obj->F_VISIT;
+			// if (is_dir($obj->PATH.'/'.$obj->FILE_NAME)) {
+			if (is_dir($obj->PATH.$obj->FILE_NAME)) {
+				// $sharefile[$key]['fz']="-";
+				$fz = "-";
+			}else{
+				if (!empty($sharefile)) {
+					foreach ($sharefile as $k => $obj_file) {
+						if($obj->PATH==base64_decode($obj_file['path']).$obj_file['fn'].'/'){
+							$fdof = false;
+							break;
+						}
+					}
+				}
+				// $sharefile[$key]['fz']=filesize($obj->PATH.'/'.$obj->FILE_NAME);
+				if ($fdof) {
+					$fz = filesize($obj->PATH.'/'.$obj->FILE_NAME);
+				}
+			}
+			if ($fdof) {
+				$sharefile[$key]['fz']=	$fz;
+				$sharefile[$key]['fn']=$obj->FILE_NAME;
+				$sharefile[$key]['fn_o']=$obj->FILE_NAME_ORIG;
+				$sharefile[$key]['path']= str_replace('=','',base64_encode($obj->PATH));
+				$sharefile[$key]['upload_date']=$obj->UPLOAD_DATE;
+				$sharefile[$key]['describe']=$obj->DESCRIBE;
+				$sharefile[$key]['owner']=$obj->PID;
+				$sharefile[$key]['ower_n']=$this->Filemanage_Model->getOwner($obj->PID);
+				$sharefile[$key]['group']=$this->Filemanage_Model->getshotGroup($obj->EMPLOYEE_GROUPID);
+				$sharefile[$key]['visit']=$obj->F_VISIT;
+			}
 		}
 		// $row->FILE_NAME_ORIG , $row->UPLOAD_DATE, $row->DESCRIBE, $row->PID, $row->F_VISIT
 		  $json = json_encode($sharefile);
