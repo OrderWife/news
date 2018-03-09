@@ -34,7 +34,7 @@ function createViewFile(res) {
           // Can see if owner of a file share to user.
           isHide = 'hide';
           //Share by.
-          shareBy = "<font color="+'green'+"> ถูกแชร์โดย "+OrigName[i][5]+" : "+ OrigName[i][6] +"</font>";
+          shareBy = "<font color="+'green'+"> ถูกแชร์โดย คุณ  "+OrigName[i][5]+" : "+ OrigName[i][6] +"</font>";
         }else if( pid!=OrigName[i][3] ){
           var out = false;
           guest = OrigName[i][4].split(',');
@@ -44,7 +44,7 @@ function createViewFile(res) {
             }else{
               out = false;
               isHide = 'hide';
-              shareBy = "<font color="+'green'+"> ถูกแชร์โดย "+OrigName[i][5]+" : "+ OrigName[i][6] +"</font>";
+              shareBy = "<font color="+'green'+"> ถูกแชร์โดย คุณ  "+OrigName[i][5]+" : "+ OrigName[i][6] +"</font>";
               break;
             }
           }
@@ -194,7 +194,7 @@ function createShareFile(res,response) {
         }else if(pid!=item['owner'] && (item['visit']  == 'g')){
           // Can see if owner of file share.
           isHide = 'hide';
-          shareBy = "<font color="+'green'+"> ถูกแชร์โดย "+item['ower_n']+" : "+ item['group'] +"</font>";
+          shareBy = "<font color="+'green'+"> ถูกแชร์โดย คุณ  "+item['ower_n']+" : "+ item['group'] +"</font>";
         }else if( pid!=item['owner'] ){
           var out = false;
           guest = item['visit'].split(',');
@@ -206,7 +206,7 @@ function createShareFile(res,response) {
             }else{
               out = false;
               isHide = 'hide';
-              shareBy = "<font color="+'green'+"> ถูกแชร์โดย "+item['ower_n']+" : "+ item['group'] +"</font>";
+              shareBy = "<font color="+'green'+"> ถูกแชร์โดย คุณ  "+item['ower_n']+" : "+ item['group'] +"</font>";
               break;
             }
           }
@@ -398,7 +398,7 @@ function isPdf(filename) { //Pdf
   $(document).ready(function() {
       $('#dataTables-file').DataTable({
               rowReorder: {
-                  selector: 'td:nth-child(2)'
+                  selector: 'td:nth-child(0)'
               },
               responsive: true,
               // "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
