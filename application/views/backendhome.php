@@ -20,7 +20,7 @@
                 <ul class="nav navbar-right navbar-top-links"> <!-- User bar -->
                     <li class="dropdown ">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-user fa-fw"></i>ชื่อ <?php if(!isset($user)){ echo "username error"; }else{ echo $user; } ?> <b class="caret"></b>
+                            <i class="fa fa-user fa-fw"></i><?php if(!isset($user)){ echo "username error"; }else{ echo $user; } ?> <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
                             <!-- <li class="divider"></li> -->
