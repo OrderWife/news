@@ -124,7 +124,7 @@ body.bodybg {
     <div class="panel-heading" id="panel-header">
       <div class="row">
         <div class="col-md-12">
-          <div class="col-md-6 col-sm-4" style="padding-left:0px;"> <?php if(isset($user,$gid)){echo $this->session->userdata('fname')." ".$this->session->userdata('lname') . ' - ' .$this->session->userdata('gname');}else{ echo "[ User name ] - [Group Name]";} ?></div>
+          <div class="col-md-6 col-sm-4" style="padding-left:0px;"> <?php if(isset($user,$gid)){echo $this->session->userdata('fname')." ".$this->session->userdata('lname') . ' - ' .$gname;}else{ echo "[ User name ] - [Group Name]";} ?></div>
           <div class="col-md-6 col-sm-4">
             <div class="row" style="float:right">
               <button id='createFolder' title="Add Folder" type="button" class="btn btn-success" name="button"><i class="fa fa-plus"></i> <small> สร้างโฟล์เดอร์ใหม่</small></button>
@@ -574,6 +574,7 @@ body.bodybg {
                 // console.log($(this).data('Type'));
                 if ($(this).data('Type') == 'upPath') {
                   window.location.href = '<?php echo base_url();?>'+'Myshelf/up/'+upPath;
+                  
                 }else if ($(this).data('Type')=="folder") {
 
                   if($(this).data('path')){
