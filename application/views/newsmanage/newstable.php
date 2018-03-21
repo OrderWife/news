@@ -75,6 +75,10 @@
 .dropdown:hover .dropdown-menu {
   display: block;
 }
+a:hover {
+    color: #1866b5;
+    text-decoration: none;
+}
 </style>
 </head>
 <body>
@@ -234,8 +238,8 @@
                   <th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" aria-sort="ascending" style="width: 10px;">ลำดับ</th>
                   <th class="" tabindex="0" aria-controls="dataTables-example" style="width: 200px;">หัวข้อข่าว</th>
                   <th class="" tabindex="0" aria-controls="dataTables-example" style="width: 50px;">หมวดหมู่</th>
-                  <th class="" tabindex="0" aria-controls="dataTables-example" style="width: 50px;">วันเริ่มต้น</th>
-                  <th class="" tabindex="0" aria-controls="dataTables-example" style="width: 50px;">วันสิ้นสุด</th>
+                  <th class="" tabindex="0" aria-controls="dataTables-example" style="width: 80px;">วันที่ประกาศ</th>
+                  <th class="" tabindex="0" aria-controls="dataTables-example" style="width: 50px;">สิ้นสุดวันที่</th>
                 </tr>
             </thead>
             <tbody>

@@ -92,7 +92,7 @@ class Filemanage_Model extends CI_Model {
       if (isset($row->FILE_NAME)) {
         $Owner = $this->getOwner($row->PID);
         $S_Group = $this->getshotGroup($row->EMPLOYEE_GROUPID);
-        return array($row->FILE_NAME_ORIG , $row->UPLOAD_DATE, $row->DESCRIBE, $row->PID, $row->F_VISIT, $Owner, $S_Group);
+        return array($row->FILE_NAME_ORIG , $row->UPLOAD_DATE, $row->DESCRIBE, $row->PID, $row->F_VISIT, $Owner, $S_Group,$value,$row->F_ICON,$row->F_HEX);
         // return $row->FILE_NAME_ORIG ;
       }else{
         // return false;
@@ -100,6 +100,28 @@ class Filemanage_Model extends CI_Model {
       }
     }
   }
+
+  public function getFileObj($value,$pid)
+  {
+    // $query = $this->db->get_where('TBL_FM_FILE',
+    //   array(
+    //     'FILE_NAME' => $value,
+    //     'F_STATUS' => 1,
+    //   ),1);
+    $query = $this->db->query("SELECT * FROM TBL_FM_FILE  WHERE FILE_NAME = '".$value."' AND F_STATUS = 1 AND PID = $pid AND F_VISIT = 'm' OR F_VISIT ='g' OR ( F_VISIT LIKE '".$pid."' OR  F_VISIT LIKE '%,".$pid.",%' OR F_VISIT LIKE '".$pid.",%' OR F_VISIT LIKE '%,".$pid."') AND ROWNUM <= 1");
+    foreach ($query->result() as $row) {
+      if (isset($row->FILE_NAME)) {
+        $Owner = $this->getOwner($row->PID);
+        $S_Group = $this->getshotGroup($row->EMPLOYEE_GROUPID);
+        return array($row->FILE_NAME_ORIG , $row->UPLOAD_DATE, $row->DESCRIBE, $row->PID, $row->F_VISIT, $Owner, $S_Group,$value,$row->F_ICON,$row->F_HEX);
+        // return $row->FILE_NAME_ORIG ;
+      }else{
+        // return false;
+        return NULL;
+      }
+    }
+  }
+
 
 public function rename($data,$refName)
 {
@@ -190,5 +212,11 @@ public function checkcurrenttaket($taket,$pid,$gid)
   }//end if...else...
 
 }//end func.
+
+public function mchangeIC($data,$refName)
+{
+  $this->db->update('TBL_FM_FILE', $data, array('FILE_NAME' => $refName));
+  return $this->db->affected_rows();
+}
 
 }

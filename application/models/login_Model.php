@@ -19,6 +19,8 @@ class Login_Model extends CI_Model {
       $data['PID'] = $row->PID;
       $data['USERNAME'] = $row->USERNAME;
       $data['EMPLOYEE_GROUPID'] = $row->EMPLOYEE_GROUPID;
+      $data['FNAME'] = $row->F_NAME;
+      $data['LNAME'] = $row->L_NAME;
       $gid = $row->EMPLOYEE_GROUPID;
     }
     if (!isset($gid)) {

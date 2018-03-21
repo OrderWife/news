@@ -4,7 +4,7 @@
 <style href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" media="screen"></style>
 <base href="<?php echo base_url();?>" > <!--target="_blank"-->
 <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script> -->
-<h3 class="page-header">จัดการเอกสาร</h3>
+<h3 class="page-header">ระบบจัดการเอกสารอิเล็กทรอนิค สปสช. กทม. (I Shelf)</h3>
 <!-- data Table -->
 <!-- <ol id="breadPath" class="breadcrumb"> -->
   <!-- <li class="breadcrumb-item"><a href="./Myshelf">Root</a></li> -->
@@ -20,8 +20,8 @@
           <div class="col-md-6 col-sm-4" style="padding-left:0px;"> <?php if(isset($user,$gid)){echo $user . ' - ' .$gname;}else{ echo "[ User name ] - [Group Name]";} ?></div>
           <div class="col-md-6 col-sm-4">
             <div class="row" style="float:right">
-              <button id='createFolder' title="Add Folder" type="button" class="btn btn-success" name="button"><i class="fa fa-plus"></i> <small> สร้างโฟล์เดอร์</small></button>
-              <button id="uploadBtn" title="Upload" type="button" class="btn btn-info" name="button"><i class="fa fa-upload"></i> <small> อัพโหลดไฟล์</small></button>
+              <button id='createFolder' title="Add Folder" type="button" class="btn btn-success" name="button"><i class="fa fa-plus"></i> <small> สร้างโฟล์เดอร์ใหม่</small></button>
+              <button id="uploadBtn" title="Upload" type="button" class="btn btn-info" name="button"><i class="fa fa-upload"></i> <small> อัพโหลดเอกสาร</small></button>
               <!-- <button title="Share" type="button" class="btn btn-primary" name="button"><i class="fa fa-share"></i> <small>Share</small> </button> -->
             </div>
             <!-- <div class="row" style="float:right">
@@ -39,11 +39,11 @@
           <table class="table"  id="dataTables-file">
               <thead>
                   <tr>
-                      <th>ชื่อไฟล์</th>
+                      <th style="width: 40%;">ชื่อไฟล์</th>
                       <th style="width: 5px;"></th>
                       <th style="width: 15%;">อัพโหลดวันที่</th>
                       <th style="width: 15%;">ชนิด</th>
-                      <th style="width: 5px;">ขนาด</th>
+                      <th style="width: 10px;">ขนาด</th>
                       <th style="width: 15%;"></th>
                   </tr>
               </thead>
@@ -66,6 +66,12 @@
 <!-- /.panel-body -->
 </div>
 <script type="text/javascript">
+  $(document).ready(function() {
+    $('#panel_body').addClass('bgShelfimg');
+    $('td').addClass('blockData');
+    $('th').addClass('thFont');
+  });
+
   var response = <?php echo $files; ?>;
   var strPath = '<?php echo str_replace('=','',base64_encode($basePath)) ;?>';
   // var path = "<?php //echo str_replace('news/','',$basePath); ?>";
@@ -109,7 +115,6 @@
 <script type="text/javascript">
 
 createViewFile(response);
-// console.log(getShare);
 createShareFile(getShare,response);
 
 </script>

@@ -44,16 +44,16 @@ class Myshelf extends CI_Controller {
     $this->load->view('backendhome',$data);
   }
 
-	public function folder($path,$taketpath)
+	public function folder($path,$targetpath)
   {
 		try {
-			if (!isset($taketpath)) {
+			if (!isset($targetpath)) {
 				redirect('myshelf/');
 			}
 
-			$this->checktaket($taketpath);//Check permission.
+			$this->verifypermission($targetpath);//Check verifypermission.
 
-			$this->basePath = base64_decode($path).'/'. $taketpath;
+			$this->basePath = base64_decode($path).'/'. $targetpath;
 			// $this->basePath = str_replace('-','/',);
 			$this->basePath = $this->checkSpace($this->basePath);
 	    $data = array(
@@ -87,7 +87,7 @@ class Myshelf extends CI_Controller {
 			$this->basePath = str_replace('//','/',$this->basePath);
 			// echo 'real : '.realpath($this->basePath);
 			// echo "path : ". realpath($this->root);
-			$this->checktaket(basename($this->basePath));//Check permission.
+			$this->verifypermission(basename($this->basePath));//Check verifypermission.
 			// return;
 			$str = realpath($this->root);
 			switch (realpath($this->basePath)) {
@@ -217,15 +217,12 @@ class Myshelf extends CI_Controller {
 	}
 	public function share()
 	{
-		// header("Content-Type: text/plain");
 		$taget = $this->input->post('RadioGroupShare');
 		if ($taget == 's') {
-			// echo $taget;
 			 $str ='';
 			 $taget = $this->input->post('usershare');
 			 foreach ($taget as $key => $user) {
 			 	if (empty($str)) {
-			 		// echo "Hello";
 					$str = $user;
 			 	}else {
 			 		$str .= ",".$user;
@@ -253,14 +250,14 @@ class Myshelf extends CI_Controller {
 		echo "moveFile";
 	}
 
-	public function deleteFile($path, $taket)
+	public function deleteFile($path, $target)
 	{
-		if (!isset($path, $taket)) {
+		if (!isset($path, $target)) {
 			return;
 		}
 		$dirPath = (base64_decode($path));
 	 	$up = realpath($dirPath);
-	 	$dirPath = realpath(base64_decode($path).'/'.$taket);
+	 	$dirPath = realpath(base64_decode($path).'/'.$target);
 		$this->deleteDir($dirPath,$up);
 
 		redirect($_SERVER['HTTP_REFERER']);
@@ -303,10 +300,11 @@ class Myshelf extends CI_Controller {
 
 	public function download($path,$item)
 	{
-		$this->checktaket($item);//Check permission.
+		$this->verifypermission($item);//Check verifypermission.
 		// echo "Download : ". base64_decode($path).'/'.$item;
+		$realname = $this->getOrigFileName($item);
 		$file = base64_decode($path).'/'.$item;
-		force_download(realpath($file),NULL);
+		force_download($realname[0],file_get_contents(realpath($file)),NULL);
 		// redirect('myshelf/');
 	}
 
@@ -409,12 +407,11 @@ public function createUniqueId() {
 	{
 		$OrigName = array();
 		foreach ($data as $value => $item) {
-			if($this->getOrigFileName($item)){
+			// if($this->getOrigFileName($item)){
 				$OrigName[$value] = $this->getOrigFileName($item);
-			}else{
-				$OrigName[$value] = NULL;
-			}
-
+			// }else{
+				// $OrigName[$value] = NULL;
+			// }
 		}
 		return $OrigName;
 	}
@@ -422,6 +419,7 @@ public function createUniqueId() {
 	function getOrigFileName($name)
 	{
 		return $this->Filemanage_Model->getnameOrig($name);
+		// return $this->Filemanage_Model->getFileObj($name,$this->session->userdata('id'));
 	}
 
 	// public function getJson()
@@ -447,11 +445,11 @@ public function createUniqueId() {
 		return json_encode($file);
 	}
 
-	public function viewimg($path,$taket)
+	public function viewimg($path,$target)
 	{
-		 $this->checktaket($taket);//Check permission.
-// return;
-		$filename = basename($taket);
+		$this->verifypermission($target);//Check verifypermission.
+		// return;
+		$filename = basename($target);
 		$file_extension = strtolower(substr(strrchr($filename,"."),1));
 
 		switch( $file_extension ) {
@@ -459,22 +457,23 @@ public function createUniqueId() {
 		    case "png": $ctype="image/png"; break;
 		    case "jpeg":
 		    case "jpg": $ctype="image/jpeg"; break;
+				case "pdf": $ctype="application/pdf"; break;
 		    default: redirect('myshelf/');
 		}
-		// echo $ctype ."\n";
 		$path = base64_decode($path);
 		$real = realpath($path);
-	  $real = $real . "/" .$taket;
-		// echo "\n".$taket;
+	  $real = $real . "/" .$target;
 		header('Content-type: ' . $ctype);
+		// header("Content-Disposition:attachment;filename='".$target."'");
 		echo file_get_contents($real);
+		// readfile($real);
 	}
 
-	function checktaket($taket) //call this function in construct
+	function verifypermission($target) //call this function in construct
 	{
 		$pid = $this->session->userdata('id');
 		$gid = $this->session->userdata('gid');
-		$yesno = $this->Filemanage_Model->checkcurrenttaket($taket,$pid,$gid);
+		$yesno = $this->Filemanage_Model->checkcurrenttaket($target,$pid,$gid);
 		// echo $yesno;
 		if (!$yesno) {
 				// !echo 'Ready GO!';
@@ -533,11 +532,48 @@ public function createUniqueId() {
 				$sharefile[$key]['ower_n']=$this->Filemanage_Model->getOwner($obj->PID);
 				$sharefile[$key]['group']=$this->Filemanage_Model->getshotGroup($obj->EMPLOYEE_GROUPID);
 				$sharefile[$key]['visit']=$obj->F_VISIT;
+				$sharefile[$key]['icon']=$obj->F_ICON;
+				$sharefile[$key]['hex']=$obj->F_HEX;
 			}
 		}
 		// $row->FILE_NAME_ORIG , $row->UPLOAD_DATE, $row->DESCRIBE, $row->PID, $row->F_VISIT
 		  $json = json_encode($sharefile);
 			return $json;
+
+	}
+
+	public function pageIshelf()
+	{
+		$data = array(
+			// 'page' 				=> 'shelf',
+			// 'files' 		=> json_encode(@scandir($this->basePath)),
+			'files' 		  => $this->fileandsize($this->basePath),
+			'filesOrig'		=> json_encode($this->getOrigName(@scandir($this->basePath))),
+			// 'picePath'	=> explode('/',$this->basePath),
+			'basePath'		=> $this->basePath,
+			'upPath'			=> 'f',
+			'id'					=> $this->session->userdata('id'),
+			'user' 				=> $this->session->userdata('user'),
+			'gid' 				=> $this->session->userdata('gid'),
+			'gname' 			=> $this->session->userdata('gname'),
+			'juser'				=> json_encode($this->Filemanage_Model->getUser($this->session->userdata('id'))),
+			'getShare'		=> $this->getShare($this->session->userdata('id')),
+		 );
+		$this->load->view('shelfBlock/ishelfHome',$data);
+	}
+
+	public function changeIC()
+	{
+		$data = array(		 );
+		$icon = $this->input->post('icon');
+		echo $icon;
+		if (isset($icon)) {
+			$data['F_ICON'] = $icon;
+		}
+		$data['F_HEX']  =	$this->input->post('color');
+
+		$refName = $this->input->post('refname');
+		$this->Filemanage_Model->mchangeIC($data,$refName);
 
 	}
 

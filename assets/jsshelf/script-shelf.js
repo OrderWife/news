@@ -154,27 +154,6 @@ function createViewFile(res) {
 function createShareFile(res,response) {
   // try {
     $.each(res, function(i, item) {
-      // console.log(item);
-      // if(item['fn'] == '.'){ //|| item['fn'] == '..'
-      //   return;
-      // }
-        // if (item['fn'] == '..' && upPath != 'f') {
-        //   var $tr = $('<tr>').append(
-        //       $('<td>').html('<a href="Myshelf/up/'+upPath+'/."><i class="fa fa-home fa-fw"></i></a> '),
-        //       $('<td>').html(''),
-        //       $('<td>').text(''),
-        //       $('<td>').text(''),
-        //       $('<td class="center">').text('-'),
-        //       $('<td align="right" >').html(''),
-        //       ).appendTo('#dataTables-file');
-        // }
-        // console.log(OrigName);
-        // if (OrigName[i]==null) {
-        //   return;
-        // }
-        // if (item['fn'] == '..'){
-        //   return;
-        // }
         var ifExist = false;
         $.each(response, function(index, el) {
           if (item['fn'] == el['fn']) {

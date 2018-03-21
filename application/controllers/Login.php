@@ -35,6 +35,8 @@ class Login extends CI_Controller {
       $ss['user'] = $data['USERNAME'];
       $ss['gid'] = $data['EMPLOYEE_GROUPID'];
       $ss['gname'] = $data['GROUPNAME'];
+      $ss['fname'] = $data['FNAME'];
+      $ss['lname'] = $data['LNAME'];
       $this->session->set_userdata($ss);
       // echo $this->session->userdata('id');
       redirect('/backend/');

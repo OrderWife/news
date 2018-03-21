@@ -137,6 +137,11 @@
 </div>
 
 <script type="text/javascript">
+
+  // $(document).ready(function() {
+  //
+  // });
+
   function showform() {
     var boxTable = document.getElementById('table_box');
     var boxForm = document.getElementById('form-box');
